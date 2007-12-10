@@ -1,0 +1,63 @@
+# @configure_input@
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+LIBS = @LIBS@
+
+ifeq (@GCC@,yes)
+CFLAGS += -Wall
+endif
+
+all: teco
+
+OBJS = tecbuf.o teccmd.o tecdebug.o tecdisp.o tecexec.o tecmem.o teco.o tecparse.o tecstate.o tecterm.o tecundo.o
+
+HEADERS = teco.h tecparse.h
+LIBFLAGS = -ltermcap
+
+teco:	$(OBJS)
+	$(CC) -o teco $(OBJS) $(LIBS)
+
+tecbuf.o: tecbuf.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecbuf.c
+
+teccmd.o: teccmd.c $(HEADERS)
+	$(CC) $(CFLAGS) -c teccmd.c
+
+tecdebug.o: tecdebug.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecdebug.c
+
+tecdisp.o: tecdisp.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecdisp.c
+
+tecexec.o: tecexec.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecexec.c
+
+tecmem.o: tecmem.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecmem.c
+
+teco.o: teco.c $(HEADERS)
+	$(CC) $(CFLAGS) -c teco.c
+
+tecparse.o: tecparse.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecparse.c
+
+tecstate.o: tecstate.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecstate.c
+
+tecterm.o: tecterm.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecterm.c
+
+tecundo.o: tecundo.c $(HEADERS)
+	$(CC) $(CFLAGS) -c tecundo.c
+
+clean:
+	rm -f teco $(OBJS)
+
+distclean:	clean
+	rm -f teco config.h config.log config.status
+
+developerclean:	distclean
+	rm -f makefile
+	rm -rf autom4te.cache

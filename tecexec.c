@@ -1,29 +1,30 @@
-char *tecexec_c_version = "tecexec.c: $Revision: 1.1 $";
+char *tecexec_c_version = "tecexec.c: $Revision: 1.2 $";
 
 /*
- * $Date: 2007/12/10 21:59:20 $
+ * $Date: 2007/12/10 22:13:07 $
  * $Source: /cvsroot/videoteco/videoteco/tecexec.c,v $
- * $Revision: 1.1 $
+ * $Revision: 1.2 $
  * $Locker:  $
  */
 
 /* tecexec.c
  * The SWITCH/CASE statements which implement execution stage of the parser
  *
- *                     COPYRIGHT (c) 1985-2003 BY
- *		     PAUL CANTRELL & J. M. NISHINAGA
- *                         SUDBURY, MA 01776
- *                        ALL RIGHTS RESERVED
  *
- * This software is furnished in it's current state free of  charge.
- * The   authors   reserve  all  rights  to  the  software.  Further
- * distribution of the software is not authorized. Modifications  to
- * the  software  may  be made locally, but shall not be distributed
- * without the consent of the authors. This software  or  any  other
- * copies  thereof,  may not be provided or otherwise made available
- * to anyone without express permission of the authors. Title to and
- * ownership of this software remains with the authors.
- * 
+ *                     Copyright (C) 1985-2007 BY Paul Cantrell
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "teco.h"
