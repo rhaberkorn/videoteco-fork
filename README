@@ -1,0 +1,224 @@
+Video TECO is licensed under the GNU license. If you find bugs or want to 
+send changes back to me, you can email me: paul@copters.com.
+
+To build TECO on a Posix system, run ./configure and then "make". I've built it recently on Linux and Mac OS X and it compiles fine on both of those operating systems.
+
+If you want a sample .teco_ini file, I'm putting mine at the end of this file.
+It goes in your home directory.
+
+Paul Cantrell
+December 11, 2007.
+
+
+! This file is used to initialize macros for the TECO editor!
+
+! Q-Register 0
+
+	This is used to set initial stuff up. As soon as the teco.ini file
+	is read in, this q-register is executed.
+
+	In this case, we use it to set the alternate rubout character to ^H
+	and to set nominal paragraph format width for the MF macro to 75
+
+	I also set backquote to work as ESCape, since the alpha keyboard
+	has those two keys mapped on top of each other.
+!
+0/6,4EJ4,8EJ1,96EJ75UF/
+
+! Q-Register B
+
+	This macro moves back one buffer. It assumes there are no holes
+	in the buffer space, which is a very bad assumption. However,
+	performing a full 0EB on every invokation would be a bit excessive.
+	A :EB loop really would be good
+!
+
+B/q*u1q*"lq*-1eb|q*u2<q2-1u2:q2ebu3q3-1"eoend'>!end!'/
+
+! Q-Register D
+
+	This macro takes the current indenture, and decreases it by 4.
+	It assumes that the current indenture is correctly done with
+	tabs and possibly one group of 4 spaces.
+!
+
+D/1<0L<0UD0A-32"E%D'0A-9"E%D'QDC-QD;>-A-32"E-4DOEND'-A-9"E-DI    '>!END!!dedent by four spaces!/
+
+! Q-Register E
+
+	This macro uses the current error line to position to the position
+	in the source file that the error occurred on.
+!
+
+E/[_[1[2[3s:d:;.u1lrq1,.x3q1j-s0x1c\u2eq1jiebeq31ij1im1q2mgm3]3]2]1]_/
+
+! Q-Register F
+
+	This macro reformats the paragraph between Q1 and . such that
+	lines don't exceed the nominal width. Spaces are only inserted
+	between words, never within.
+!
+
+F/.u2<q1,q2-1fs
+ ;>q1j!loop!(q2-.)-QF"gQFc-wd10ioloop'q2j!Reformat the paragraph bounded by Q1 and Q2 into QF column wide!/
+
+! Q-Register G
+
+	This macro positions us to the line number specified as an argument
+	to the macro.
+!
+
+G/UGJQG-1L!Macro to go to the specified line number!/
+
+! Q-Register H
+
+	This macro loads the symbol following the cursor into the search
+	q-register.
+!
+
+H/.UHSmcQH,.X_!Macro to load next symbol into search register!/
+
+! Q-Register I
+
+	This macro indents the current line by 4. It assumes that the
+	current indenture is correctly done with tabs and possibly one
+	group of 4 spaces.
+!
+
+I/0L.-Z"EI    OEND'<0UI0A-32"E%I'0A-9"E%I'QIC-QI;>-A-32"E-4D9IOEND'-A-9"EI    OEND'I    !END!!Indent by four!/
+
+! Q-Register K
+
+	This macro deletes from the current position to the end of the line
+!
+
+K/.UKLRQK,.K!Delete to end of line!/
+
+! Q-Register L
+
+	This macro converts the following word to lower case
+!
+
+L/.UU<0A-32"E0;'0A-9"E0;'0A-10"E0;'C>.ULQUJQL-QU<0A-64"G0A-91"L0A+32IDR''C>!Convert word to lower case!/
+
+! Q-Register N
+
+	This macro moves to the next sequential buffer, and assumes that
+	there are no holes.
+!
+
+M/-1ebhkecmakej/
+
+N/Q*+1EB!Go to next edit buffer!/
+
+! Q-Register O
+
+	This macro inserts a blank line before the one which the cursor
+	is on, leaving the cursor positioned in the same place on the
+	current line.
+!
+
+O/.UO0L10IQO+1J!Insert a blank line before this one!/
+
+! Q-Register P
+
+	This macro inserts a line in front of the current line, and
+	repositions the cursor to the begining of the new line.
+!
+
+P/0L10IR!Insert a blank line before this one and move to it!/
+
+! Q-Register R
+
+	This macro tries to find the begining and end of a C-function,
+	and load Q9 to point to the begining, Q0 to point to the end,
+	and print a message in the message window with the definition
+	in it (such as routine(arg1, arg2, arg3))
+!
+
+R/[_[1.U1-S
+{-S)C0X10L.U9S
+}.U0Q1JQ*U1EQ11IJ1IQ1EBM1]1]_!Find the bounds of a C function and set them in Q9,Q0 and print the first line in the message line!/
+
+! Q-Register S
+
+	This macro copies the search q-register into a temporary
+	q-register where it can be edited. A second invokation moves
+	us back to the original source buffer.
+!
+
+S/q*"lq_eb[9]_]9|[9q*u_[_]9eq9j'!Toggle in and out of the search buffer!/
+
+! Q-Register T
+
+	This macro prints a short table of contents in the message window.
+	It's mostly useful when only a few buffers have been loaded.
+!
+
+T#[_q*u10ebhx5eq5jsbuffers-0l.,zk-k<-sbuffersd;w0ksdi:.u2s>sq2,.kw-wfk
+.u20l:q2,.s/"sc.u20ls:q2,.k'0l>j<fs
+ ;>zj1ij1iq1ebm5]_!Print a short list of buffers in the message line!#
+
+! Q-Register U
+
+	This macro converts the word following the cursor to upper case
+!
+
+U/.UU<0A-32"E0;'0A-9"E0;'0A-10"E0;'C>.ULQUJQL-QU<0A-96"G0A-123"L0A-32IDR''C>!Convert next word to upper case!/
+
+! Q-Register V
+
+	This macro sets the current indenture to that of the previous line.
+!
+
+V/[_[1.U1-S
+SW0X1Q1JG1]1]_/
+
+! Q-Register W
+
+	This macro writes out all the modified buffers, stopping if there
+	is a problem with one.
+!
+
+W/[_[0Q*UW0EB<S(modified);0LSBUFFERS0A-45"E0;'2W.U0SS-SQ0,.X00Lsbuffers\U0EBTECO-0ZJI ...0LIWriting Q0EBM0EW0EB>QWEB]0]_!Write out modfied edit buffers!/
+
+! Q-Register Y
+
+	This macro reads the following string as a filename, and then
+	loads that file into the editor.
+!
+
+! Q-Register X
+
+!
+
+X/u1q1ebq1-1<ef>/
+
+Y#.U1[_sm[c,/,.,_]]_Q1,.X1EQ1JIEBM1#
+
+! Q-Register Z
+
+	This macro reads in MAKE.LOG and tries to position the cursor
+	to the first occurance of a compiler error message.
+!
+
+Z/[_-1EBHKERMAKE.LOGJ:S
+"]_!Read MAKE.LOG into buffer -1!/
+
+! Q-Register 4
+	This macro loads all the files  at the current position into the
+	editor.
+!
+4/[4[5[_q*u4<s
+;bx5eq5y27ijiebm5q4eblet>]_]5]4/
+
+7#[_s
+begin d0l.u1s
+Mrq1,.:x1.u1]_#
+
+8#[_<s
+ml0a-77"e0;|-1;'>-s
+M2l.u1s
+Mrq1,.:x1.u1]_#
+
+9/.u9erfiles.uuq9jmmq9,.kmwecdecode/
