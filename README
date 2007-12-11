@@ -1,7 +1,10 @@
 Video TECO is licensed under the GNU license. If you find bugs or want to 
 send changes back to me, you can email me: paul@copters.com.
 
-To build TECO on a Posix system, run ./configure and then "make". I've built it recently on Linux and Mac OS X and it compiles fine on both of those operating systems.
+To build TECO on a Posix system, run ./configure and then "make". I've built 
+it recently on Linux and Mac OS X and it compiles fine on both of those 
+operating systems. On the Mac you need to run it from a terminal or X11 window
+i.e. there is no graphical front end.
 
 If you want a sample .teco_ini file, I'm putting mine at the end of this file.
 It goes in your home directory.
