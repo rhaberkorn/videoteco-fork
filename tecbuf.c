@@ -1,9 +1,9 @@
-char *tecbuf_c_version = "tecbuf.c: $Revision: 1.2 $";
+char *tecbuf_c_version = "tecbuf.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 12:05:14 $
  * $Source: /cvsroot/videoteco/videoteco/tecbuf.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -87,7 +87,7 @@ unsigned int hash = stringHash( name );
 	    continue;
 	}
 
-	printf("hash match! %s %s\n",name,bp->name);
+//	printf("hash match! %s %s\n",name,bp->name);
 /*
  * This loop implements the equivalent of strcmp, except that in the
  * case of VMS, it is case insensitive.
