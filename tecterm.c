@@ -1,9 +1,9 @@
-char *tecterm_c_version = "tecterm.c: $Revision: 1.2 $";
+char *tecterm_c_version = "tecterm.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:08 $
+ * $Date: 2007/12/26 13:28:31 $
  * $Source: /cvsroot/videoteco/videoteco/tecterm.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -53,7 +53,8 @@ char *tecterm_c_version = "tecterm.c: $Revision: 1.2 $";
 
     void term_insert_line();
     void term_delete_line();
-    void term_puts();
+	void term_puts( char *termcap_string, int lines_affected );
+
     int term_putc(int);
     void term_flush();
 
@@ -332,9 +333,7 @@ term_clrtobot()
  *	and tries to use the optimum one.
  */
 void
-term_insert_line(position,count)
-int position;
-register int count;
+term_insert_line( int position, int count )
 {
 /*
  * Test whether the terminal supports an insert line escape sequence which
@@ -424,9 +423,7 @@ register int count;
  *	and tries to use the optimum one.
  */
 void
-term_delete_line(position,count)
-int position;
-register int count;
+term_delete_line( int position, int count )
 {
     term_goto(0,position);
 
@@ -517,10 +514,7 @@ register int count;
  *	imbedded %d to be replaced with the single argument.
  */
 int
-term_putnum(termcap_string,argument,affected)
-char *termcap_string;
-int argument;
-int affected;
+term_putnum( char *termcap_string, int argument, int affected )
 {
 register char *cp;
 register char *dp;
@@ -594,9 +588,7 @@ one:
  *	This routine is called to output a termcap string with padding added.
  */
 void
-term_puts(termcap_string,lines_affected)
-register char *termcap_string;
-int lines_affected;
+term_puts( char *termcap_string, int lines_affected )
 {
 register int delay;
 register int mspc10;
@@ -651,7 +643,7 @@ register int mspc10;
  */
     if(delay == 0) return;
     if(term_speed <= 0) return;
-    if(term_speed >= (sizeof(tmspc10)/sizeof(tmspc10[0]))) return;
+    if((unsigned)term_speed >= (sizeof(tmspc10)/sizeof(tmspc10[0]))) return;
 
 /*
  * Round up by half a character frame, and then do the delay.
@@ -702,9 +694,7 @@ register int mspc10;
  *	all other characters simply get output
  */
 int
-term_goto(dest_x,dest_y)
-int dest_x;
-int dest_y;
+term_goto(int dest_x, int dest_y )
 {
 #ifdef TERMCAP
 register char *cp;
@@ -878,9 +868,7 @@ sleep(5);
  *	all other characters simply get output
  */
 int
-term_scroll_region(top,bottom)
-int top;
-int bottom;
+term_scroll_region( int top, int bottom )
 {
 register char *cp;
 register char *dp;
@@ -1035,9 +1023,7 @@ int bottom;
  *	output buffer. If this fills the output buffer, flush the buffer.
  */
 int
-term_putc(data)
-//char data;
-int data;
+term_putc( int data )
 {
     *scr_outbuf_ptr++ = data;
     scr_outbuf_left -= 1;

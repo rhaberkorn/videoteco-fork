@@ -1,10 +1,10 @@
-char *teco_c_version = "teco.c: $Revision: 1.2 $";
+char *teco_c_version = "teco.c: $Revision: 1.3 $";
 char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/teco.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -113,6 +113,14 @@ char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
     int match_name(char *,char *);
     int map_baud(int);
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	struct passwd *getpwnam( const char * );
+#ifdef __cplusplus
+}
+#endif
+
 
 
 /* TECO - Text Edit and COrrector
@@ -123,9 +131,7 @@ char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
  *	in the specified files, and generally gets things going.
  */
 int
-main(argc,argv)
-int argc;
-char **argv;
+main( int argc, char **argv )
 {
 register int i;
 
@@ -770,16 +776,16 @@ int cmd_winch();
     alarm(checkpoint_interval);
 #endif /* CHECKPOINT */
 
-    signal(SIGINT,(void (*)())cmd_interrupt);
+    signal(SIGINT,(void (*)(int))cmd_interrupt);
 
 #ifdef JOB_CONTROL
     if(suspend_is_okay_flag == YES){
-	signal(SIGTSTP,(void (*)())cmd_suspend);
+	signal(SIGTSTP,(void (*)(int))cmd_suspend);
     }
 #endif
 
 #ifdef SUN_STYLE_WINDOW_SIZING
-    signal(SIGWINCH,(void (*)())cmd_winch);
+    signal(SIGWINCH,(void (*)(int))cmd_winch);
 #endif
 
 }/* End Routine */
@@ -895,9 +901,7 @@ char comment_flag = NO;
 
 
 void
-check_for_forced_screen_size(argc,argv)
-int argc;
-char **argv;
+check_for_forced_screen_size( int argc, char **argv )
 {
 register int i;
 char *cp, c;
@@ -962,10 +966,7 @@ char *cp, c;
  */
 #ifdef UNIX
 int
-handle_command_line(which_time,argc,argv)
-int which_time;
-int argc;
-char **argv;
+handle_command_line( int which_time, int argc, char **argv )
 {
 register int i;
 extern struct buff_header *curbuf;
@@ -1339,13 +1340,11 @@ struct wildcard_expansion *name_list;
 struct wildcard_expansion *name_list_end;
 
 struct wildcard_expansion *
-expand_filename(wildcard_string)
-char *wildcard_string;
+expand_filename( char *wildcard_string )
 {
 char temp_name[TECO_FILENAME_TOTAL_LENGTH];
 register char *cp,*sp;
 struct passwd *pw;
-struct passwd *getpwnam();
 
     PREAMBLE();
 
@@ -1384,10 +1383,7 @@ struct passwd *getpwnam();
 }/* End Routine */
 
 void
-process_directory(wildstr,path,flags)
-char *wildstr;
-char *path;
-int flags;
+process_directory( char *wildstr, char *path, int flags )
 {
 char directory_path[TECO_FILENAME_TOTAL_LENGTH];
 struct wildcard_expansion *np;
@@ -1549,9 +1545,7 @@ read_directory:
  *	internal teco routines may support this behavior.
  */
 int
-match_name(name,pattern)
-char *name;
-char *pattern;
+match_name( char *name, char *pattern )
 {
 char temp_buff[TECO_FILENAME_TOTAL_LENGTH];
 register int c;
@@ -1648,8 +1642,7 @@ int pattern_char;
  *
  */
 void
-punt(exit_code)
-int exit_code;
+punt( int exit_code )
 {
     PREAMBLE();
 
@@ -1665,8 +1658,7 @@ int exit_code;
  *	This routine is called previous to punt to print an error string
  */
 void
-tec_panic(string)
-char *string;
+tec_panic( char *string )
 {
     PREAMBLE();
 
@@ -1689,9 +1681,7 @@ char *string;
  *	after printing the supplied error string.
  */
 void
-tec_error(code,string)
-int code;
-char *string;
+tec_error( int code, char *string )
 {
     PREAMBLE();
 
@@ -1736,8 +1726,7 @@ open_debug_log_file()
  *	representation, and maps it into a simple integer value.
  */
 int
-map_baud(input_baud_rate)
-int input_baud_rate;
+map_baud( int input_baud_rate )
 {
 register int i;
 int return_baud;
@@ -1796,7 +1785,7 @@ static int equivalent_baudrates[] = {
  * Now scan the table for our input baud rate
  */
     while(--i >= 0){
-	if(input_baud_rate != encoded_bauds[i]) continue;
+	if((unsigned)input_baud_rate != encoded_bauds[i]) continue;
 	return_baud = equivalent_baudrates[i];
 	break;
     }/* End While */
@@ -1815,8 +1804,7 @@ static int equivalent_baudrates[] = {
  *	errno error code.
  */
 char *
-error_text(err_num)
-register int err_num;
+error_text( int err_num )
 {
 
 #ifdef VMS

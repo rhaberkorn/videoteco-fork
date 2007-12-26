@@ -1,9 +1,9 @@
-char *tecmem_c_version = "tecmem.c: $Revision: 1.2 $";
+char *tecmem_c_version = "tecmem.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/tecmem.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -74,9 +74,7 @@ void tecmem_verify(unsigned char,char *,char *);
  *	This routine is called to request memory
  */
 char *
-tec_alloc(type,size)
-int type;
-int size;
+tec_alloc( int type, int size )
 {
 int actual_size;
 register int i,j;
@@ -175,7 +173,7 @@ extern char outof_memory;
 
     if(lookaside_lists[i] == NULL){
 	j = BIG_MALLOC_HUNK_SIZE / actual_size;
-	cp = malloc((unsigned)(BIG_MALLOC_HUNK_SIZE));
+	cp = (char *)malloc((unsigned)(BIG_MALLOC_HUNK_SIZE));
 
 	if(cp == NULL){
 	    printf("\nTECO: malloc failed!\n");
@@ -219,9 +217,7 @@ extern char outof_memory;
  *	by calling the tec_alloc routine.
  */
 void
-tec_release(type,addr)
-unsigned char type;
-register char *addr;
+tec_release( unsigned char type, char *addr )
 {
 register struct memblock *mp;
 register struct memlist *lp;
@@ -269,10 +265,7 @@ register int i;
  *	overwritten by checking the type code.
  */
 void
-tecmem_verify(type,addr,message)
-unsigned char type;
-register char *addr;
-char *message;
+tecmem_verify( unsigned char type, char *addr, char *message )
 {
 register struct memblock *mp;
 #if 0
@@ -324,7 +317,7 @@ initialize_memory_stats()
 
 #if HAVE_SBRK
     if(starting_break == NULL){
-	starting_break = sbrk(0);
+	starting_break = (char *)sbrk(0);
     }/* End IF */
 #endif
 
@@ -410,7 +403,7 @@ int bss_in_use;
 	    "MAXTYPE"
 	};
 
-	if(i >= ELEMENTS(type_name_list)){
+	if((unsigned)i >= ELEMENTS(type_name_list)){
 	    sprintf(
 		tmp_buffer,
 		"Unknown memory type index %d(%d)\n",
@@ -433,7 +426,7 @@ int bss_in_use;
     }/* End FOR */
 
 #if HAVE_SBRK
-    current_break = sbrk(0);
+    current_break = (char *)sbrk(0);
     if(current_break != sbrk(0)){
 	tec_panic("sbrk(0) seems to be allocating space!\n");
     }/* End IF */

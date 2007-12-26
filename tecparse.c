@@ -1,9 +1,9 @@
-char *tecparse_c_version = "tecparse.c: $Revision: 1.2 $";
+char *tecparse_c_version = "tecparse.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/tecparse.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -68,6 +68,9 @@ char *tecparse_c_version = "tecparse.c: $Revision: 1.2 $";
     void parser_clean_preserve_list(void);
     int parser_getc(void);
     int unpreserve_rubout_char(struct cmd_token *);
+	char * trace_convert_opcode_to_name( int opcode );
+	char * trace_convert_state_to_name( int state );
+	char * trace_convert_exec_state_to_name( int state );
 
 
 
@@ -162,8 +165,7 @@ static char no_mem = 0;
  *	parser tree and execute any associated code.
  */
 int
-tecparse_syntax(c)
-int c;
+tecparse_syntax( int c )
 {
 register struct cmd_token *ct;
 struct cmd_token trace_ct;
@@ -475,10 +477,10 @@ struct undo_token *ut;
  *	way the macro will execute.
  */
 int
-tecmacro(qbp,input_ct,macro_cmd_list)
-register struct buff_header *qbp;
-struct cmd_token *input_ct;
-struct cmd_token **macro_cmd_list;
+tecmacro(
+			struct buff_header *qbp,
+			struct cmd_token *input_ct,
+			struct cmd_token **macro_cmd_list )
 {
 register struct cmd_token *ct;
 struct cmd_token trace_ct;
@@ -730,9 +732,7 @@ cleanup:
  *	^W, ^U.
  */
 int
-parse_special_character(ct,c)
-register struct cmd_token *ct;
-register int c;
+parse_special_character( struct cmd_token *ct, int c )
 {
 char state_seen;
 int tmp;
@@ -833,9 +833,7 @@ int tmp;
  *	that the edit buffer also gets backed up.
  */
 struct cmd_token *
-parse_rubout_character(ct,preserve_flag)
-register struct cmd_token *ct;
-int preserve_flag;
+parse_rubout_character( struct cmd_token *ct, int preserve_flag )
 {
 register struct cmd_token *oct;
 struct undo_token *ut;
@@ -911,8 +909,7 @@ char saved_opcode;
  *	list. It gets used in rubout / ^U / ^W processing.
  */
 struct cmd_token *
-parse_rubout_cmd_token(ct)
-register struct cmd_token *ct;
+parse_rubout_cmd_token( struct cmd_token *ct )
 {
 register struct cmd_token *oct;
 struct undo_token *ut;
@@ -1067,8 +1064,7 @@ printf("!!! iosb[0] is %d\n",qio_iosb[0]);
  *	that he can get them back if he wants.
  */
 void
-preserve_rubout_char(the_byte)
-char the_byte;
+preserve_rubout_char( char the_byte )
 {
 register struct buff_header *qbp;
 
@@ -1102,8 +1098,7 @@ register struct buff_header *qbp;
  *	The return code determines whether this was done okay or not.
  */
 int
-unpreserve_rubout_char(ct)
-struct cmd_token *ct;
+unpreserve_rubout_char( struct cmd_token *ct )
 {
 register struct buff_header *qbp;
 int c;
@@ -1178,8 +1173,7 @@ register struct buff_header *qbp;
  *	into the specified Q-register.
  */
 void
-parser_dump_command_line(qbp)
-register struct buff_header *qbp;
+parser_dump_command_line( struct buff_header *qbp )
 {
 register struct cmd_token *ct;
 
@@ -1206,8 +1200,7 @@ register struct cmd_token *ct;
  *	the specified Q-register.
  */
 int
-parser_replace_command_line(qbp)
-register struct buff_header *qbp;
+parser_replace_command_line( struct buff_header *qbp )
 {
 register struct cmd_token *ct;
 register struct cmd_token *first_different_ct;
@@ -1305,8 +1298,7 @@ register int cb_zee;
  *	the parse.
  */
 struct cmd_token *
-allocate_cmd_token(old_token)
-register struct cmd_token *old_token;
+allocate_cmd_token( struct cmd_token *old_token )
 {
 register struct cmd_token *ct;
 
@@ -1362,8 +1354,7 @@ register struct cmd_token *ct;
  *	to be placed on the free list.
  */
 void
-free_cmd_token(ct)
-register struct cmd_token *ct;
+free_cmd_token( struct cmd_token *ct )
 {
 
     PREAMBLE();
@@ -1405,8 +1396,7 @@ pause_while_in_input_wait()
  *	including cmd_tokens and undo_tokens.
  */
 void
-parser_cleanup_ctlist(ct)
-register struct cmd_token *ct;
+parser_cleanup_ctlist( struct cmd_token *ct )
 {
 register struct cmd_token *oct;
 
@@ -1445,9 +1435,7 @@ register struct cmd_token *oct;
  *	and set the error state.
  */
 int
-parse_any_arguments(ct,cmd_name)
-register struct cmd_token *ct;
-char *cmd_name;
+parse_any_arguments( struct cmd_token *ct, char *cmd_name )
 {
 char tmp_message[LINE_BUFFER_SIZE];
 
@@ -1478,9 +1466,7 @@ char tmp_message[LINE_BUFFER_SIZE];
  *	and set the error state.
  */
 int
-parse_more_than_one_arg(ct,cmd_name)
-register struct cmd_token *ct;
-char *cmd_name;
+parse_more_than_one_arg( struct cmd_token *ct, char *cmd_name )
 {
 char tmp_message[LINE_BUFFER_SIZE];
 
@@ -1513,10 +1499,7 @@ char tmp_message[LINE_BUFFER_SIZE];
  *	legal. If they are not, it generates an error message.
  */
 int
-parse_illegal_buffer_position(pos1,pos2,cmd_name)
-register int pos1;
-register int pos2;
-char *cmd_name;
+parse_illegal_buffer_position( int pos1, int pos2, char *cmd_name )
 {
 char illegal_position;
 char tmp_message[LINE_BUFFER_SIZE];
@@ -1567,18 +1550,12 @@ parser_reset_echo()
  *	execution trace information.
  */
 void
-trace_mode(phase,ct0,ct1)
-register int phase;
-struct cmd_token *ct0;
-struct cmd_token *ct1;
+trace_mode( int phase, struct cmd_token *ct0, struct cmd_token *ct1 )
 {
 register struct buff_header *qbp;
 char tmp_message[LINE_BUFFER_SIZE];
 register char *cp;
 register char *state_name;
-char *trace_convert_state_to_name();
-char *trace_convert_opcode_to_name();
-char *trace_convert_exec_state_to_name();
 
     PREAMBLE();
 
@@ -1799,8 +1776,7 @@ char *trace_convert_exec_state_to_name();
 }
 
 char *
-trace_convert_opcode_to_name(opcode)
-int opcode;
+trace_convert_opcode_to_name( int opcode )
 {
 
     PREAMBLE();
@@ -1841,8 +1817,7 @@ int opcode;
 }/* End Routine */
 
 char *
-trace_convert_state_to_name(state)
-int state;
+trace_convert_state_to_name( int state )
 {
 
     PREAMBLE();
@@ -1993,8 +1968,7 @@ int state;
 
 
 char *
-trace_convert_exec_state_to_name(state)
-int state;
+trace_convert_exec_state_to_name( int state )
 {
 
     PREAMBLE();

@@ -1,9 +1,9 @@
-char *tecexec_c_version = "tecexec.c: $Revision: 1.2 $";
+char *tecexec_c_version = "tecexec.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/tecexec.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -51,6 +51,7 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.2 $";
     int find_conditional_end(struct cmd_token *);
     int compare_label(struct cmd_token *,struct cmd_token *);
     void extract_label(struct cmd_token *,char *);
+	struct wildcard_expansion *expand_filename( char *wildcard_string );
 
 
 
@@ -66,9 +67,7 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.2 $";
  *	set by the parse state during syntax analysis.
  */
 int
-execute_a_state(ct,uct)
-register struct cmd_token *ct;
-struct cmd_token *uct;
+execute_a_state( struct cmd_token *ct, struct cmd_token *uct )
 {
 register struct undo_token *ut;
 char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
@@ -140,7 +139,6 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    {/* Local Block */
 	    register struct buff_header *qbp;
 	    struct wildcard_expansion *name_list,*np;
-	    struct wildcard_expansion *expand_filename();
 
 	    ut = allocate_undo_token(uct);
 	    if(ut == NULL) return(FAIL);
@@ -1954,7 +1952,6 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    {/* Local Block */
 	    int status;
 	    struct wildcard_expansion *name_list,*np;
-	    struct wildcard_expansion *expand_filename();
 	    char *filename;
 
 	    if(curbuf->isreadonly){
@@ -2010,7 +2007,6 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	case EXEC_C_READFILE:
 	    {/* Local Block */
 	    struct wildcard_expansion *name_list,*np;
-	    struct wildcard_expansion *expand_filename();
 
 	    if(ct->ctx.carg == NULL || ct->ctx.carg[0] == '\0'){
 		error_message("?ER Requires a filename");
@@ -2065,7 +2061,6 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    {/* Local Block */
 	    struct buff_header *hbp,*old_buffer,*first_buffer;
 	    struct wildcard_expansion *name_list,*np;
-	    struct wildcard_expansion *expand_filename();
 
 /*
  * Here if there is no string argument. It better be a numeric buffer
@@ -2248,7 +2243,6 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    {/* Local Block */
 	    struct buff_header *hbp,*old_buffer,*first_buffer;
 	    struct wildcard_expansion *name_list,*np;
-	    struct wildcard_expansion *expand_filename();
 
 /*
  * Here if there is no string argument. It better be a numeric buffer
@@ -2569,8 +2563,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  *	on the Q register stack.
  */
 int
-push_qregister(letter)
-char letter;
+push_qregister( char letter )
 {
 register struct buff_header *hbp;
 register struct buff_header *qbp;
@@ -2604,9 +2597,7 @@ register struct buff_header *qbp;
  *	in it. The current use is for error messages.
  */
 void
-extract_label(label_ptr,string1)
-register struct cmd_token *label_ptr;
-char *string1;
+extract_label( struct cmd_token *label_ptr, char *string1 )
 {
 register char *cp1;
 
@@ -2633,9 +2624,7 @@ register char *cp1;
  *	to see if they match.
  */
 int
-compare_label(goto_ptr,label_ptr)
-register struct cmd_token *goto_ptr;
-register struct cmd_token *label_ptr;
+compare_label( struct cmd_token *goto_ptr, struct cmd_token *label_ptr )
 {
 char string1[PARSER_STRING_MAX],string2[PARSER_STRING_MAX];
 char *cp1;
@@ -2688,8 +2677,7 @@ char *cp1;
  *	finds either the else, or the end of the conditional.
  */
 int
-find_conditional_else(ct)
-register struct cmd_token *ct;
+find_conditional_else( struct cmd_token *ct )
 {
     register struct cmd_token *oct;
 
@@ -2725,8 +2713,7 @@ register struct cmd_token *ct;
  *	end of the conditional.
  */
 int
-find_conditional_end(ct)
-register struct cmd_token *ct;
+find_conditional_end( struct cmd_token *ct )
 {
     register struct cmd_token *oct;
 

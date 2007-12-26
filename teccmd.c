@@ -1,9 +1,9 @@
-char *teccmd_c_version = "teccmd.c: $Revision: 1.2 $";
+char *teccmd_c_version = "teccmd.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/teccmd.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -64,7 +64,7 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.2 $";
     void cmd_checkpoint(void);
 #endif /* CHECKPOINT */
 
-    struct tags *tag_load_file();
+    struct tags *tag_load_file( char *string );
 
     void srch_setbits(int *bit_table,char *string);
     void srch_setbit(int *bit_table,unsigned char value);
@@ -100,10 +100,10 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.2 $";
  *	direction of search and the number of times to search.
  */
 int
-cmd_search(arg1,arg2,search_tbl)
-int arg1;
-int arg2;
-struct search_buff *search_tbl;
+cmd_search(
+			int arg1,
+			int arg2,
+			struct search_buff *search_tbl )
 {
 int count;
 char forwards;
@@ -190,10 +190,10 @@ int original_dot;
  *	This routine is used when the search progresses forward
  */
 int
-cmd_forward_search(pos1,pos2,search_tbl)
-int pos1;
-int pos2;
-struct search_buff *search_tbl;
+cmd_forward_search(
+					int pos1,
+					int pos2,
+					struct search_buff *search_tbl )
 {
 register struct search_element *ep;
 register unsigned char buffer_char;
@@ -332,10 +332,10 @@ struct position_cache running_position;
  *	This routine is used when the search progresses backwards
  */
 int
-cmd_reverse_search(pos1,pos2,search_tbl)
-int pos1;
-int pos2;
-struct search_buff *search_tbl;
+cmd_reverse_search(
+					int pos1,
+					int pos2,
+					struct search_buff *search_tbl )
 {
 register struct search_element *ep;
 register unsigned char buffer_char;
@@ -474,9 +474,9 @@ struct position_cache running_position;
  *	that this is all reversable.
  */
 int
-set_search_string_with_undo(string,uct)
-char *string;
-struct cmd_token *uct;
+set_search_string_with_undo(
+								char *string,
+								struct cmd_token *uct )
 {
 register struct buff_header *qbp;
 register struct undo_token *ut;
@@ -577,8 +577,7 @@ int new_length;
  *	in such a way that it works equally well backward or forward.
  */
 int
-compile_search_string(search_tbl)
-struct search_buff *search_tbl;
+compile_search_string( struct search_buff *search_tbl )
 {
 register int position;
 register char c;
@@ -957,8 +956,7 @@ char matchrepeat_flag = NO;
  *	entry.
  */
 void
-srch_setallbits(bit_table)
-register int *bit_table;
+srch_setallbits( int *bit_table )
 {
 register int i;
 
@@ -979,8 +977,7 @@ register int i;
  *	simply invert the setting of the bits in the search table entry.
  */
 void
-srch_invert_sense(bit_table)
-register int *bit_table;
+srch_invert_sense( int *bit_table )
 {
 register int i;
 
@@ -1000,9 +997,7 @@ register int i;
  *	It sets each corresponding bit in the search table to a 1.
  */
 void
-srch_setbits(bit_table,string)
-register int *bit_table;
-register char *string;
+srch_setbits( int *bit_table, char *string )
 {
 register int c;
 
@@ -1022,9 +1017,7 @@ register int c;
  *	be set in the search table.
  */
 void
-srch_setbit(bit_table,value)
-register int *bit_table;
-register unsigned char value;
+srch_setbit( int *bit_table, unsigned char value )
 {
 
     PREAMBLE();
@@ -1046,9 +1039,7 @@ register unsigned char value;
  *	hack it up a bit. This is not guaranteed to work, but...
  */
 int
-cmd_write(hbp,filename)
-struct buff_header *hbp;
-char *filename;
+cmd_write( struct buff_header *hbp, char *filename )
 {
 char base_filename[TECO_FILENAME_COMPONENT_LENGTH + 1];
 char path_name[TECO_FILENAME_TOTAL_LENGTH + 1];
@@ -1202,12 +1193,12 @@ int status;
  *	subdirectories that may be necessary.
  */
 int
-cmd_writebak(fi,input_filename,pathname,output_filename,open_flags)
-int fi;
-char *pathname;
-char *input_filename;
-char *output_filename;
-int open_flags;
+cmd_writebak(
+				int fi,
+				char *pathname,
+				char *input_filename,
+				char *output_filename,
+				int open_flags )
 {
 char tmp_filename[TECO_FILENAME_TOTAL_LENGTH + 1];
 char tmp_message[LINE_BUFFER_SIZE];
@@ -1289,8 +1280,7 @@ register int status;
  *	number of words.
  */
 int
-cmd_wordmove(count)
-register int count;
+cmd_wordmove( int count )
 {
     register int c;
 
@@ -1364,7 +1354,7 @@ extern char susp_flag;
 
 #ifdef JOB_CONTROL
     if(susp_flag++ >= 4){
-	signal(SIGTSTP,(void (*)())SIG_DFL);
+	signal(SIGTSTP,(void (*)(int))SIG_DFL);
     }/* End IF */
 #endif
 
@@ -1416,7 +1406,7 @@ struct itmlst {
 #ifdef UNIX
     if(suspend_is_okay_flag == YES){
 	kill(getpid(),SIGSTOP);
-	signal(SIGTSTP,(void (*)())cmd_suspend);
+	signal(SIGTSTP,(void (*)(int))cmd_suspend);
     }
 #endif /* UNIX */
 
@@ -1514,7 +1504,7 @@ cmd_interrupt()
 	if(waiting_for_input_flag == NO){
 	    restore_tty();
 	    fprintf(stderr,"TECO aborted...\n");
-	    signal(SIGINT,(void (*)())SIG_DFL);
+	    signal(SIGINT,(void (*)(int))SIG_DFL);
 	    kill(getpid(),SIGINT);
 	}/* End IF */
     }/* End IF */
@@ -1737,8 +1727,7 @@ register int length;
  *	user to execute operating system commands from within the editor.
  */
 int
-cmd_oscmd(ct)
-register struct cmd_token *ct;
+cmd_oscmd( struct cmd_token *ct )
 {
 register char *cp;
 int pid,w,status;
@@ -1796,7 +1785,7 @@ int buf_pipe[2];
 	close(2); dup(pipe_desc[1]);
 	close(pipe_desc[0]);
 	close(pipe_desc[1]);
-	execl("/bin/csh","csh","-cf",cp,0);
+	execl("/bin/csh","csh","-cf",cp,0,NULL);
 	_exit(127);
     }/* End IF */
 #endif
@@ -1943,10 +1932,10 @@ register struct buff_header *qbp;
  *	of the buffer.
  */
 int
-rename_edit_buffer(hbp,new_name,uct)
-register struct buff_header *hbp;
-register char *new_name;
-register struct cmd_token *uct;
+rename_edit_buffer(
+					struct buff_header *hbp,
+					char *new_name,
+					struct cmd_token *uct )
 {
 register int i;
 register struct undo_token *ut;
@@ -1983,10 +1972,10 @@ int length;
  *	actual values are specific to Video TECO
  */
 int
-cmd_setoptions(arg1,arg2,uct)
-int arg1;
-int arg2;
-struct undo_token *uct;
+cmd_setoptions(
+				int arg1,
+				int arg2,
+				struct undo_token *uct )
 {
 struct undo_token fake_token;
 extern int tab_width;
@@ -2069,12 +2058,12 @@ extern int tab_width;
  *			is a flags word which says what to do with the tag
  */
 int
-cmd_tags(uct,arg_count,arg1,arg2,string)
-struct cmd_token *uct;
-int arg_count;
-int arg1;
-int arg2;
-char *string;
+cmd_tags(
+			struct cmd_token *uct,
+			int arg_count,
+			int arg1,
+			int arg2,
+			char *string )
 {
 register struct undo_token *ut;
 register struct tags *old_tags;
@@ -2191,8 +2180,7 @@ int hashval,skip_cnt;
  *	EMACS tags files, and builds an internal representation.
  */
 struct tags *
-tag_load_file(string)
-register char *string;
+tag_load_file( char *string )
 {
 FILE *fd = NULL;
 register struct tags *tp = NULL;
@@ -2573,8 +2561,7 @@ err:
 }/* End Routine */
 
 void
-tag_free_struct(tp)
-register struct tags *tp;
+tag_free_struct( struct tags *tp )
 {
 register struct tagent **tepp;
 register struct tagent *tep;
@@ -2582,7 +2569,7 @@ register int i;
 
     if(tp == NULL) return;
 
-    for(i = 0, tepp = &tp->tagents[0]; i < ELEMENTS(tp->tagents); i++,tepp++){
+    for(i = 0, tepp = &tp->tagents[0]; (unsigned)i < ELEMENTS(tp->tagents); i++,tepp++){
 	while((tep = *tepp)){
 	    *tepp = tep->te_next;
 
@@ -2609,8 +2596,7 @@ register int i;
 }/* End Routine */
 
 int
-tag_calc_hash(string)
-register char *string;
+tag_calc_hash( char *string )
 {
 register int hash = 0;
 register int c;
@@ -2626,9 +2612,7 @@ register int shift = 0;
 }/* End Routine */
 
 void
-tag_dump_database(tp,uct)
-register struct tags *tp;
-struct cmd_token *uct;
+tag_dump_database( struct tags *tp, struct cmd_token *uct )
 {
 register struct tagent **tepp;
 register struct tagent *tep;
@@ -2637,7 +2621,7 @@ char tmp_output[LINE_BUFFER_SIZE];
 
     if(tp == NULL) return;
 
-    for(i = 0, tepp = &tp->tagents[0]; i < ELEMENTS(tp->tagents); i++,tepp++){
+    for(i = 0, tepp = &tp->tagents[0]; (unsigned)i < ELEMENTS(tp->tagents); i++,tepp++){
 	tep = *tepp;
 	while(tep){
 

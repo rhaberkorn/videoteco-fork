@@ -1,9 +1,11 @@
-char *tecbuf_c_version = "tecbuf.c: $Revision: 1.3 $";
+char *tecbuf_c_version = "tecbuf.c: $Revision: 1.4 $";
+
+struct buff_header *buff_create( char *name, char internal_flag );
 
 /*
- * $Date: 2007/12/26 12:05:14 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/tecbuf.c,v $
- * $Revision: 1.3 $
+ * $Revision: 1.4 $
  * $Locker:  $
  */
 
@@ -71,8 +73,7 @@ char rcs_date[] = AUTO_DATE;
  *	it could not find one with the proper name.
  */
 struct buff_header *
-buff_find(name)
-char *name;
+buff_find( char *name )
 {
 register struct buff_header *bp;
 register char *cp1,*cp2;
@@ -120,14 +121,12 @@ unsigned int hash = stringHash( name );
  *	the Q register to be created.
  */
 struct buff_header *
-buff_qfind(name,create_flag)
-char name;
-char create_flag;
+buff_qfind( char name, char create_flag )
 {
 register struct buff_header *hbp;
 register int i;
 char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
-struct buff_header *buff_create();
+//struct buff_header *buff_create();
 
     PREAMBLE();
     (void) strcpy(tmp_buffer,TECO_INTERNAL_BUFFER_NAME);
@@ -162,9 +161,7 @@ struct buff_header *buff_create();
  *	problem of some sort.
  */
 struct buff_header *
-buff_create(name,internal_flag)
-char *name;
-char internal_flag;
+buff_create( char *name, char internal_flag )
 {
 register struct buff_header *bp;
 register struct buff_header *obp;
@@ -268,8 +265,7 @@ register int i = 0;
  *	the push Q register command ('[').
  */
 struct buff_header *
-buff_duplicate(sbp)
-register struct buff_header *sbp;
+buff_duplicate( struct buff_header *sbp )
 {
 register struct buff_header *dbp;
 register struct buff_line *slp;
@@ -347,10 +343,7 @@ register struct buff_line *dlp;
  *	destination.
  */
 void
-movc3(source,dest,count)
-register char *source;
-register char *dest;
-register int count;
+movc3( char *source, char *dest, int count )
 {
 
     PREAMBLE();
@@ -369,8 +362,7 @@ register int count;
  *	all the lines in the buffer, all the display lines, etc.
  */
 void
-buff_destroy(hbp)
-register struct buff_header *hbp;
+buff_destroy( struct buff_header *hbp )
 {
 register struct buff_header *bp;
 register struct buff_line *lbp;
@@ -435,9 +427,7 @@ register struct buff_line *lbp;
  *	the buffer position resides on.
  */
 struct buff_line *
-buff_find_line(hbp,position)
-register struct buff_header *hbp;
-int position;
+buff_find_line( struct buff_header *hbp, int position )
 {
 register struct buff_line *lbp;
 register int i;
@@ -538,10 +528,8 @@ register int i;
  *	the specified position.
  */
 int
-buff_find_offset(hbp,lbp,position)
-register struct buff_header *hbp;
-register struct buff_line *lbp;
-int position;
+buff_find_offset(	struct buff_header *hbp, 
+					struct buff_line *lbp, int position )
 {
 
     PREAMBLE();
@@ -574,9 +562,7 @@ int position;
  *	of characters at any one time.
  */
 int
-buff_contents(hbp,position)
-register struct buff_header *hbp;
-register int position;
+buff_contents( struct buff_header *hbp, int position )
 {
 register struct buff_line *lbp;
 register int i;
@@ -615,10 +601,8 @@ register int i;
  *	of characters at any one time.
  */
 int
-buff_cached_contents(hbp,position,cache)
-register struct buff_header *hbp;
-int position;
-struct position_cache *cache;
+buff_cached_contents(	struct buff_header *hbp, 
+						int position, struct position_cache *cache )
 {
 register struct buff_line *lbp;
 register int i;
@@ -702,10 +686,7 @@ buff_init()
  *	buffer already exists, we simply switch to it and don't modify it.
  */
 int
-buff_openbuffer(name,buffer_number,readonly_flag)
-char *name;
-int buffer_number;
-int readonly_flag;
+buff_openbuffer(	char *name, int buffer_number, int readonly_flag )
 {
     register struct buff_header *hbp = NULL;
 
@@ -775,9 +756,7 @@ int readonly_flag;
  *	made the 'current' edit buffer.
  */
 int
-buff_openbuffnum(buffer_number,map_flag)
-int buffer_number;
-int map_flag;
+buff_openbuffnum( int buffer_number, int map_flag )
 {
     register struct buff_header *hbp;
 
@@ -808,8 +787,7 @@ int map_flag;
  *	list.
  */
 void
-buff_reopenbuff(bp)
-register struct buff_header *bp;
+buff_reopenbuff( struct buff_header *bp )
 {
 register struct buff_header *obp;
 
@@ -862,9 +840,7 @@ register struct buff_header *obp;
  *	The edit buffer must already exist.
  */
 int
-buff_read(hbp,name)
-struct buff_header *hbp;
-char *name;
+buff_read( struct buff_header *hbp, char *name )
 {
     int iochan;
     char tmp_message[LINE_BUFFER_SIZE];
@@ -898,10 +874,7 @@ char *name;
  *	buffer.
  */
 int
-buff_readfd(hbp,name,iochan)
-struct buff_header *hbp;
-char *name;
-int iochan;
+buff_readfd( struct buff_header *hbp, char *name, int iochan )
 {
     char iobuf[IO_BUFFER_SIZE];
     char linebuf[IO_BUFFER_SIZE];
@@ -938,7 +911,7 @@ int iochan;
 
 	linebuf_cnt += 1;
 	bcount -= 1;
-	if((*cp++ = *iop++) == '\n' || linebuf_cnt >= sizeof(linebuf)){
+	if((*cp++ = *iop++) == '\n' || (unsigned)linebuf_cnt >= sizeof(linebuf)){
 	    lbp = buff_find_line(hbp,hbp->dot);
 	    if(lbp == NULL){
 		error_status = FAIL;
@@ -1019,11 +992,7 @@ int iochan;
  *	wishes to write out the contents of the buffer.
  */
 int
-buff_write(hbp,chan,start,end)
-struct buff_header *hbp;
-int chan;
-int start;
-int end;
+buff_write( struct buff_header *hbp, int chan, int start, int end )
 {
 register int bcount;
 register struct buff_line *lbp;
@@ -1086,9 +1055,7 @@ int status;
  *	to some other edit buffer.
  */
 int
-buff_switch(hbp,map_flag)
-struct buff_header *hbp;
-int map_flag;
+buff_switch( struct buff_header *hbp, int map_flag )
 {
 char tmp_message[LINE_BUFFER_SIZE];
 char *cp;
@@ -1139,7 +1106,7 @@ int max_length;
 
     buff_delete(curbuf,0,curbuf->zee);
 
-    for(i = 0; i < sizeof(padd_buffer); i++){
+    for(i = 0; (unsigned)i < sizeof(padd_buffer); i++){
 	padd_buffer[i] = ' ';
     }/* End FOR */
     padd_buffer[sizeof(padd_buffer)-1] = '\0';
@@ -1280,11 +1247,7 @@ int max_length;
  *	at the buffer's current location.
  */
 int
-buff_insert(hbp,position,buffer,length)
-struct buff_header *hbp;
-register int position;
-register char *buffer;
-register int length;
+buff_insert( struct buff_header *hbp, int position, char *buffer, int length )
 {
 struct buff_header fake_header;
 struct buff_line *fake_line;
@@ -1361,13 +1324,12 @@ register char *cp;
  *	over using the byte-at-a-time routines.
  */
 int
-buff_insert_from_buffer_with_undo(ct,dbp,dest_position,sbp,src_position,length)
-struct cmd_token *ct;
-struct buff_header *dbp;
-int dest_position;
-struct buff_header *sbp;
-int src_position;
-int length;
+buff_insert_from_buffer_with_undo(	struct cmd_token *ct,
+									struct buff_header *dbp,
+									int dest_position,
+									struct buff_header *sbp,
+									int src_position,
+									int length )
 {
 register int i;
 struct undo_token *ut = 0;
@@ -1799,12 +1761,11 @@ extern int tty_input_chan;
  *	also need to be un-inserted if the command is undone.
  */
 int
-buff_insert_with_undo(ct,hbp,position,buffer,length)
-struct cmd_token *ct;
-struct buff_header *hbp;
-register int position;
-register char *buffer;
-register int length;
+buff_insert_with_undo(	struct cmd_token *ct,
+						struct buff_header *hbp,
+						int position,
+						char *buffer,
+						int length )
 {
 struct undo_token *ut;
 
@@ -1839,10 +1800,9 @@ struct undo_token *ut;
  *	invalid, etc.
  */
 int
-buff_insert_char(hbp,position,data)
-register struct buff_header *hbp;
-int position;
-char data;
+buff_insert_char(	struct buff_header *hbp,
+					int position,
+					char data )
 {
 register struct buff_line *lbp;
 struct buff_line *nlbp;
@@ -1982,11 +1942,10 @@ register int i,j;
  *	to be input can be undone if necessary.
  */
 int
-buff_insert_char_with_undo(ct,hbp,position,data)
-struct cmd_token *ct;
-register struct buff_header *hbp;
-int position;
-char data;
+buff_insert_char_with_undo(	struct cmd_token *ct,
+							struct buff_header *hbp,
+							int position,
+							char data )
 {
 struct undo_token *ut;
 
@@ -2018,10 +1977,9 @@ struct undo_token *ut;
  *	at the specified location in the buffer.
  */
 void
-buff_delete(hbp,position,count)
-struct buff_header *hbp;
-int position;
-register int count;
+buff_delete(	struct buff_header *hbp,
+				int position,
+				int count )
 {
 
     PREAMBLE();
@@ -2057,9 +2015,8 @@ register int count;
  *	the current buffer position.
  */
 int
-buff_delete_char(hbp,position)
-register struct buff_header *hbp;
-int position;
+buff_delete_char(	struct buff_header *hbp,
+					int position )
 {
 register struct buff_line *lbp;
 struct buff_line *nlbp;
@@ -2208,11 +2165,10 @@ register int i,j;
  *	just move the line buffers over to the undo list.
  */
 int
-buff_delete_with_undo(ct,hbp,position,count)
-struct cmd_token *ct;
-struct buff_header *hbp;
-int position;
-int count;
+buff_delete_with_undo(	struct cmd_token *ct,
+						struct buff_header *hbp,
+						int position,
+						int count )
 {
 register char *cp;
 struct undo_token *ut;
@@ -2410,11 +2366,10 @@ int bytes_deleted_so_far = 0;
  *	the specified position in the buffer.
  */
 void
-buff_bulk_insert(hbp,position,count,lbp)
-struct buff_header *hbp;
-int position;
-int count;
-register struct buff_line *lbp;
+buff_bulk_insert(	struct buff_header *hbp,
+					int position,
+					int count,
+					struct buff_line *lbp )
 {
 register struct buff_line *olbp;
 int offset;
@@ -2514,8 +2469,7 @@ int offset;
  *	of bytes.
  */
 struct buff_line *
-allocate_line_buffer(size)
-register int size;
+allocate_line_buffer(	int size )
 {
 register struct buff_line *lbp;
 
@@ -2578,8 +2532,7 @@ register struct buff_line *lbp;
  *	associated storage as well as the buffer itself.
  */
 void
-buff_free_line_buffer(lbp)
-register struct buff_line *lbp;
+buff_free_line_buffer(	struct buff_line *lbp )
 {
 
     PREAMBLE();
@@ -2614,8 +2567,7 @@ register struct buff_line *lbp;
  *	This routine will delete an entire list of line buffers
  */
 void
-buff_free_line_buffer_list(lbp)
-register struct buff_line *lbp;
+buff_free_line_buffer_list(	struct buff_line *lbp )
 {
 register struct buff_line *olbp;
 

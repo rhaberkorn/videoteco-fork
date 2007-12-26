@@ -1,9 +1,9 @@
-char *tecdisp_c_version = "tecdisp.c: $Revision: 1.2 $";
+char *tecdisp_c_version = "tecdisp.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:07 $
+ * $Date: 2007/12/26 13:28:30 $
  * $Source: /cvsroot/videoteco/videoteco/tecdisp.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -56,6 +56,8 @@ char *tecdisp_c_version = "tecdisp.c: $Revision: 1.2 $";
 #ifdef TERMINFO
     extern int terminfo_magic_cookie_glitch;
 #endif
+
+void screen_message( char *string );
 
 /*
  * Global Variables
@@ -671,7 +673,6 @@ int offset;
 	if(vlp == y) continue;
 
 	if(vlp > y){
-	    void screen_message();
 	    screen_message("insert_line confused");
 	}/* End IF */
 
@@ -696,9 +697,7 @@ int offset;
  *	has happened to the terminal.
  */
 void
-screen_account_for_delete_line(y,count)
-int y;
-int count;
+screen_account_for_delete_line( int y, int count )
 {
 register int i,x;
 register struct screen_line *top_lp,*bottom_lp;
@@ -757,9 +756,7 @@ register short *sp;
  *	has happened to the terminal appearence.
  */
 void
-screen_account_for_insert_line(y,count)
-int y;
-int count;
+screen_account_for_insert_line( int y, int count )
 {
 register int i,x;
 register struct screen_line *top_lp,*bottom_lp;
@@ -960,8 +957,7 @@ int first_change,last_change;
  *	operation.
  */
 void
-screen_echo(data)
-char data;
+screen_echo( char data )
 {
 register int i;
 
@@ -1016,7 +1012,7 @@ register int i;
 	    data = '$';
 	    break;
 	case '\n':
-	    for(i = 0; i < strlen("<CR>"); i++){
+	    for(i = 0; (unsigned)i < strlen("<CR>"); i++){
 		screen_echo("<CR>"[i]);
 	    }/* End FOR */
 	    return;
@@ -1028,7 +1024,7 @@ register int i;
  * line.
  */
 	case '\t':
-	    for(i = 0; i < strlen("    "); i++){
+	    for(i = 0; (unsigned)i < strlen("    "); i++){
 		screen_echo("    "[i]);
 	    }/* End FOR */
 	    return;
@@ -1063,8 +1059,7 @@ register int i;
  *	which would be very difficult to back out of.
  */
 void
-screen_reset_echo(ct)
-register struct cmd_token *ct;
+screen_reset_echo( struct cmd_token *ct )
 {
 
     PREAMBLE();
@@ -1100,8 +1095,7 @@ register struct cmd_token *ct;
  *	they can be output messages from a user generated with the ^A command.
  */
 void
-screen_message(string)
-register char *string;
+screen_message( char *string )
 {
 register short *sp;
 register int i;
@@ -1170,8 +1164,7 @@ too_wide:
  *	is output to get the humans attention.
  */
 void
-error_message(string)
-char *string;
+error_message( char *string )
 {
     PREAMBLE();
 
@@ -1213,9 +1206,9 @@ register short *sp;
  *	This routine copies out the current message up to a certain length.
  */
 void
-screen_save_current_message(message_save_buff,message_save_max_length)
-char *message_save_buff;
-int message_save_max_length;
+screen_save_current_message(
+								char *message_save_buff,
+								int message_save_max_length )
 {
 int i;
 short *sp;
@@ -1242,10 +1235,7 @@ short *sp;
  *	This routine is called to change the label line
  */
 int
-screen_label_line(buffer,string,field)
-struct buff_header *buffer;
-char *string;
-int field;
+screen_label_line(	struct buff_header *buffer, char *string, int field )
 {
 register short *sp;
 register char *cp;
@@ -1501,8 +1491,7 @@ register struct screen_line *lp;
  *	specified window.
  */
 int
-screen_display_window(wptr)
-register struct window *wptr;
+screen_display_window( struct window *wptr )
 {
 struct buff_header *hbp;
 struct buff_line *tlbp,*blbp;
@@ -1687,8 +1676,7 @@ char saw_dot;
  *	structures which represent the current edit buffer.
  */
 int
-screen_rebuild_from_scratch(wptr)
-register struct window *wptr;
+screen_rebuild_from_scratch( struct window *wptr )
 {
 struct buff_header *hbp;
 struct buff_line *tlbp,*blbp;
@@ -1831,8 +1819,7 @@ int lines,olines;
  *	screen.
  */
 void
-screen_scroll(count)
-int count;
+screen_scroll( int count )
 {
 struct window *wptr = curwin;
 struct screen_line *sp;
@@ -1974,9 +1961,7 @@ struct window *wptr;
  *	specified window.
  */
 void
-screen_free_window_format_lines(wptr,lbp)
-struct window *wptr;
-register struct buff_line *lbp;
+screen_free_window_format_lines( struct window *wptr, struct buff_line *lbp )
 {
 register struct format_line *sbp,*tsbp;
 
@@ -2039,8 +2024,7 @@ register struct format_line *sbp,*tsbp;
  *	screen array.
  */
 void
-screen_free_format_lines(sbp)
-register struct format_line *sbp;
+screen_free_format_lines( struct format_line *sbp )
 {
 register struct format_line *osbp;
 register struct format_line *next_win;
@@ -2110,9 +2094,7 @@ register struct format_line *next_win;
 }/* End Routine */
 
 void
-screen_check_format_lines(sbp,who)
-register struct format_line *sbp;
-int who;
+screen_check_format_lines( struct format_line *sbp, int who )
 {
 
     PREAMBLE();
@@ -2188,9 +2170,7 @@ register struct format_line *sbp;
  *	have a pointer to the next list of format lines for another window.
  */
 struct format_line *
-screen_find_window_format_line(wptr,lbp)
-struct window *wptr;
-struct buff_line *lbp;
+screen_find_window_format_line( struct window *wptr, struct buff_line *lbp )
 {
 struct format_line *sbp;
 
@@ -2217,9 +2197,7 @@ struct format_line *sbp;
  *	of the data, i.e., ready to be written to the terminal.
  */
 int
-screen_format_buff_line(wptr,lbp)
-struct window *wptr;
-struct buff_line *lbp;
+screen_format_buff_line( struct window *wptr, struct buff_line *lbp )
 {
 register struct format_line *sbp;
 register char *cp;
@@ -2357,8 +2335,7 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
  *	on, and the offset onto that line (in bytes).
  */
 int
-screen_find_dot(wptr)
-struct window *wptr;
+screen_find_dot( struct window *wptr )
 {
 register struct buff_line *lbp;
 register struct format_line *sbp;
@@ -2450,9 +2427,7 @@ struct buff_header *hbp = wptr->win_buffer;
  *	create one the hard way.
  */
 struct format_line *
-allocate_format_buffer(wptr,lbp)
-struct window *wptr;
-struct buff_line *lbp;
+allocate_format_buffer( struct window *wptr, struct buff_line *lbp )
 {
 register struct format_line *sbp;
 struct buff_header *hbp = wptr->win_buffer;
@@ -2554,9 +2529,7 @@ register int i,j;
  *	stolen from it as it is split into other windows.
  */
 struct window *
-create_window(x_size,y_size)
-int x_size;
-int y_size;
+create_window( int x_size, int y_size )
 {
 register struct window *wptr;
 register int i;
@@ -2626,10 +2599,7 @@ register int i;
  *	into two. This allows him to display several buffers simultaneously.
  */
 struct window *
-screen_split_window(old_wptr,lines,buffer_number)
-register struct window *old_wptr;
-int lines;
-int buffer_number;
+screen_split_window( struct window *old_wptr, int lines, int buffer_number )
 {
 register int i;
 register struct window *new_wptr;
@@ -2714,8 +2684,7 @@ register struct screen_line *lp;
  *	The space gets given back to the window next to it.
  */
 void
-screen_delete_window(old_wptr)
-register struct window *old_wptr;
+screen_delete_window( struct window *old_wptr )
 {
 
 register int i;
@@ -2822,8 +2791,7 @@ register struct screen_line *lp;
  *	window.
  */
 int
-window_switch(window_number)
-int window_number;
+window_switch( int window_number )
 {
 register struct window *wptr;
 

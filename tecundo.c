@@ -1,9 +1,9 @@
-char *tecundo_c_version = "tecundo.c: $Revision: 1.2 $";
+char *tecundo_c_version = "tecundo.c: $Revision: 1.3 $";
 
 /*
- * $Date: 2007/12/10 22:13:08 $
+ * $Date: 2007/12/26 13:28:31 $
  * $Source: /cvsroot/videoteco/videoteco/tecundo.c,v $
- * $Revision: 1.2 $
+ * $Revision: 1.3 $
  * $Locker:  $
  */
 
@@ -52,8 +52,7 @@ char *tecundo_c_version = "tecundo.c: $Revision: 1.2 $";
  *	to the program state.
  */
 int
-parser_undo(ut)
-register struct undo_token *ut;
+parser_undo( struct undo_token *ut )
 {
 char tmp_message[LINE_BUFFER_SIZE];
 register struct cmd_token *ct;
@@ -360,8 +359,7 @@ register struct cmd_token *ct;
  *	of it if we want.
  */
 struct undo_token *
-allocate_undo_token(ct)
-register struct cmd_token *ct;
+allocate_undo_token( struct cmd_token *ct )
 {
 register struct undo_token *ut;
 
@@ -395,8 +393,7 @@ register struct undo_token *ut;
  *	to be placed on the free list.
  */
 void
-free_undo_token(ut)
-register struct undo_token *ut;
+free_undo_token( struct undo_token *ut )
 {
 
     PREAMBLE();
@@ -416,8 +413,7 @@ register struct undo_token *ut;
  *	of the list is the first that needs to be undone.
  */
 void
-tecundo_list(nut)
-register struct undo_token *nut;
+tecundo_list( struct undo_token *nut )
 {
 register struct undo_token *ut;
 
@@ -454,8 +450,7 @@ register struct undo_token *ut;
  *	the memory the block points to.
  */
 void
-tecundo_cleanup(tut)
-register struct undo_token *tut;
+tecundo_cleanup( struct undo_token *tut )
 {
 register struct undo_token *ut;
 
