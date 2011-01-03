@@ -1,8 +1,8 @@
 # @configure_input@
 
 CC = @CC@
-CFLAGS = @CFLAGS@
-CPPFLAGS = @CPPFLAGS@
+CFLAGS = @CFLAGS@ @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 
 ifeq (@GCC@,yes)
@@ -17,7 +17,7 @@ HEADERS = teco.h tecparse.h
 LIBFLAGS = -ltermcap
 
 teco:	$(OBJS)
-	$(CC) -o teco $(OBJS) $(LIBS)
+	$(CC) $(LDFLAGS) -o teco $(OBJS) $(LIBS)
 
 tecbuf.o: tecbuf.c $(HEADERS)
 	$(CC) $(CFLAGS) -c tecbuf.c
