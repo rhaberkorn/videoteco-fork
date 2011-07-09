@@ -1104,7 +1104,7 @@ int status;
 #ifdef HAVE_LONG_FILE_NAMES
 	    (void) strcpy(tmp_filename,base_filename);
 	    (void) strcat(tmp_filename,".OLD");
-	    status = cmd_writebak(fi,filename,path_name,tmp_filename,O_EXCL);
+	    status = cmd_writebak(fi,path_name,filename,tmp_filename,O_EXCL);
 #else
 	    (void) strcpy(tmp_filename,path_name);
 	    (void) strcat(tmp_filename,".TECOLD");
@@ -1125,7 +1125,7 @@ int status;
 #ifdef HAVE_LONG_FILE_NAMES
 		(void) strcpy(tmp_filename,base_filename);
 		(void) strcat(tmp_filename,".BAK");
-		status = cmd_writebak(fi,filename,path_name,tmp_filename,0);
+		status = cmd_writebak(fi,path_name,filename,tmp_filename,0);
 #else
 		(void) strcpy(tmp_filename,path_name);
 		(void) strcat(tmp_filename,".TECBAK");
