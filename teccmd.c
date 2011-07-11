@@ -1772,7 +1772,7 @@ int buf_pipe[2];
 	close(2); dup(pipe_desc[1]);
 	close(pipe_desc[0]);
 	close(pipe_desc[1]);
-	execl("/bin/bash","bash","-c",cp,0);
+	execl("/bin/bash","bash","-c",cp,NULL);
 	_exit(127);
     }/* End IF */
 #else
