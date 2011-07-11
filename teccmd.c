@@ -1766,31 +1766,19 @@ int buf_pipe[2];
 /*
  * Fork to get a process to run the shell
  */
-#ifdef LINUX
-    if((pid = fork()) == 0){
-	close(1); dup(pipe_desc[1]);
-	close(2); dup(pipe_desc[1]);
-	close(pipe_desc[0]);
-	close(pipe_desc[1]);
-	execl("/bin/bash","bash","-c",cp,NULL);
-	_exit(127);
-    }/* End IF */
-#else
     if((pid = fork()) == 0){
         if (pipe_buf_flag) {
             close(0); dup(buf_pipe[0]);
+            close(buf_pipe[0]);
 	    close(buf_pipe[1]);
-	} else {
-	    close(pipe_desc[0]);
 	}
 	close(1); dup(pipe_desc[1]);
 	close(2); dup(pipe_desc[1]);
 	close(pipe_desc[0]);
 	close(pipe_desc[1]);
-	execl("/bin/csh","csh","-cf",cp,0,NULL);
+	execl("/bin/sh","sh","-c",cp,NULL);
 	_exit(127);
     }/* End IF */
-#endif
     if(pid == -1){
 	close(pipe_desc[0]);
 	close(pipe_desc[1]);
