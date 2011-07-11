@@ -1113,9 +1113,7 @@ int status;
 	    if(status == SUCCESS) hbp->isbackedup = YES;
 
 	    if(status == FAIL && errno != EEXIST){
-		sprintf(tmp_message,"?Error opening <%s>: %s",
-		    filename,error_text(errno));
-		error_message(tmp_message);
+	    	/* NOTE: cmd_writebak has already written the error_message */
 		close(fi);
 		return(FAIL);
 	    }/* End IF */
@@ -1133,9 +1131,7 @@ int status;
 #endif
 		if(status == SUCCESS) hbp->isbackedup = YES;
 		if(status == FAIL){
-		    sprintf(tmp_message,"?Error opening <%s>: %s",
-			filename,error_text(errno));
-		    error_message(tmp_message);
+		    /* NOTE: cmd_writebak has already written the error_message */
 		    close(fi);
 		    return(FAIL);
 	        }/* End IF */
@@ -1165,14 +1161,15 @@ int status;
 
     status = buff_write(hbp,fi,0,hbp->zee);
 
-    close(fi);
-
     if(status == FAIL){
 	sprintf(tmp_message,"?Error writing <%s>: %s",
 	    filename,error_text(errno));
 	error_message(tmp_message);
+	close(fi);
 	return(FAIL);
     }/* End IF */
+
+    close(fi);
 
     hbp->ismodified = NO;
     if(hbp == curbuf){
@@ -1215,6 +1212,7 @@ register int status;
 	    sprintf(tmp_message,"?Error creating subdirectory <%s>: %s",
 		pathname,error_text(errno));
 	    error_message(tmp_message);
+	    errno = 0;
 	    return(FAIL);
 	}/* End IF */
     }/* End IF */
@@ -1231,11 +1229,13 @@ register int status;
     if(fo < 0){
 	if(errno == EEXIST){
 	    chmod(tmp_filename,0444);
+	    errno = EEXIST;
 	    return(FAIL);
 	}/* End IF */
 	sprintf(tmp_message,"?Error opening <%s>: %s",
 	    tmp_filename,error_text(errno));
 	error_message(tmp_message);
+	errno = 0;
 	return(FAIL);
     }/* End IF */
 
@@ -1246,6 +1246,7 @@ register int status;
 		input_filename,error_text(errno));
 	    error_message(tmp_message);
 	    close(fo);
+	    errno = 0;
 	    return(FAIL);
 	}/* End IF */
 
@@ -1255,6 +1256,7 @@ register int status;
 		tmp_filename,error_text(errno));
 	    error_message(tmp_message);
 	    close(fo);
+	    errno = 0;
 	    return(FAIL);
 	}/* End IF */
 

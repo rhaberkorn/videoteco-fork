@@ -1015,6 +1015,7 @@ int status;
 	if(bcount == sizeof(iobuf)){
 	    status = write(chan,iobuf,sizeof(iobuf));
 	    if(status != sizeof(iobuf)){
+	    	/* NOTE: status *should* be -1, errno *should* be set */
 		return(FAIL);
 	    }/* End IF */
 	    bcount = 0;
@@ -1037,6 +1038,7 @@ int status;
     if(bcount > 0){
 	status = write(chan,iobuf,(unsigned)bcount);
 	if(status != bcount){
+	    /* NOTE: status *should* be -1, errno *should* be set */
 	    return(FAIL);
 	}/* End IF */
     }/* End IF */
