@@ -1098,7 +1098,7 @@ register struct buff_header *qbp;
  *	The return code determines whether this was done okay or not.
  */
 int
-unpreserve_rubout_char( struct cmd_token *ct )
+unpreserve_rubout_char( struct cmd_token *ct __attribute__((unused)))
 {
 register struct buff_header *qbp;
 int c;
