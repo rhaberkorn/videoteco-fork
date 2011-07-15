@@ -110,12 +110,11 @@ short	tmspc10[] = {
 };
 #endif
 
-/* TERM_INIT - Initialize the terminal for cursor operations
+/**
+ * \brief Initialize the terminal for cursor operations
  *
- * Function:
- *
- *	This entry point gives the terminal package a chance to initialize
- *	the terminal for cursor type operations.
+ * This entry point gives the terminal package a chance to initialize
+ * the terminal for cursor type operations.
  */
 void
 term_init()
@@ -180,14 +179,13 @@ term_init()
 
 
 
-/* TERM_FINISH - Here when we are exiting the editor
+/**
+ * \brief Here when we are exiting the editor
  *
- * Function:
- *
- *	This routine is called when TECO is being exited to give us a chance
- *	to cleanly leave the screen package. We put the cursor at the bottom
- *	of the screen, send any termination escape sequences that are required
- *	and flush it all out.
+ * This routine is called when TECO is being exited to give us a chance
+ * to cleanly leave the screen package. We put the cursor at the bottom
+ * of the screen, send any termination escape sequences that are required
+ * and flush it all out.
  */
 void
 term_finish()
@@ -216,13 +214,12 @@ term_finish()
 
 
 
-/* TERM_STANDOUT - Set standout mode on the terminal
+/**
+ * \brief Set standout mode on the terminal
  *
- * Function:
- *
- *	This routine is called to set the highlighting standout
- *	mode. All characters output from now on will typically
- *	be reverse video, or whatever attribute the terminal uses.
+ * This routine is called to set the highlighting standout
+ * mode. All characters output from now on will typically
+ * be reverse video, or whatever attribute the terminal uses.
  */
 void
 term_standout()
@@ -244,13 +241,12 @@ term_standout()
 
 }/* End Routine */
 
-/* TERM_STANDEND - Clear standout mode on the terminal
+/**
+ * \brief Clear standout mode on the terminal
  *
- * Function:
- *
- *	This routine is called to reset the highlighting standout
- *	mode. All characters output from now on will be in the
- *	normal rendition mode.
+ * This routine is called to reset the highlighting standout
+ * mode. All characters output from now on will be in the
+ * normal rendition mode.
  */
 void
 term_standend()
@@ -272,12 +268,11 @@ term_standend()
 
 }/* End Routine */
 
-/* TERM_CLRTOEOL - Clear to End Of Line
+/**
+ * \brief Clear to End Of Line
  *
- * Function:
- *
- *	This routine sends the ESCape sequence to clear all characters
- *	from the present position until the end of the line.
+ * This routine sends the ESCape sequence to clear all characters
+ * from the present position until the end of the line.
  */
 void
 term_clrtoeol()
@@ -296,12 +291,11 @@ term_clrtoeol()
 
 }/* End Routine */
 
-/* TERM_CLRTOBOT - Clear to End Of Screen
+/**
+ * \brief Clear to End Of Screen
  *
- * Function:
- *
- *	This routine sends the ESCape sequence to clear all characters
- *	from the present position until the end of the terminal screen.
+ * This routine sends the ESCape sequence to clear all characters
+ * from the present position until the end of the terminal screen.
  */
 void
 term_clrtobot()
@@ -324,13 +318,12 @@ term_clrtobot()
 
 
 
-/* TERM_INSERT_LINE - Perform an insert-line terminal function
+/**
+ * \brief Perform an insert-line terminal function
  *
- * Function:
- *
- *	This routine is called to output the insert-line escape sequence.
- *	It checks to see what insert-line capabilities the terminal has,
- *	and tries to use the optimum one.
+ * This routine is called to output the insert-line escape sequence.
+ * It checks to see what insert-line capabilities the terminal has,
+ * and tries to use the optimum one.
  */
 void
 term_insert_line( int position, int count )
@@ -414,13 +407,12 @@ term_insert_line( int position, int count )
 
 
 
-/* TERM_DELETE_LINE - Perform an delete-line terminal function
+/**
+ * \brief Perform an delete-line terminal function
  *
- * Function:
- *
- *	This routine is called to output the delete-line escape sequence.
- *	It checks to see what delete-line capabilities the terminal has,
- *	and tries to use the optimum one.
+ * This routine is called to output the delete-line escape sequence.
+ * It checks to see what delete-line capabilities the terminal has,
+ * and tries to use the optimum one.
  */
 void
 term_delete_line( int position, int count )
@@ -506,12 +498,11 @@ term_delete_line( int position, int count )
 
 #ifdef TERMCAP
 
-/* TERM_PUTNUM - Output a termcap string which takes a single argument
+/**
+ * \brief Output a termcap string which takes a single argument
  *
- * Function:
- *
- *	This routine is called to output a termcap string which has an
- *	imbedded %d to be replaced with the single argument.
+ * This routine is called to output a termcap string which has an
+ * imbedded %d to be replaced with the single argument.
  */
 int
 term_putnum( char *termcap_string, int argument, int affected )
@@ -581,11 +572,10 @@ one:
 
 #ifdef TERMCAP
 
-/* TERM_PUTS - Output a termcap string with padding
+/**
+ * \brief Output a termcap string with padding
  *
- * Function:
- *
- *	This routine is called to output a termcap string with padding added.
+ * This routine is called to output a termcap string with padding added.
  */
 void
 term_puts( char *termcap_string, int lines_affected )
@@ -666,32 +656,35 @@ register int mspc10;
 
 
 
-/* TERM_GOTO - Send sequence to position the terminal cursor
+/**
+ * \brief Send sequence to position the terminal cursor
  *
- * Function:
+ * This routine provides direct cursoring capability by using the
+ * CM termcap/terminfo string. This string looks like a \p printf which
+ * must be interpreted by this code. This allows pretty much
+ * arbitrary terminal escape sequences to be supported. The meaning
+ * of the special characters in the string are:
  *
- *	This routine provides direct cursoring capability by using the
- *	CM termcap/terminfo string. This string looks like a printf which
- *	must be interpreted by this code. This allows pretty much
- *	arbitrary terminal escape sequences to be supported. The meaning
- *	of the special characters in the string are:
+ * <table>
+ *	<tr><td>\c \%d</td>	<td>Same as in \p printf</td></tr>
+ *	<tr><td>\c \%2</td>	<td>like \c \%2d</td></tr>
+ *	<tr><td>\c \%3</td>	<td>like \c \%3d</td></tr>
+ *	<tr><td>\c \%.</td>	<td>gives \c \%c hacking special case characters</td></tr>
+ *	<tr><td>\c \%+x</td>	<td>like \c \%c but adding \e x first</td></tr>
+ * </table>
  *
- *	%d	- Same as in printf
- *	%2	- like %2d
- *	%3	- like %3d
- *	%.	- gives %c hacking special case characters
- *	%+x	- like %c but adding x first
+ * The following codes affect the state but don't use up a value
  *
- *	The following codes affect the state but don't use up a value
+ * <table>
+ *	<tr><td>\c \%\>xy</td>	<td>if value \> \e x add \e y</td></tr>
+ *	<tr><td>\c \%r</td>	<td>reverses row column</td></tr>
+ *	<tr><td>\c \%i</td>	<td>increments row column (for one origin indexing)</td></tr>
+ *	<tr><td>\c \%\%</td>	<td>gives \c \%</td></tr>
+ *	<tr><td>\c \%B</td>	<td>BCD (2 decimal digits encoded in one byte)</td></tr>
+ *	<tr><td>\c \%D</td>	<td>Delta Data (backwards bcd)</td></tr>
+ * </table>
  *
- *	%>xy	if value > x add y
- *	%r	reverses row column
- *	%i	increments row column (for one origin indexing)
- *	%%	gives %
- *	%B	BCD (2 decimal digits encoded in one byte)
- *	%D	Delta Data (backwards bcd)
- *
- *	all other characters simply get output
+ * all other characters simply get output
  */
 int
 term_goto(int dest_x, int dest_y )
@@ -841,31 +834,34 @@ sleep(5);
 
 #ifdef TERMCAP
 
-/* TERM_SCROLL_REGION - Send sequence to set up a scroll region ala VT100
+/**
+ * \brief Send sequence to set up a scroll region ala VT100
  *
- * Function:
+ * This routine is identical to \p term_goto in most respects, except that
+ * it is sending the 'set scroll region' escape sequence instead of the
+ * cursor position sequence. The following escapes are defined for
+ * substituting row and column:
  *
- *	This routine is identical to term_goto in most respects, except that
- *	it is sending the 'set scroll region' escape sequence instead of the
- *	cursor position sequence. The following escapes are defined for
- *	substituting row and column:
+ * <table>
+ *	<tr><td>\c \%d</td>	<td>Same as in \p printf</td></tr>
+ *	<tr><td>\c \%2</td>	<td>like \c \%2d</td></tr>
+ *	<tr><td>\c \%3</td>	<td>like \c \%3d</td></tr>
+ *	<tr><td>\c \%.</td>	<td>gives \c \%c hacking special case characters</td></tr>
+ *	<tr><td>\c \%+x</td>	<td>like \c \%c but adding \e x first</td></tr>
+ * </table>
  *
- *	%d	- Same as in printf
- *	%2	- like %2d
- *	%3	- like %3d
- *	%.	- gives %c hacking special case characters
- *	%+x	- like %c but adding x first
+ * The following codes affect the state but don't use up a value
  *
- *	The following codes affect the state but don't use up a value
+ * <table>
+ *	<tr><td>\c \%\>xy</td>	<td>if value \> \e x add \e y</td></tr>
+ *	<tr><td>\c \%r</td>	<td>reverses row column</td></tr>
+ *	<tr><td>\c \%i</td>	<td>increments row column (for one origin indexing)</td></tr>
+ *	<tr><td>\c \%\%</td>	<td>gives \c \%</td></tr>
+ *	<tr><td>\c \%B</td>	<td>BCD (2 decimal digits encoded in one byte)</td></tr>
+ *	<tr><td>\c \%D</td>	<td>Delta Data (backwards bcd)</td></tr>
+ * </table>
  *
- *	%>xy	if value > x add y
- *	%r	reverses row column
- *	%i	increments row column (for one origin indexing)
- *	%%	gives %
- *	%B	BCD (2 decimal digits encoded in one byte)
- *	%D	Delta Data (backwards bcd)
- *
- *	all other characters simply get output
+ * all other characters simply get output
  */
 int
 term_scroll_region( int top, int bottom )
@@ -991,13 +987,12 @@ setwhich:
 
 #ifdef TERMINFO
 
-/* TERM_SCROLL_REGION - Set up a scroll region
+/**
+ * \brief Set up a scroll region
  *
- * Function:
- *
- *	This routine is called to set up a scrolling region on the
- *	terminal. This is typically being used to emulate insert/delete
- *	line.
+ * This routine is called to set up a scrolling region on the
+ * terminal. This is typically being used to emulate insert/delete
+ * line.
  */
 int
 term_scroll_region(top,bottom)
@@ -1015,12 +1010,11 @@ int bottom;
 
 
 
-/* TERM_PUTC - Output a single character
+/**
+ * \brief Output a single character
  *
- * Function:
- *
- *	This routine is called to output a single character to the screen
- *	output buffer. If this fills the output buffer, flush the buffer.
+ * This routine is called to output a single character to the screen
+ * output buffer. If this fills the output buffer, flush the buffer.
  */
 int
 term_putc( int data )
@@ -1036,12 +1030,11 @@ term_putc( int data )
 
 }/* End Routine */
 
-/* TERM_FLUSH - Flush any data in the output buffer
+/**
+ * \brief Flush any data in the output buffer
  *
- * Function:
- *
- *	This routine flushes any bytes sitting in the screen output
- *	buffer to the terminal.
+ * This routine flushes any bytes sitting in the screen output
+ * buffer to the terminal.
  */
 void
 term_flush()
@@ -1069,13 +1062,12 @@ term_flush()
 
 
 
-/* INIT_TERMCAP - Read in the termcap description of the tty
+/**
+ * \brief Read in the termcap description of the tty
  *
- * Function:
- *
- *	This routine looks up the terminal description in the termcap file, and
- *	sets up the stuff for the screen package. It also checks that the tty
- *	has certain basic capabilities that we require.
+ * This routine looks up the terminal description in the termcap file, and
+ * sets up the stuff for the screen package. It also checks that the tty
+ * has certain basic capabilities that we require.
  */
 int
 init_term_description()
@@ -1336,12 +1328,11 @@ char *termcap =
 :kh=\\E[H:k1=\\EOP:k2=\\EOQ:k3=\\EOR:k4=\\EOS:pt:sr=5\\EM:xn:xv:";
 
 
-/* TGETENT - Version of TGETENT for Non-UNIX systems
+/**
+ * \brief Version of TGETENT for Non-UNIX systems
  *
- * Function:
- *
- *	This routine is used on non-UNIX systems to return a termcap
- *	description into the specified buffer.
+ * This routine is used on non-UNIX systems to return a termcap
+ * description into the specified buffer.
  */
 int
 tgetent(buffer,term_name)
@@ -1399,12 +1390,11 @@ FILE *fd;
 
 }/* End Routine */
 
-/* SCAN_TERMCAP - Attempt to find a terminal description in the termcap file
+/**
+ * \brief Attempt to find a terminal description in the termcap file
  *
- * Function:
- *
- *	This routine scans the termcap file for an entry which matches our
- *	terminal, and returns non-zero if it finds it.
+ * This routine scans the termcap file for an entry which matches our
+ * terminal, and returns non-zero if it finds it.
  */
 scan_termcap(fd,temp_buffer,term_name)
 FILE *fd;
@@ -1469,12 +1459,11 @@ char status;
 
 
 
-/* TGETNUM - Version of TGETNUM for Non-UNIX systems
+/**
+ * \brief Version of TGETNUM for Non-UNIX systems
  *
- * Function:
- *
- *	This routine is used on non-UNIX systems to return a specific
- *	termcap number from the termcap description of our terminal.
+ * This routine is used on non-UNIX systems to return a specific
+ * termcap number from the termcap description of our terminal.
  */
 int
 tgetnum(num_name)
@@ -1517,12 +1506,11 @@ char minus_seen = 0;
 
 }/* End Routine */
 
-/* TGETSTR - Version of TGETSTR for Non-UNIX systems
+/**
+ * \brief Version of TGETSTR for Non-UNIX systems
  *
- * Function:
- *
- *	This routine is used on non-UNIX systems to return a specific
- *	termcap string from the termcap description of our terminal.
+ * This routine is used on non-UNIX systems to return a specific
+ * termcap string from the termcap description of our terminal.
  */
 char *
 tgetstr(str_name,buffer_ptr)

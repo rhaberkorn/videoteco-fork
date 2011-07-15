@@ -44,12 +44,11 @@ char *tecundo_c_version = "tecundo.c: $Revision: 1.3 $";
 
 
 
-/* PARSER_UNDO - Execute an UNDO command
+/**
+ * \brief Execute an UNDO command
  *
- * Function:
- *
- *	This routine is called with an undo token to reverse some changes
- *	to the program state.
+ * This routine is called with an undo token to reverse some changes
+ * to the program state.
  */
 int
 parser_undo( struct undo_token *ut )
@@ -347,16 +346,15 @@ register struct cmd_token *ct;
 
 
 
-/* ALLOCATE_UNDO_TOKEN - Allocate an undo token structure
+/**
+ * \brief Allocate an undo token structure
  *
- * Function:
- *
- *	This routine is called to allocate an undo token structure. If there
- *	is one on the free list, it is used, otherwise we allocate one. UNDO
- *	tokens are used so that we can back out of operations which change
- *	some state other than that of the parser. The normal case is that we
- *	make some change to the edit buffer, and want to be able to back out
- *	of it if we want.
+ * This routine is called to allocate an undo token structure. If there
+ * is one on the free list, it is used, otherwise we allocate one. UNDO
+ * tokens are used so that we can back out of operations which change
+ * some state other than that of the parser. The normal case is that we
+ * make some change to the edit buffer, and want to be able to back out
+ * of it if we want.
  */
 struct undo_token *
 allocate_undo_token( struct cmd_token *ct )
@@ -385,12 +383,11 @@ register struct undo_token *ut;
 
 
 
-/* FREE_UNDO_TOKEN - Routine to place an undo token on the free list
+/**
+ * \brief Routine to place an undo token on the free list
  *
- * Function:
- *
- *	This routine is called with the address of the undo token
- *	to be placed on the free list.
+ * This routine is called with the address of the undo token
+ * to be placed on the free list.
  */
 void
 free_undo_token( struct undo_token *ut )
@@ -404,13 +401,12 @@ free_undo_token( struct undo_token *ut )
 
 
 
-/* TECUNDO_LIST - Cause a list of undo structures to be backed out
+/**
+ * \brief Cause a list of undo structures to be backed out
  *
- * Function:
- *
- *	This routine is called with the head of a list of undo tokens that
- *	need to be undone. They are placed on the list such that the head
- *	of the list is the first that needs to be undone.
+ * This routine is called with the head of a list of undo tokens that
+ * need to be undone. They are placed on the list such that the head
+ * of the list is the first that needs to be undone.
  */
 void
 tecundo_list( struct undo_token *nut )
@@ -440,14 +436,13 @@ register struct undo_token *ut;
 
 
 
-/* TECUNDO_CLEANUP - Place the list of undo tokens back on the free list
+/**
+ * \brief Place the list of undo tokens back on the free list
  *
- * Function:
- *
- *	This routine is called with the head of a list of undo tokens. It
- *	places them back on the undo free list while releasing any resources
- *	they may have allocated. For example, the MEMFREE token has to free
- *	the memory the block points to.
+ * This routine is called with the head of a list of undo tokens. It
+ * places them back on the undo free list while releasing any resources
+ * they may have allocated. For example, the MEMFREE token has to free
+ * the memory the block points to.
  */
 void
 tecundo_cleanup( struct undo_token *tut )

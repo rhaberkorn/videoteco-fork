@@ -67,11 +67,10 @@ int memstat_by_type[TYPE_C_MAXTYPE-TYPE_C_MINTYPE+1];
 
 void tecmem_verify(unsigned char,char *,char *);
 
-/* TEC_ALLOC - Routine to allocate some memory
+/**
+ * \brief Routine to allocate some memory
  *
- * Function:
- *
- *	This routine is called to request memory
+ * This routine is called to request memory
  */
 char *
 tec_alloc( int type, int size )
@@ -209,12 +208,11 @@ extern char outof_memory;
 
 }/* End Routine */
 
-/* TEC_RELEASE - Envelope routine for free()
+/**
+ * \brief Envelope routine for free()
  *
- * Function:
- *
- *	This routine is called to release memory which was previously allocated
- *	by calling the tec_alloc routine.
+ * This routine is called to release memory which was previously allocated
+ * by calling the tec_alloc routine.
  */
 void
 tec_release( unsigned char type, char *addr )
@@ -257,12 +255,11 @@ register int i;
 
 
 
-/* TECMEM_VERIFY - Verify that structure type hasn't been corrupted
+/**
+ * \brief Verify that structure type hasn't been corrupted
  *
- * Function:
- *
- *	This debug routine checks to see whether the memory block has been
- *	overwritten by checking the type code.
+ * This debug routine checks to see whether the memory block has been
+ * overwritten by checking the type code.
  */
 void
 tecmem_verify( unsigned char type, char *addr, char *message )
@@ -291,12 +288,11 @@ register int i;
 
 
 
-/* TEC_GC_LISTS - Garbage collect any local lookaside lists
+/**
+ * \brief Garbage collect any local lookaside lists
  *
- * Function:
- *
- *	This routine is called before we call malloc for more memory in
- *	an attempt to find the memory on some local lookaside lists.
+ * This routine is called before we call malloc for more memory in
+ * an attempt to find the memory on some local lookaside lists.
  */
 void
 tec_gc_lists()
@@ -324,12 +320,11 @@ initialize_memory_stats()
 }
 
 
-/* TECMEM_STATS - Insert memory statistics into the current buffer
+/**
+ * \brief Insert memory statistics into the current buffer
  *
- * Function:
- *
- *	This routine is called by the buffer map routine to allow us to
- *	insert some memory statistics into the map.
+ * This routine is called by the buffer map routine to allow us to
+ * insert some memory statistics into the map.
  */
 void
 tecmem_stats()

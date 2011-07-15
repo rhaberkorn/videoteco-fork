@@ -123,12 +123,11 @@ extern "C" {
 
 
 
-/* TECO - Text Edit and COrrector
+/**
+ * \brief Text Edit and COrrector
  *
- * Function:
- *
- *	This is the entry point for TECO. It initializes the terminal, reads
- *	in the specified files, and generally gets things going.
+ * This is the entry point for TECO. It initializes the terminal, reads
+ * in the specified files, and generally gets things going.
  */
 int
 main( int argc, char **argv )
@@ -201,13 +200,12 @@ register int i;
 
 #ifdef UNIX
 
-/* INITIALIZE_TTY - Set the tty up the way we want it
+/**
+ * \brief Set the tty up the way we want it
  *
- * Function:
- *
- *	This routine is called at startup time to set up the terminal the way
- *	that we require, i.e., it sets the tty modes. It also gives the screen
- *	package a chance to initialize itself.
+ * This routine is called at startup time to set up the terminal the way
+ * that we require, i.e., it sets the tty modes. It also gives the screen
+ * package a chance to initialize itself.
  */
 void
 initialize_tty()
@@ -431,13 +429,12 @@ initialize_tty()
 
 #if !HAVE_TCGETATTR
 
-/* TCGETATTR - Mimic the POSIX terminal get/set functions
+/**
+ * \brief Mimic the POSIX terminal get/set functions
  *
- * Function:
- *
- *	For a system being compiled with POSIX headers, but which doesn't
- *	actually have all the POSIX functions in libc, we have to fake up
- *	this call.
+ * For a system being compiled with POSIX headers, but which doesn't
+ * actually have all the POSIX functions in libc, we have to fake up
+ * this call.
  */
 int
 tcgetattr(fd,termios_p)
@@ -470,13 +467,12 @@ int status;
 
 #if !HAVE_TCSETATTR
 
-/* TCSETATTR - Mimic the POSIX terminal get/set functions
+/**
+ * \brief Mimic the POSIX terminal get/set functions
  *
- * Function:
- *
- *	For a system being compiled with POSIX headers, but which doesn't
- *	actually have all the POSIX functions in libc, we have to fake up
- *	this call.
+ * For a system being compiled with POSIX headers, but which doesn't
+ * actually have all the POSIX functions in libc, we have to fake up
+ * this call.
  */
 tcsetattr(fd,flags,termios_p)
 int fd;
@@ -509,13 +505,12 @@ int status;
 #ifdef VMS
 
 
-/* INITIALIZE_TTY - Set the tty up the way we want it
+/**
+ * \brief Set the tty up the way we want it
  *
- * Function:
- *
- *	This routine is called at startup time to set up the terminal the way
- *	that we require, i.e., it sets the tty modes. It also gives the screen
- *	package a chance to initialize itself.
+ * This routine is called at startup time to set up the terminal the way
+ * that we require, i.e., it sets the tty modes. It also gives the screen
+ * package a chance to initialize itself.
  */
 void
 initialize_tty()
@@ -592,12 +587,11 @@ struct sense_iosb {
 
 
 
-/* RESTORE_TTY - Set the tty back to the way that it was
+/**
+ * \brief Set the tty back to the way that it was
  *
- * Function:
- *
- *	This routine is called at exit time to set the terminal modes back
- *	how they were when we started.
+ * This routine is called at exit time to set the terminal modes back
+ * how they were when we started.
  */
 void
 restore_tty()
@@ -641,15 +635,14 @@ restore_tty()
 
 
 
-/* TTY_INPUT_PENDING - Check if there is input waiting on the cmd channel
+/**
+ * \brief Check if there is input waiting on the cmd channel
  *
- * Function:
- *
- *	This routine returns a true false indication of whether or not there
- *	is input waiting on the command channel. This generally gets used to
- *	set the input_pending_flag variable. Now it is set to only work if
- *	the baud rate is quite low, since some of the current side effects are
- *	undesirable.
+ * This routine returns a true false indication of whether or not there
+ * is input waiting on the command channel. This generally gets used to
+ * set the input_pending_flag variable. Now it is set to only work if
+ * the baud rate is quite low, since some of the current side effects are
+ * undesirable.
  */
 int
 tty_input_pending()
@@ -752,11 +745,10 @@ int err;
 
 
 
-/* INIT_SIGNALS - Initialize the signal interface for our use
+/**
+ * \brief Initialize the signal interface for our use
  *
- * Function:
- *
- *	This routine sets up the way that we want signals to behave
+ * This routine sets up the way that we want signals to behave
  */
 void
 init_signals()
@@ -792,12 +784,11 @@ int cmd_winch();
 
 
 
-/* TECO_INI - Routine to read the TECO_INI file
+/**
+ * \brief Routine to read the TECO_INI file
  *
- * Function:
- *
- *	This routine reads the user's TECO_INI file and sets up the default
- *	Q-Register contents he has specified. It also executes Q-Register 0.
+ * This routine reads the user's TECO_INI file and sets up the default
+ * Q-Register contents he has specified. It also executes Q-Register 0.
  */
 void
 teco_ini()
@@ -957,12 +948,11 @@ char *cp, c;
 
 
 
-/* HANDLE_COMMAND_LINE - OS Dependent Code to handle command line arguments
+/**
+ * \brief OS Dependent Code to handle command line arguments
  *
- * Function:
- *
- *	This code handles the command line arguments to VTECO. This requires
- *	different processing for different operating systems.
+ * This code handles the command line arguments to VTECO. This requires
+ * different processing for different operating systems.
  */
 #ifdef UNIX
 int
@@ -1183,11 +1173,10 @@ long sub_pid;
 
 
 
-/* EXPAND_FILENAME - Expand VMS wildcards to a list of files
+/**
+ * \brief Expand VMS wildcards to a list of files
  *
- * Function:
- *
- *	This routine returns a linked list of expanded filenames.
+ * This routine returns a linked list of expanded filenames.
  */
 struct wildcard_expansion *
 expand_filename(wildcard_string)
@@ -1327,13 +1316,10 @@ char *cp,*sp;
 
 
 
-/*
- * EXPAND_FILENAME - Expand a wildcard specification to a list of files
+/**
+ * \brief Expand a wildcard specification to a list of files
  *
- * Function:
- *
- *	This routine returns a linked list of expanded filenames.
- *
+ * This routine returns a linked list of expanded filenames.
  */
 #ifdef UNIX
 struct wildcard_expansion *name_list;
@@ -1536,13 +1522,11 @@ read_directory:
 
 }/* End Routine */
 
-/*
- * MATCH_NAME - Check whether a name satisfies a wildcard specification
+/**
+ * \brief Check whether a name satisfies a wildcard specification
  *
- * Function:
- *
- *	This routine attempts to do csh style wildcard matching so that
- *	internal teco routines may support this behavior.
+ * This routine attempts to do csh style wildcard matching so that
+ * internal teco routines may support this behavior.
  */
 int
 match_name( char *name, char *pattern )
@@ -1634,12 +1618,10 @@ int pattern_char;
 
 
 
-/* PUNT - Exit with a specified error code
+/**
+ * \brief Exit with a specified error code
  *
- * Function:
- *
- *	PUNT is called with an errno code with which we want to exit
- *
+ * PUNT is called with an errno code with which we want to exit
  */
 void
 punt( int exit_code )
@@ -1651,11 +1633,10 @@ punt( int exit_code )
 }/* End Routine */
 
 
-/* TEC_PANIC - Print an error string
+/**
+ * \brief Print an error string
  *
- * Function:
- *
- *	This routine is called previous to punt to print an error string
+ * This routine is called previous to punt to print an error string
  */
 void
 tec_panic( char *string )
@@ -1673,12 +1654,11 @@ tec_panic( char *string )
 
 }/* End Routine */
 
-/* TEC_ERROR - Exit with specified error code, printing an error string
+/**
+ * \brief Exit with specified error code, printing an error string
  *
- * Function:
- *
- *	This routine is called to exit with the specified error code
- *	after printing the supplied error string.
+ * This routine is called to exit with the specified error code
+ * after printing the supplied error string.
  */
 void
 tec_error( int code, char *string )
@@ -1696,12 +1676,11 @@ tec_error( int code, char *string )
 }/* End Routine */
 
 #if DEBUG_UNUSED
-/* OPEN_DEBUG_LOG_FILE - Open a file to write debug output to
+/**
+ * \brief Open a file to write debug output to
  *
- * Function:
- *
- *	This routine is called so that a log file is open for writing of
- *	debugging messages.
+ * This routine is called so that a log file is open for writing of
+ * debugging messages.
  */
 void
 open_debug_log_file()
@@ -1718,12 +1697,11 @@ open_debug_log_file()
 
 
 
-/* MAP_BAUD - Map system dependent baud fields to a standard integer
+/**
+ * \brief Map system dependent baud fields to a standard integer
  *
- * Function:
- *
- *	This routine takes an operating system specific baud rate
- *	representation, and maps it into a simple integer value.
+ * This routine takes an operating system specific baud rate
+ * representation, and maps it into a simple integer value.
  */
 int
 map_baud( int input_baud_rate )
@@ -1796,12 +1774,11 @@ static int equivalent_baudrates[] = {
 
 
 
-/* ERROR_TEXT - Return 'errno' style error string
+/**
+ * \brief Return 'errno' style error string
  *
- * Function:
- *
- *	This routine is called to return the error string associated with an
- *	errno error code.
+ * This routine is called to return the error string associated with an
+ * errno error code.
  */
 char *
 error_text( int err_num )

@@ -74,14 +74,13 @@ char *tecparse_c_version = "tecparse.c: $Revision: 1.3 $";
 
 
 
-/* TECPARSE - Main entry point of the parser
+/**
+ * \brief Main entry point of the parser
  *
- * Function:
- *
- *	This routine reads input characters and builds the token
- *	list. It also calls the execute states as long as the go
- *	flag is set. When it hits the final parse state, it then
- *	executes any states which were not immediately executed.
+ * This routine reads input characters and builds the token
+ * list. It also calls the execute states as long as the go
+ * flag is set. When it hits the final parse state, it then
+ * executes any states which were not immediately executed.
  */
 void
 tecparse()
@@ -157,12 +156,11 @@ static char no_mem = 0;
 
 
 
-/* TECPARSE_SYNTAX - Here to manipulate the tree according to new input
+/**
+ * \brief Here to manipulate the tree according to new input
  *
- * Function:
- *
- *	This routine is called with an input byte to manipulate the
- *	parser tree and execute any associated code.
+ * This routine is called with an input byte to manipulate the
+ * parser tree and execute any associated code.
  */
 int
 tecparse_syntax( int c )
@@ -463,18 +461,17 @@ struct undo_token *ut;
 
 
 
-/* TECMACRO - Here to execute a Q register as a macro
+/**
+ * \brief Here to execute a Q register as a macro
  *
- * Function:
- *
- *	This routine executes the specified q register as a macro. It returns
- *	SUCCESS or FAILURE depending on what happens within the macro. Note
- *	that it is very similar to the main parse routine. There are two major
- *	differences: First, the characters are gotton from the q-register
- *	rather than the input stream, and second, the entire parse is done
- *	to completion before any execution takes place. This means that the
- *	macro can modify the contents of the q-register without changing the
- *	way the macro will execute.
+ * This routine executes the specified q register as a macro. It returns
+ * SUCCESS or FAILURE depending on what happens within the macro. Note
+ * that it is very similar to the main parse routine. There are two major
+ * differences: First, the characters are gotton from the q-register
+ * rather than the input stream, and second, the entire parse is done
+ * to completion before any execution takes place. This means that the
+ * macro can modify the contents of the q-register without changing the
+ * way the macro will execute.
  */
 int
 tecmacro(
@@ -723,13 +720,12 @@ cleanup:
 
 
 
-/* PARSE_SPECIAL_CHARACTER - Test for and handle special characters
+/**
+ * \brief Test for and handle special characters
  *
- * Function:
- *
- *	This routine is called on each input character to determine whether
- *	it requires special handling. It catches characters such as rubout,
- *	^W, ^U.
+ * This routine is called on each input character to determine whether
+ * it requires special handling. It catches characters such as rubout,
+ * ^W, ^U.
  */
 int
 parse_special_character( struct cmd_token *ct, int c )
@@ -823,14 +819,13 @@ int tmp;
 
 
 
-/* PARSE_RUBOUT_CHARACTER - Rubout the most recent character
+/**
+ * \brief Rubout the most recent character
  *
- * Function:
- *
- *	This routine is called when a rubout character is typed. We have to
- *	back the parser up to the state it was in before the original char
- *	was typed, as well as performing any undo functions to make sure
- *	that the edit buffer also gets backed up.
+ * This routine is called when a rubout character is typed. We have to
+ * back the parser up to the state it was in before the original char
+ * was typed, as well as performing any undo functions to make sure
+ * that the edit buffer also gets backed up.
  */
 struct cmd_token *
 parse_rubout_character( struct cmd_token *ct, int preserve_flag )
@@ -901,12 +896,11 @@ char saved_opcode;
 
 
 
-/* PARSE_RUBOUT_CMD_TOKEN - Rubout the most recent command token
+/**
+ * \brief Rubout the most recent command token
  *
- * Function:
- *
- *	This routine is called to remove the last token on the command
- *	list. It gets used in rubout / ^U / ^W processing.
+ * This routine is called to remove the last token on the command
+ * list. It gets used in rubout / ^U / ^W processing.
  */
 struct cmd_token *
 parse_rubout_cmd_token( struct cmd_token *ct )
@@ -945,11 +939,10 @@ struct undo_token *ut;
 
 
 
-/* PARSER_GETC - Return next input character
+/**
+ * \brief Return next input character
  *
- * Function:
- *
- *	This routine is called by the parser when another input byte is needed.
+ * This routine is called by the parser when another input byte is needed.
  */
 int
 parser_getc()
@@ -1053,15 +1046,14 @@ printf("!!! iosb[0] is %d\n",qio_iosb[0]);
 
 
 
-/* PRESERVE_RUBOUT_CHARCTER - Save rubbed out characters
+/**
+ * \brief Save rubbed out characters
  *
- * Function:
- *
- *	This routine is called in response to the user rubbing out input
- *	characters with rubout, ^U, or ^W. Sometimes he does this by
- *	mistake, and can delete large amounts of typing unintentially.
- *	This routine saves these characters in a special Q-register so
- *	that he can get them back if he wants.
+ * This routine is called in response to the user rubbing out input
+ * characters with rubout, ^U, or ^W. Sometimes he does this by
+ * mistake, and can delete large amounts of typing unintentially.
+ * This routine saves these characters in a special Q-register so
+ * that he can get them back if he wants.
  */
 void
 preserve_rubout_char( char the_byte )
@@ -1089,13 +1081,12 @@ register struct buff_header *qbp;
 
 
 
-/* UNPRESERVE_RUBOUT_CHAR - Poke a rubbed out char back into the parse
+/**
+ * \brief Poke a rubbed out char back into the parse
  *
- * Function:
- *
- *	This routine is called on behalf of a ^R command which causes the
- *	most recent rubbed out character to be restored to the parse tree.
- *	The return code determines whether this was done okay or not.
+ * This routine is called on behalf of a ^R command which causes the
+ * most recent rubbed out character to be restored to the parse tree.
+ * The return code determines whether this was done okay or not.
  */
 int
 unpreserve_rubout_char( struct cmd_token *ct __attribute__((unused)))
@@ -1133,12 +1124,11 @@ int c;
 
 
 
-/* PARSER_CLEAN_PRESERVE_LIST - Zero the rubout preserve Q-register
+/**
+ * \brief Zero the rubout preserve Q-register
  *
- * Function:
- *
- *	This routine is called at double-escape time to clean up the
- *	special Q-register so that it doesn't grow without bounds.
+ * This routine is called at double-escape time to clean up the
+ * special Q-register so that it doesn't grow without bounds.
  */
 void
 parser_clean_preserve_list()
@@ -1165,12 +1155,11 @@ register struct buff_header *qbp;
 
 
 
-/* PARSER_DUMP_COMMAND_LINE - Copy the current parse tree into a Q-register
+/**
+ * \brief Copy the current parse tree into a Q-register
  *
- * Function:
- *
- *	This routine copies the input bytes from the current command string
- *	into the specified Q-register.
+ * This routine copies the input bytes from the current command string
+ * into the specified Q-register.
  */
 void
 parser_dump_command_line( struct buff_header *qbp )
@@ -1192,12 +1181,11 @@ register struct cmd_token *ct;
 
 
 
-/* PARSER_REPLACE_COMMAND_LINE - Replace current parse tree
+/**
+ * \brief Replace current parse tree
  *
- * Function:
- *
- *	This routine replaces the current command string with the contents
- *	the specified Q-register.
+ * This routine replaces the current command string with the contents
+ * the specified Q-register.
  */
 int
 parser_replace_command_line( struct buff_header *qbp )
@@ -1287,15 +1275,14 @@ register int cb_zee;
 
 
 
-/* ALLOCATE_CMD_TOKEN - Allocate a command token structure
+/**
+ * \brief Allocate a command token structure
  *
- * Function:
- *
- *	This routine is called to allocate a command token structure. If there
- *	is one on the free list, it is used, otherwise we allocate one. If
- *	an old_token was specified, the context area is copied into the new
- *	token, which has the effect of rippling the context forward through
- *	the parse.
+ * This routine is called to allocate a command token structure. If there
+ * is one on the free list, it is used, otherwise we allocate one. If
+ * an old_token was specified, the context area is copied into the new
+ * token, which has the effect of rippling the context forward through
+ * the parse.
  */
 struct cmd_token *
 allocate_cmd_token( struct cmd_token *old_token )
@@ -1346,12 +1333,11 @@ register struct cmd_token *ct;
 
 
 
-/* FREE_CMD_TOKEN - Routine to place a cmd token on the free list
+/**
+ * \brief Routine to place a cmd token on the free list
  *
- * Function:
- *
- *	This routine is called with the address of the command token
- *	to be placed on the free list.
+ * This routine is called with the address of the command token
+ * to be placed on the free list.
  */
 void
 free_cmd_token( struct cmd_token *ct )
@@ -1363,14 +1349,13 @@ free_cmd_token( struct cmd_token *ct )
 
 }/* End Routine */
 
-/* PAUSE_WHILE_IN_INPUT_WAIT - Pauses with the terminal in a good state
+/**
+ * \brief Pauses with the terminal in a good state
  *
- * Function:
- *
- *	This routine is called to pause the editor while we have been in
- *	an input wait state. The big deal here is that we want to remove
- *	the reverse video box that may be on the echo line before we pause
- *	back to the system command processor.
+ * This routine is called to pause the editor while we have been in
+ * an input wait state. The big deal here is that we want to remove
+ * the reverse video box that may be on the echo line before we pause
+ * back to the system command processor.
  */
 void
 pause_while_in_input_wait()
@@ -1388,12 +1373,11 @@ pause_while_in_input_wait()
 
 
 
-/* PARSER_CLEANUP_CTLIST - Routine to deallocate all the blocks on a ct list
+/**
+ * \brief Routine to deallocate all the blocks on a ct list
  *
- * Function:
- *
- *	This function deallocates all the blocks on a command token list,
- *	including cmd_tokens and undo_tokens.
+ * This function deallocates all the blocks on a command token list,
+ * including cmd_tokens and undo_tokens.
  */
 void
 parser_cleanup_ctlist( struct cmd_token *ct )
@@ -1426,13 +1410,12 @@ register struct cmd_token *oct;
 
 
 
-/* PARSE_ANY_ARGUMENTS - Called by routines that don't want any arguments
+/**
+ * \brief Called by routines that don't want any arguments
  *
- * Function:
- *
- *	This function is called by states which don't want to accept any
- *	arguments. If there are any present, it will generate an error message
- *	and set the error state.
+ * This function is called by states which don't want to accept any
+ * arguments. If there are any present, it will generate an error message
+ * and set the error state.
  */
 int
 parse_any_arguments( struct cmd_token *ct, char *cmd_name )
@@ -1457,13 +1440,12 @@ char tmp_message[LINE_BUFFER_SIZE];
 
 }/* End Routine */
 
-/* PARSE_MORE_THAN_ONE_ARG - Called by routines that only want one arg
+/**
+ * \brief Called by routines that only want one arg
  *
- * Function:
- *
- *	This function is called by states which only want to accept one
- *	argument. If there are two present, it will generate an error message
- *	and set the error state.
+ * This function is called by states which only want to accept one
+ * argument. If there are two present, it will generate an error message
+ * and set the error state.
  */
 int
 parse_more_than_one_arg( struct cmd_token *ct, char *cmd_name )
@@ -1491,12 +1473,11 @@ char tmp_message[LINE_BUFFER_SIZE];
 
 
 
-/* PARSE_ILLEGAL_BUFFER_POSITION - Check for illegal buffer positions
+/**
+ * \brief Check for illegal buffer positions
  *
- * Function:
- *
- *	This routine is called to verify that buffer positions specified are
- *	legal. If they are not, it generates an error message.
+ * This routine is called to verify that buffer positions specified are
+ * legal. If they are not, it generates an error message.
  */
 int
 parse_illegal_buffer_position( int pos1, int pos2, char *cmd_name )
@@ -1523,12 +1504,11 @@ char tmp_message[LINE_BUFFER_SIZE];
 
 
 
-/* PARSER_RESET_ECHO - Re-echo the input line
+/**
+ * \brief Re-echo the input line
  *
- * Function:
- *
- *	This is just an entry point to restore the echo line from a module
- *	that doesn't want to know about the cmd_list structure.
+ * This is just an entry point to restore the echo line from a module
+ * that doesn't want to know about the cmd_list structure.
  */
 void
 parser_reset_echo()
@@ -1541,13 +1521,12 @@ parser_reset_echo()
 
 
 
-/* TRACE_MODE - Trace execution of commands
+/**
+ * \brief Trace execution of commands
  *
- * Function:
- *
- *	This routine is called at parse and execute time if tracing has been
- *	enabled by the ? command. It causes q-register ? to be filled with
- *	execution trace information.
+ * This routine is called at parse and execute time if tracing has been
+ * enabled by the ? command. It causes q-register ? to be filled with
+ * execution trace information.
  */
 void
 trace_mode( int phase, struct cmd_token *ct0, struct cmd_token *ct1 )

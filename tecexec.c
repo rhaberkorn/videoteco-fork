@@ -55,16 +55,15 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.3 $";
 
 
 
-/* EXECUTE_A_STATE - Do the runtime execution part of a command
+/**
+ * \brief Do the runtime execution part of a command
  *
- * Function:
- *
- *	This routine is called to execute the runtime part of a command token.
- *	This could be during immediate execution mode, directly after a token
- *	gets parsed, or it could be during final stages when we are either
- *	running commands which cannot be undone (like ex), or simply complex
- *	things like an iteration. The execute_state which we dispatch on was
- *	set by the parse state during syntax analysis.
+ * This routine is called to execute the runtime part of a command token.
+ * This could be during immediate execution mode, directly after a token
+ * gets parsed, or it could be during final stages when we are either
+ * running commands which cannot be undone (like ex), or simply complex
+ * things like an iteration. The execute_state which we dispatch on was
+ * set by the parse state during syntax analysis.
  */
 int
 execute_a_state( struct cmd_token *ct, struct cmd_token *uct )
@@ -2555,12 +2554,11 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 
 
 
-/* PUSH_QREGISTER - Push a Q register onto the stack
+/**
+ * \brief Push a Q register onto the stack
  *
- * Function:
- *
- *	This routine is called to make a copy of a Q register and place it
- *	on the Q register stack.
+ * This routine is called to make a copy of a Q register and place it
+ * on the Q register stack.
  */
 int
 push_qregister( char letter )
@@ -2589,12 +2587,11 @@ register struct buff_header *qbp;
 }/* End Routine */
 
 
-/* EXTRACT_LABEL - Build a string with the contents of the label in it
+/**
+ * \brief Build a string with the contents of the label in it
  *
- * Function:
- *
- *	This routine is called to build a string with the label name
- *	in it. The current use is for error messages.
+ * This routine is called to build a string with the label name
+ * in it. The current use is for error messages.
  */
 void
 extract_label( struct cmd_token *label_ptr, char *string1 )
@@ -2616,12 +2613,11 @@ register char *cp1;
 
 }/* End Routine */
 
-/* COMPARE_LABEL - Test if this is our label
+/**
+ * \brief Test if this is our label
  *
- * Function:
- *
- *	This routine is called by the GOTO function to compare labels
- *	to see if they match.
+ * This routine is called by the GOTO function to compare labels
+ * to see if they match.
  */
 int
 compare_label( struct cmd_token *goto_ptr, struct cmd_token *label_ptr )
@@ -2667,14 +2663,13 @@ char *cp1;
 
 
 
-/* FIND_CONDITIONAL_ELSE - Routine to find the else of a conditional
+/**
+ * \brief Routine to find the else of a conditional
  *
- * Function:
- *
- *	This routine is called by the conditional expressions when the
- *	specified condition has not been met and we want to execute the
- *	else clause of the conditional. The routine searches until it
- *	finds either the else, or the end of the conditional.
+ * This routine is called by the conditional expressions when the
+ * specified condition has not been met and we want to execute the
+ * else clause of the conditional. The routine searches until it
+ * finds either the else, or the end of the conditional.
  */
 int
 find_conditional_else( struct cmd_token *ct )
@@ -2705,12 +2700,11 @@ find_conditional_else( struct cmd_token *ct )
 
 }/* End Routine */
 
-/* FIND_CONDITIONAL_END - Routine to find the close of a conditional
+/**
+ * \brief Routine to find the close of a conditional
  *
- * Function:
- *
- *	This routine is called to skip over the else clause and find the
- *	end of the conditional.
+ * This routine is called to skip over the else clause and find the
+ * end of the conditional.
  */
 int
 find_conditional_end( struct cmd_token *ct )
@@ -2733,13 +2727,12 @@ find_conditional_end( struct cmd_token *ct )
 
 
 
-/* EXEC_DOQ0 - Execute Q register zero as a macro
+/**
+ * \brief Execute Q register zero as a macro
  *
- * Function:
- *
- *	This routine is called to execute Q register zero as a macro on
- *	startup. This allows the user to initialize things from his teco.ini
- *	before teco reaches command level.
+ * This routine is called to execute Q register zero as a macro on
+ * startup. This allows the user to initialize things from his teco.ini
+ * before teco reaches command level.
  */
 int
 exec_doq0()

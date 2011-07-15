@@ -115,12 +115,11 @@ void screen_message( char *string );
     extern char input_pending_flag;
     extern char resize_flag;
 
-/* SCREEN_INIT - Initialize the TECO screen package
+/**
+ * \brief Initialize the TECO screen package
  *
- * Function:
- *
- *	This entry point gives the screen package a chance to initialize
- *	itself.
+ * This entry point gives the screen package a chance to initialize
+ * itself.
  */
 int
 screen_init()
@@ -247,13 +246,12 @@ register short *sp;
 
 
 
-/* SCREEN_RESIZE - Cause the screen to be refreshed at a new size
+/**
+ * \brief Cause the screen to be refreshed at a new size
  *
- * Function:
- *
- *	This function is called when the size of the terminal screen has
- *	changed. This is common on a windowing terminal. This routine has
- *	to clean up the existing screen database and re-initialize it.
+ * This function is called when the size of the terminal screen has
+ * changed. This is common on a windowing terminal. This routine has
+ * to clean up the existing screen database and re-initialize it.
  */
 void
 screen_resize()
@@ -379,14 +377,13 @@ register struct screen_line *lp;
 
 
 
-/* SCREEN_FINISH - Here when we are exiting the editor
+/**
+ * \brief Here when we are exiting the editor
  *
- * Function:
- *
- *	This routine is called when TECO is being exited to give us a chance
- *	to cleanly leave the screen package. We put the cursor at the bottom
- *	of the screen, send any termination escape sequences that are required
- *	and flush it all out.
+ * This routine is called when TECO is being exited to give us a chance
+ * to cleanly leave the screen package. We put the cursor at the bottom
+ * of the screen, send any termination escape sequences that are required
+ * and flush it all out.
  */
 void
 screen_finish()
@@ -398,13 +395,12 @@ screen_finish()
 
 
 
-/* SCREEN_REFRESH - Redraw the screen based on new database
+/**
+ * \brief Redraw the screen based on new database
  *
- * Function:
- *
- *	This routine gets called after the new companion entries have been set
- *	up for the saved_screen database. Therefore, we can run through the
- *	lines and update only those which have changed.
+ * This routine gets called after the new companion entries have been set
+ * up for the saved_screen database. Therefore, we can run through the
+ * lines and update only those which have changed.
  */
 void
 screen_refresh()
@@ -600,13 +596,12 @@ char pos_flag;
 
 
 
-/* SCREEN_OPTIMIZE_LINES - Optimize output with insert/delete line operations
+/**
+ * \brief Optimize output with insert/delete line operations
  *
- * Function:
- *
- *	This routine looks for left over mappings between our saved screen
- *	array and the formatted format_line structures. Old mappings can
- *	tell us how lines that are still going to be visible have moved.
+ * This routine looks for left over mappings between our saved screen
+ * array and the formatted format_line structures. Old mappings can
+ * tell us how lines that are still going to be visible have moved.
  */
 void
 screen_optimize_lines()
@@ -688,13 +683,12 @@ int offset;
 
 
 
-/* SCREEN_ACCOUNT_FOR_DELETE_LINE - Update screen database
+/**
+ * \brief Update screen database
  *
- * Function:
- *
- *	This routine is called when a delete line sequence is sent to
- *	the terminal. It adjusts the screen database to reflect what
- *	has happened to the terminal.
+ * This routine is called when a delete line sequence is sent to
+ * the terminal. It adjusts the screen database to reflect what
+ * has happened to the terminal.
  */
 void
 screen_account_for_delete_line( int y, int count )
@@ -747,13 +741,12 @@ register short *sp;
 
 }/* End Routine */
 
-/* SCREEN_ACCOUNT_FOR_INSERT_LINE - Update screen database
+/**
+ * \brief Update screen database
  *
- * Function:
- *
- *	This routine is called when an insert line sequence is sent to
- *	the terminal. It adjusts the screen database to reflect what
- *	has happened to the terminal appearence.
+ * This routine is called when an insert line sequence is sent to
+ * the terminal. It adjusts the screen database to reflect what
+ * has happened to the terminal appearence.
  */
 void
 screen_account_for_insert_line( int y, int count )
@@ -803,14 +796,13 @@ register short *sp;
 
 
 
-/* SCREEN_OPTIMIZE_BY_PATTERN_MATCHING - More insert/delete line optimizations
+/**
+ * \brief More insert/delete line optimizations
  *
- * Function:
- *
- *	This routine is called previous to the brute force screen repaint,
- *	but after the first crack at insert/delete line optimization. This
- *	routine looks for patterns of lines which indicate insert/delete
- *	line can save us some output.
+ * This routine is called previous to the brute force screen repaint,
+ * but after the first crack at insert/delete line optimization. This
+ * routine looks for patterns of lines which indicate insert/delete
+ * line can save us some output.
  */
 void
 screen_optimize_by_pattern_matching()
@@ -944,17 +936,16 @@ int first_change,last_change;
 
 
 
-/* SCREEN_ECHO - Echo the character
+/**
+ * \brief Echo the character
  *
- * Function:
- *
- *	This routine allows the parser to hand us input characters which need
- *	to be echoed. The reason this is done here instead of by the normal
- *	screen formatting routines is that some characters are echoed in a
- *	different way than they are normally displayed. The most notable
- *	example is newline which just indicates end of line in the normal
- *	buffer output, but which gets echoed as '<CR>' when it is an echo
- *	operation.
+ * This routine allows the parser to hand us input characters which need
+ * to be echoed. The reason this is done here instead of by the normal
+ * screen formatting routines is that some characters are echoed in a
+ * different way than they are normally displayed. The most notable
+ * example is newline which just indicates end of line in the normal
+ * buffer output, but which gets echoed as '\<CR\>' when it is an echo
+ * operation.
  */
 void
 screen_echo( char data )
@@ -1050,13 +1041,12 @@ register int i;
 
 }/* End Routine */
 
-/* SCREEN_RESET_ECHO - Reset the echo line
+/**
+ * \brief Reset the echo line
  *
- * Function:
- *
- *	This routine is called to reset the echo line according to the current
- *	list of command tokens. This is used after difficult things like rubout
- *	which would be very difficult to back out of.
+ * This routine is called to reset the echo line according to the current
+ * list of command tokens. This is used after difficult things like rubout
+ * which would be very difficult to back out of.
  */
 void
 screen_reset_echo( struct cmd_token *ct )
@@ -1086,13 +1076,12 @@ screen_reset_echo( struct cmd_token *ct )
 
 
 
-/* SCREEN_MESSAGE - Place a message in the message line
+/**
+ * \brief Place a message in the message line
  *
- * Function:
- *
- *	This routine allows the parser to hand us messages which need to be
- *	displayed. These can be error messages generated by the parse, or
- *	they can be output messages from a user generated with the ^A command.
+ * This routine allows the parser to hand us messages which need to be
+ * displayed. These can be error messages generated by the parse, or
+ * they can be output messages from a user generated with the ^A command.
  */
 void
 screen_message( char *string )
@@ -1155,13 +1144,12 @@ too_wide:
 
 }/* End Routine */
 
-/* ERROR_MESSAGE - Place an error message in the message line
+/**
+ * \brief Place an error message in the message line
  *
- * Function:
- *
- *	This routine allows the parser to hand us error messages
- *	which need to be displayed. In addition, the BELL character
- *	is output to get the humans attention.
+ * This routine allows the parser to hand us error messages
+ * which need to be displayed. In addition, the BELL character
+ * is output to get the humans attention.
  */
 void
 error_message( char *string )
@@ -1173,11 +1161,10 @@ error_message( char *string )
 
 }/* End Routine */
 
-/* SCREEN_RESET_MESSAGE - Reset the message line
+/**
+ * \brief Reset the message line
  *
- * Function:
- *
- *	This routine is called to reset the message line to null
+ * This routine is called to reset the message line to null
  */
 void
 screen_reset_message()
@@ -1199,11 +1186,10 @@ register short *sp;
 
 }/* End Routine */
 
-/* SCREEN_SAVE_CURRENT_MESSAGE - Copy out the current message
+/**
+ * \brief Copy out the current message
  *
- * Function:
- *
- *	This routine copies out the current message up to a certain length.
+ * This routine copies out the current message up to a certain length.
  */
 void
 screen_save_current_message(
@@ -1228,11 +1214,10 @@ short *sp;
 
 
 
-/* SCREEN_LABEL_LINE - Routine to change the contents of the label line
+/**
+ * \brief Routine to change the contents of the label line
  *
- * Function:
- *
- *	This routine is called to change the label line
+ * This routine is called to change the label line
  */
 int
 screen_label_line(	struct buff_header *buffer, char *string, int field )
@@ -1329,12 +1314,11 @@ register struct window *wptr;
 
 
 
-/* SCREEN_LABEL_WINDOW - Routine to set the window number field
+/**
+ * \brief Routine to set the window number field
  *
- * Function:
- *
- *	This routine is called to modify the TECONAME field of the
- *	label lines to reflect the window number.
+ * This routine is called to modify the TECONAME field of the
+ * label lines to reflect the window number.
  */
 int
 screen_label_window()
@@ -1415,13 +1399,12 @@ int field = LABEL_C_TECONAME;
 
 
 
-/* SCREEN_FORMAT_WINDOWS - Generate display contents for all windows
+/**
+ * \brief Generate display contents for all windows
  *
- * Function:
- *
- *	This is the main entry point to the screen formatting function.
- *	It causes screen format_lines to be generated for all the buffers
- *	that are currently visible on the screen.
+ * This is the main entry point to the screen formatting function.
+ * It causes screen format_lines to be generated for all the buffers
+ * that are currently visible on the screen.
  */
 void
 screen_format_windows()
@@ -1436,14 +1419,13 @@ register struct window *wptr;
 
 }/* End Routine */
 
-/* SCREEN_REFORMAT_WINDOWS - Reformat windows (because tab size changed)
+/**
+ * \brief Reformat windows (because tab size changed)
  *
- * Function:
- *
- *	This entry point is called when the format buffers of all the
- *	displayed windows need to be regenerated. The current case in
- *	mind is when the user changes the tab stops - this causes all
- *	the format lines to be obsolete.
+ * This entry point is called when the format buffers of all the
+ * displayed windows need to be regenerated. The current case in
+ * mind is when the user changes the tab stops - this causes all
+ * the format lines to be obsolete.
  */
 void
 screen_reformat_windows()
@@ -1482,13 +1464,12 @@ register struct screen_line *lp;
 
 }/* End Routine */
 
-/* SCREEN_DISPLAY_WINDOW - Generate display for a window
+/**
+ * \brief Generate display for a window
  *
- * Function:
- *
- *	This routine is called to build up the format line descriptor
- *	structures which represent the edit buffer displayed in the
- *	specified window.
+ * This routine is called to build up the format line descriptor
+ * structures which represent the edit buffer displayed in the
+ * specified window.
  */
 int
 screen_display_window( struct window *wptr )
@@ -1668,12 +1649,11 @@ char saw_dot;
 
 
 
-/* SCREEN_REBUILD_FROM_SCRATCH - Things have changed a lot, just rebuild it
+/**
+ * \brief Things have changed a lot, just rebuild it
  *
- * Function:
- *
- *	This routine is called to build up the format line descriptor
- *	structures which represent the current edit buffer.
+ * This routine is called to build up the format line descriptor
+ * structures which represent the current edit buffer.
  */
 int
 screen_rebuild_from_scratch( struct window *wptr )
@@ -1809,14 +1789,13 @@ int lines,olines;
 
 
 
-/* SCREEN_SCROLL - Move the current screen up or down specified # lines
+/**
+ * \brief Move the current screen up or down specified # lines
  *
- * Function:
- *
- *	Here in response to the ES command. The user can scroll the screen
- *	up and down using this command. The current edit position does not
- *	move, so it is pointless to move it such that 'dot' moves off of the
- *	screen.
+ * Here in response to the ES command. The user can scroll the screen
+ * up and down using this command. The current edit position does not
+ * move, so it is pointless to move it such that 'dot' moves off of the
+ * screen.
  */
 void
 screen_scroll( int count )
@@ -1876,13 +1855,12 @@ register int i;
 
 
 
-/* SCREEN_GC_FORMAT_LINES - Garbage collect unused format line structures
+/**
+ * \brief Garbage collect unused format line structures
  *
- * Function:
- *
- *	This routine determines which format structures are in use and
- *	deallocates the rest of them so that we don't use an excessive
- *	number of them.
+ * This routine determines which format structures are in use and
+ * deallocates the rest of them so that we don't use an excessive
+ * number of them.
  */
 void
 screen_gc_format_lines()
@@ -1952,13 +1930,12 @@ struct window *wptr;
 
 
 
-/* SCREEN_FREE_WINDOW_FORMAT_LINES - Deallocate a window's format lines
+/**
+ * \brief Deallocate a window's format lines
  *
- * Function:
- *
- *	This routine is called to deallocate the list of format lines
- *	linked off of a line buffer, if they are associated with the
- *	specified window.
+ * This routine is called to deallocate the list of format lines
+ * linked off of a line buffer, if they are associated with the
+ * specified window.
  */
 void
 screen_free_window_format_lines( struct window *wptr, struct buff_line *lbp )
@@ -2013,15 +1990,14 @@ register struct format_line *sbp,*tsbp;
 
 
 
-/* SCREEN_FREE_FORMAT_LINES - Deallocate a list of format lines
+/**
+ * \brief Deallocate a list of format lines
  *
- * Function:
- *
- *	This routine will clean up all the storage associated with a list of
- *	format lines. It is called with the address of the head of the list,
- *	and it will continue on down until the entire list is cleaned up.
- *	It will also take care of cleaning up any companion pointers from the
- *	screen array.
+ * This routine will clean up all the storage associated with a list of
+ * format lines. It is called with the address of the head of the list,
+ * and it will continue on down until the entire list is cleaned up.
+ * It will also take care of cleaning up any companion pointers from the
+ * screen array.
  */
 void
 screen_free_format_lines( struct format_line *sbp )
@@ -2131,12 +2107,9 @@ screen_check_format_lines( struct format_line *sbp, int who )
 }
 
 
-/* SCREEN_DEALLOCATE_FORMAT_LOOKASIDE_LIST
- *
- * Function:
- *
- *	This routine frees up any format_lines we've cached on our local
- *	lookaside list.
+/**
+ * This routine frees up any format_lines we've cached on our local
+ * lookaside list.
  */
 void
 screen_deallocate_format_lookaside_list()
@@ -2156,18 +2129,17 @@ register struct format_line *sbp;
 
 
 
-/* SCREEN_FIND_WINDOW_FORMAT_LINE - Finds format lines for a particular window
+/**
+ * \brief Finds format lines for a particular window
  *
- * Function:
- *
- *	Each buffer line has chained off of it the format lines which hold
- *	the data as it appears on the screen. In order to handle multiple
- *	windows, we need the ability to have a format line per visible
- *	window. Thus, from the buff_line structure, we chain off a list
- *	of format lines. Since a buffer line may need many format lines to
- *	represent it (because it may wrap) we need a list. In addition,
- *	we want to have one of these lists on a per-window basis, so we
- *	have a pointer to the next list of format lines for another window.
+ * Each buffer line has chained off of it the format lines which hold
+ * the data as it appears on the screen. In order to handle multiple
+ * windows, we need the ability to have a format line per visible
+ * window. Thus, from the buff_line structure, we chain off a list
+ * of format lines. Since a buffer line may need many format lines to
+ * represent it (because it may wrap) we need a list. In addition,
+ * we want to have one of these lists on a per-window basis, so we
+ * have a pointer to the next list of format lines for another window.
  */
 struct format_line *
 screen_find_window_format_line( struct window *wptr, struct buff_line *lbp )
@@ -2188,13 +2160,12 @@ struct format_line *sbp;
 
 
 
-/* SCREEN_FORMAT_BUFF_LINE - Create the format_line structures for a buff line
+/**
+ * \brief Create the format_line structures for a buff line
  *
- * Function:
- *
- *	This routine is called with the address of a buff_line structure. It
- *	creates the format_line structures which represent the printed version
- *	of the data, i.e., ready to be written to the terminal.
+ * This routine is called with the address of a buff_line structure. It
+ * creates the format_line structures which represent the printed version
+ * of the data, i.e., ready to be written to the terminal.
  */
 int
 screen_format_buff_line( struct window *wptr, struct buff_line *lbp )
@@ -2326,13 +2297,12 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 
 
 
-/* SCREEN_FIND_DOT - Find position of dot in a format_line
+/**
+ * \brief Find position of dot in a format_line
  *
- * Function:
- *
- *	There are several times that we need to find the format buffer that is
- *	associated with dot. This routine determines which format_line dot is
- *	on, and the offset onto that line (in bytes).
+ * There are several times that we need to find the format buffer that is
+ * associated with dot. This routine determines which format_line dot is
+ * on, and the offset onto that line (in bytes).
  */
 int
 screen_find_dot( struct window *wptr )
@@ -2418,13 +2388,12 @@ struct buff_header *hbp = wptr->win_buffer;
 
 
 
-/* ALLOCATE_FORMAT_BUFFER - Routine to return a format_line structure
+/**
+ * \brief Routine to return a format_line structure
  *
- * Function:
- *
- *	This routine will return a format_line structure to the caller. It
- *	first looks on the free list, and if there is not one there, it will
- *	create one the hard way.
+ * This routine will return a format_line structure to the caller. It
+ * first looks on the free list, and if there is not one there, it will
+ * create one the hard way.
  */
 struct format_line *
 allocate_format_buffer( struct window *wptr, struct buff_line *lbp )
@@ -2487,12 +2456,11 @@ struct buff_header *hbp = wptr->win_buffer;
 
 
 
-/* SCREEN_REDRAW - Cause a redraw of the screen
+/**
+ * \brief Cause a redraw of the screen
  *
- * Function:
- *
- *	This routine is called when the screen may have become corrupted
- *	and needs to be refreshed.
+ * This routine is called when the screen may have become corrupted
+ * and needs to be refreshed.
  */
 void
 screen_redraw()
@@ -2519,14 +2487,13 @@ register int i,j;
 
 
 
-/* CREATE_WINDOW - Create a window data structure
+/**
+ * \brief Create a window data structure
  *
- * Function:
- *
- *	This function is called to create a window data structure which
- *	then occupies some portion of the screen. The initial structure
- *	starts out owning all but the reserved lines, but then lines are
- *	stolen from it as it is split into other windows.
+ * This function is called to create a window data structure which
+ * then occupies some portion of the screen. The initial structure
+ * starts out owning all but the reserved lines, but then lines are
+ * stolen from it as it is split into other windows.
  */
 struct window *
 create_window( int x_size, int y_size )
@@ -2591,12 +2558,11 @@ register int i;
 
 
 
-/* SCREEN_SPLIT_WINDOW - Make two where there is only one
+/**
+ * \brief Make two where there is only one
  *
- * Function:
- *
- *	This routine is called when the user wants to split the current window
- *	into two. This allows him to display several buffers simultaneously.
+ * This routine is called when the user wants to split the current window
+ * into two. This allows him to display several buffers simultaneously.
  */
 struct window *
 screen_split_window( struct window *old_wptr, int lines, int buffer_number )
@@ -2676,12 +2642,11 @@ register struct screen_line *lp;
 
 
 
-/* SCREEN_DELETE_WINDOW - Here to delete a window
+/**
+ * \brief Here to delete a window
  *
- * Function:
- *
- *	This function is called when a user wants to delete a window.
- *	The space gets given back to the window next to it.
+ * This function is called when a user wants to delete a window.
+ * The space gets given back to the window next to it.
  */
 void
 screen_delete_window( struct window *old_wptr )
@@ -2783,12 +2748,11 @@ register struct screen_line *lp;
 
 
 
-/* WINDOW_SWITCH - Switch to a new window
+/**
+ * \brief Switch to a new window
  *
- * Function:
- *
- *	This function is called to switch the current window to a different
- *	window.
+ * This function is called to switch the current window to a different
+ * window.
  */
 int
 window_switch( int window_number )

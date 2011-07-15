@@ -88,16 +88,15 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.3 $";
     extern struct search_buff search_string;
     extern char suspend_is_okay_flag;
 
-/* CMD_SEARCH - Execute a search command
+/**
+ * \brief Execute a search command
  *
- * Function:
- *
- *	This is the runtime execution of the search command. ARG1 and ARG2 may
- *	specify a buffer range a,bS<mumble> in which case the search is
- *	constrained within the range. In this case, the direction of the search
- *	is determined by whether ARG1 is greater than or less than ARG2.
- *	If ARG2 == -1, then it is an ignored argument and ARG1 specifies the
- *	direction of search and the number of times to search.
+ * This is the runtime execution of the search command. \a arg1 and \a arg2 may
+ * specify a buffer range <tt>a,bS\<mumble\></tt> in which case the search is
+ * constrained within the range. In this case, the direction of the search
+ * is determined by whether \a arg1 is greater than or less than \a arg2.
+ * If \a arg2 == -1, then it is an ignored argument and \a arg1 specifies the
+ * direction of search and the number of times to search.
  */
 int
 cmd_search(
@@ -183,11 +182,10 @@ int original_dot;
 
 
 
-/* CMD_FORWARD_SEARCH - Search in a forward direction
+/**
+ * \brief Search in a forward direction
  *
- * Function:
- *
- *	This routine is used when the search progresses forward
+ * This routine is used when the search progresses forward
  */
 int
 cmd_forward_search(
@@ -325,11 +323,10 @@ struct position_cache running_position;
 
 
 
-/* CMD_REVERSE_SEARCH - Search in a reverse direction
+/**
+ * \brief Search in a reverse direction
  *
- * Function:
- *
- *	This routine is used when the search progresses backwards
+ * This routine is used when the search progresses backwards
  */
 int
 cmd_reverse_search(
@@ -464,14 +461,13 @@ struct position_cache running_position;
 
 
 
-/* SET_SEARCH_STRING_WITH_UNDO - Sets Q-register '_' to the new search string
+/**
+ * \brief Sets Q-register '_' to the new search string
  *
- * Function:
- *
- *	This routine is called from the exec functions when a search string
- *	is to be set. It takes care of loading Q-register '_' with the new
- *	search string, as well as setting up all the undo tokens to insure
- *	that this is all reversable.
+ * This routine is called from the exec functions when a search string
+ * is to be set. It takes care of loading Q-register '_' with the new
+ * search string, as well as setting up all the undo tokens to insure
+ * that this is all reversable.
  */
 int
 set_search_string_with_undo(
@@ -567,14 +563,13 @@ int new_length;
 
 
 
-/* COMPILE_SEARCH_STRING - Creates the search table for a given input string
+/**
+ * \brief Creates the search table for a given input string
  *
- * Function:
- *
- *	This routine parses the input search string and creates the search
- *	table which will describe to the search routines how to match the
- *	buffer characters. Note that the search table must be constructed
- *	in such a way that it works equally well backward or forward.
+ * This routine parses the input search string and creates the search
+ * table which will describe to the search routines how to match the
+ * buffer characters. Note that the search table must be constructed
+ * in such a way that it works equally well backward or forward.
  */
 int
 compile_search_string( struct search_buff *search_tbl )
@@ -948,12 +943,11 @@ char matchrepeat_flag = NO;
 
 
 
-/* SRCH_SETALLBITS - Set ALL the bits on for a search table entry
+/**
+ * \brief Set ALL the bits on for a search table entry
  *
- * Function:
- *
- *	This routine makes ANY character match the search string table
- *	entry.
+ * This routine makes ANY character match the search string table
+ * entry.
  */
 void
 srch_setallbits( int *bit_table )
@@ -968,13 +962,12 @@ register int i;
 
 }/* End Routine */
 
-/* SRCH_INVERT_SENSE - Invert the sense of a search table entry
+/**
+ * \brief Invert the sense of a search table entry
  *
- * Function:
- *
- *	This routine is called when a 'NOT' modifier has been used,
- *	meaning that just the opposite matching should occur. We
- *	simply invert the setting of the bits in the search table entry.
+ * This routine is called when a 'NOT' modifier has been used,
+ * meaning that just the opposite matching should occur. We
+ * simply invert the setting of the bits in the search table entry.
  */
 void
 srch_invert_sense( int *bit_table )
@@ -989,12 +982,11 @@ register int i;
 
 }/* End Routine */
 
-/* SRCH_SETBITS - Set the corresponding search bits to 'on'
+/**
+ * \brief Set the corresponding search bits to 'on'
  *
- * Function:
- *
- *	This routine is called with a zero terminated string of characters.
- *	It sets each corresponding bit in the search table to a 1.
+ * This routine is called with a zero terminated string of characters.
+ * It sets each corresponding bit in the search table to a 1.
  */
 void
 srch_setbits( int *bit_table, char *string )
@@ -1009,12 +1001,11 @@ register int c;
 
 }/* End Routine */
 
-/* SRCH_SETBIT - Set the corresponding search bit to 'on'
+/**
+ * \brief Set the corresponding search bit to 'on'
  *
- * Function:
- *
- *	This routine is called with a char whose corresponding bit should
- *	be set in the search table.
+ * This routine is called with a char whose corresponding bit should
+ * be set in the search table.
  */
 void
 srch_setbit( int *bit_table, unsigned char value )
@@ -1028,15 +1019,14 @@ srch_setbit( int *bit_table, unsigned char value )
 
 
 
-/* CMD_WRITE - Implements the EW command by writing out a buffer
+/**
+ * \brief Implements the EW command by writing out a buffer
  *
- * Function:
- *
- *	This routine will write out the contents of the buffer after creating
- *	the appropriate backup files. If there is not already a file with the
- *	a .OLD extension, this is created. Otherwise, a .BAK file is created.
- *	If the name is so long that we can't append a of suffix, we have to
- *	hack it up a bit. This is not guaranteed to work, but...
+ * This routine will write out the contents of the buffer after creating
+ * the appropriate backup files. If there is not already a file with the
+ * a .OLD extension, this is created. Otherwise, a .BAK file is created.
+ * If the name is so long that we can't append a of suffix, we have to
+ * hack it up a bit. This is not guaranteed to work, but...
  */
 int
 cmd_write( struct buff_header *hbp, char *filename )
@@ -1182,12 +1172,11 @@ int status;
 
 
 
-/* CMD_WRITEBAK - Routine to open the BAK or OLD file
+/**
+ * \brief Routine to open the BAK or OLD file
  *
- * Function:
- *
- *	This routine opens a channel to the backup file and creates any
- *	subdirectories that may be necessary.
+ * This routine opens a channel to the backup file and creates any
+ * subdirectories that may be necessary.
  */
 int
 cmd_writebak(
@@ -1273,13 +1262,12 @@ register int status;
 
 
 
-/* CMD_WORDMOVE - Here to move within the edit buffer by words
+/**
+ * \brief Here to move within the edit buffer by words
  *
- * Function:
- *
- *	Here in response to one of the 'word' commands. We move the
- *	current edit position forward or backward by the specified
- *	number of words.
+ * Here in response to one of the 'word' commands. We move the
+ * current edit position forward or backward by the specified
+ * number of words.
  */
 int
 cmd_wordmove( int count )
@@ -1332,12 +1320,11 @@ cmd_wordmove( int count )
 
 
 
-/* CMD_SUSPEND - We get here on a suspend signal from the tty
+/**
+ * \brief We get here on a suspend signal from the tty
  *
- * Function:
- *
- *	Here when the user has typed ^Z. We want to suspend back to the
- *	original shell.
+ * Here when the user has typed ^Z. We want to suspend back to the
+ * original shell.
  */
 void
 cmd_suspend()
@@ -1370,12 +1357,11 @@ extern char susp_flag;
 
 }/* End Routine */
 
-/* CMD_PAUSE - Here when we are ready to suspend back to the shell
+/**
+ * \brief Here when we are ready to suspend back to the shell
  *
- * Function:
- *
- *	Here when the parser has noticed that the suspend flag is set, and
- *	is ready for us to suspend the process.
+ * Here when the parser has noticed that the suspend flag is set, and
+ * is ready for us to suspend the process.
  */
 void
 cmd_pause()
@@ -1451,13 +1437,12 @@ struct itmlst {
 
 
 
-/* CMD_WINCH - We get here when the OS says the window changed size
+/**
+ * \brief We get here when the OS says the window changed size
  *
- * Function:
- *
- *	Here when the OS says our window changed size. We just wanna
- *	call the screen package's resize entry point so it can build
- *	a new screen for us.
+ * Here when the OS says our window changed size. We just wanna
+ * call the screen package's resize entry point so it can build
+ * a new screen for us.
  */
 void
 cmd_winch()
@@ -1485,13 +1470,12 @@ cmd_winch()
 
 
 
-/* CMD_INTERRUPT - We get here on an interrupt signal from the user
+/**
+ * \brief We get here on an interrupt signal from the user
  *
- * Function:
- *
- *	Here when the user has typed ^C. We want to cause any current commands
- *	to abort. This gives the user a way to break out of infinite iterations
- *	and macros.
+ * Here when the user has typed ^C. We want to cause any current commands
+ * to abort. This gives the user a way to break out of infinite iterations
+ * and macros.
  */
 void
 cmd_interrupt()
@@ -1519,12 +1503,11 @@ cmd_interrupt()
 
 #ifdef CHECKPOINT
 
-/* CMD_ALARM - Here to when the interval timer expires
+/**
+ * \brief Here to when the interval timer expires
  *
- * Function:
- *
- *	This function is called periodically when the interval timer says
- *	it is time for us to checkpoint all our buffers.
+ * This function is called periodically when the interval timer says
+ * it is time for us to checkpoint all our buffers.
  */
 cmd_alarm()
 {
@@ -1559,12 +1542,11 @@ cmd_alarm()
 
 #ifdef CHECKPOINT
 
-/* CMD_CHECKPOINT - Here to write all our buffers to a checkpoint file
+/**
+ * \brief Here to write all our buffers to a checkpoint file
  *
- * Function:
- *
- *	Here we check out all the buffers and write out any which have
- *	ever been modified.
+ * Here we check out all the buffers and write out any which have
+ * ever been modified.
  */
 void
 cmd_checkpoint()
@@ -1675,12 +1657,11 @@ int i,status;
 
 #ifdef CHECKPOINT
 
-/* REMOVE_CHECKPOINT_FILE - On exit we clean up the checkpoint file
+/**
+ * \brief On exit we clean up the checkpoint file
  *
- * Function:
- *
- *	This routine is called when a clean exit is assured. We remove
- *	the checkpoint file so they don't clutter up the disk.
+ * This routine is called when a clean exit is assured. We remove
+ * the checkpoint file so they don't clutter up the disk.
  */
 void
 remove_checkpoint_file()
@@ -1700,12 +1681,11 @@ remove_checkpoint_file()
 
 
 #if defined(VMS) || defined(STARDENT) || defined(STARDENT_860) || defined(SEQUOIA) || defined(LOCUS_SYSV) || defined(SCO_386)
-/* BZERO - Zero an array of bytes
+/**
+ * \brief Zero an array of bytes
  *
- * Function:
- *
- *	This routine zeros an array of bytes. For some reason the VMS
- *	library doesn't seem to know about it.
+ * This routine zeros an array of bytes. For some reason the VMS
+ * library doesn't seem to know about it.
  */
 bzero(array,length)
 register char *array;
@@ -1721,12 +1701,11 @@ register int length;
 
 
 #ifdef UNIX
-/* CMD_OSCMD - Issue a command to the operating system
+/**
+ * \brief Issue a command to the operating system
  *
- * Function:
- *
- *	This routine is called in response to the EC command which allows the
- *	user to execute operating system commands from within the editor.
+ * This routine is called in response to the EC command which allows the
+ * user to execute operating system commands from within the editor.
  */
 int
 cmd_oscmd( struct cmd_token *ct )
@@ -1863,12 +1842,11 @@ int buf_pipe[2];
 
 #ifdef VMS
 
-/* CMD_OSCMD - Issue a command to the operating system
+/**
+ * \brief Issue a command to the operating system
  *
- * Function:
- *
- *	This routine is called in response to the EC command which allows the
- *	user to execute operating system commands from within the editor.
+ * This routine is called in response to the EC command which allows the
+ * user to execute operating system commands from within the editor.
  */
 cmd_oscmd(ct)
 register struct cmd_token *ct;
@@ -1884,14 +1862,13 @@ register struct cmd_token *ct;
 
 
 
-/* LOAD_QNAME_REGISTER - Loads buffer name into q-register *
+/**
+ * \brief Loads buffer name into q-register *
  *
- * Function:
- *
- *	This routine is called by a command operating on the text
- *	portion of a q-register if the specified q-register is *.
- *	In this case, we load the name of the current edit buffer
- *	into it so the user can easilly access it.
+ * This routine is called by a command operating on the text
+ * portion of a q-register if the specified q-register is *.
+ * In this case, we load the name of the current edit buffer
+ * into it so the user can easilly access it.
  */
 void
 load_qname_register()
@@ -1912,14 +1889,13 @@ register struct buff_header *qbp;
 
 }/* End Routine */
 
-/* RENAME_EDIT_BUFFER - Change the name of the specified edit buffer
+/**
+ * \brief Change the name of the specified edit buffer
  *
- * Function:
- *
- *	This routine is called by parser exec routines which have
- *	loaded q-register *. Since the text portion of this q-register
- *	is the buffer name, it has the effect of changing the name
- *	of the buffer.
+ * This routine is called by parser exec routines which have
+ * loaded q-register *. Since the text portion of this q-register
+ * is the buffer name, it has the effect of changing the name
+ * of the buffer.
  */
 int
 rename_edit_buffer(
@@ -1953,13 +1929,12 @@ int length;
 
 
 
-/* CMD_SETOPTIONS - Set runtime options via the EJ command
+/**
+ * \brief Set runtime options via the EJ command
  *
- * Function:
- *
- *	This routine is called when the user sets runtime variables using
- *	the EJ command. Although the command is a classic TECO command, the
- *	actual values are specific to Video TECO
+ * This routine is called when the user sets runtime variables using
+ * the EJ command. Although the command is a classic TECO command, the
+ * actual values are specific to Video TECO
  */
 int
 cmd_setoptions(
@@ -2033,19 +2008,28 @@ extern int tab_width;
 
 
 
-/* CMD_FTAGS - Perform UNIX tags function
+/**
+ * \brief Perform UNIX tags function
  *
- * Function:
+ * This routine performs various unix tags functions. The following
+ * functions are supported:
  *
- *	This routine performs various unix tags functions. The following
- *	functions are supported:
- *
- *		ARG1:	Function:
- *
- *		none	Load tags file indicated in <string>
- *		 0	(same as <none>)
- *		 1	Find tag entry which corresponds with <string>. ARG2
- *			is a flags word which says what to do with the tag
+ * <table>
+ *	<tr>
+ *		<td>\b arg1</td>
+ *		<td>\b Function</td>
+ *	</tr><tr>
+ *		<td>\e none</td>
+ *		<td>Load tags file indicated in \a string</td>
+ *	</tr><tr>
+ *		<td>0</td>
+ *		<td>(same as \e none)</td>
+ *	</tr><tr>
+ *		<td>1</td>
+ *		<td>Find tag entry which corresponds with \a string. \a arg2
+ *		    is a flags word which says what to do with the tag</td>
+ *	</tr>
+ * </table>
  */
 int
 cmd_tags(
@@ -2162,12 +2146,11 @@ int hashval,skip_cnt;
 
 }/* End Routine */
 
-/* TAG_LOAD_FILE - Read in a tags file
+/**
+ * \brief Read in a tags file
  *
- * Function:
- *
- *	This is a huge monolithic nasty routine which reads either VI or
- *	EMACS tags files, and builds an internal representation.
+ * This is a huge monolithic nasty routine which reads either VI or
+ * EMACS tags files, and builds an internal representation.
  */
 struct tags *
 tag_load_file( char *string )

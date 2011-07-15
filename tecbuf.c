@@ -63,14 +63,13 @@ char rcs_date[] = AUTO_DATE;
     extern struct window *curwin;
     extern char checkpoint_modified;
 
-/* BUFF_FIND - Find the named buffer
+/**
+ * \brief Find the named buffer
  *
- * Function:
- *
- *	This routine is called with the name of the buffer that we want to
- *	find. It searches all the buffer headers until it finds the name.
- *	It will either return the address of the buffer header, or null if
- *	it could not find one with the proper name.
+ * This routine is called with the name of the buffer that we want to
+ * find. It searches all the buffer headers until it finds the name.
+ * It will either return the address of the buffer header, or null if
+ * it could not find one with the proper name.
  */
 struct buff_header *
 buff_find( char *name )
@@ -110,15 +109,14 @@ unsigned int hash = stringHash( name );
 
 
 
-/* BUFF_QFIND - Find the named Q register
+/**
+ * \brief Find the named Q register
  *
- * Function:
- *
- *	This routine is called with the name of the Q register that we
- *	want to find. It constructs the internal name of the Q register
- *	and then calls buff_find to find the buffer. If the buffer is not
- *	found and the create flag is set, we call buff_create to cause
- *	the Q register to be created.
+ * This routine is called with the name of the Q register that we
+ * want to find. It constructs the internal name of the Q register
+ * and then calls buff_find to find the buffer. If the buffer is not
+ * found and the create flag is set, we call buff_create to cause
+ * the Q register to be created.
  */
 struct buff_header *
 buff_qfind( char name, char create_flag )
@@ -151,14 +149,13 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 
 
 
-/* BUFF_CREATE - Create a new buffer
+/**
+ * \brief Create a new buffer
  *
- * Function:
- *
- *	This routine is called when we need to create a new buffer. The caller
- *	should have already verified that this doesn't already exist. The
- *	routine returns the address of the new buffer, or NULL if there is a
- *	problem of some sort.
+ * This routine is called when we need to create a new buffer. The caller
+ * should have already verified that this doesn't already exist. The
+ * routine returns the address of the new buffer, or NULL if there is a
+ * problem of some sort.
  */
 struct buff_header *
 buff_create( char *name, char internal_flag )
@@ -256,13 +253,12 @@ register int i = 0;
 
 
 
-/* BUFF_DUPLICATE - Make a duplicate of a buffer
+/**
+ * \brief Make a duplicate of a buffer
  *
- * Function:
- *
- *	This routine is called to duplicate the specified buffer and return
- *	a pointer to the duplicate. The current requirement for this is for
- *	the push Q register command ('[').
+ * This routine is called to duplicate the specified buffer and return
+ * a pointer to the duplicate. The current requirement for this is for
+ * the push Q register command ('[').
  */
 struct buff_header *
 buff_duplicate( struct buff_header *sbp )
@@ -335,12 +331,11 @@ register struct buff_line *dlp;
 
 
 
-/* MOVC3 - Copy the specified number of bytes
+/**
+ * \brief Copy the specified number of bytes
  *
- * Function:
- *
- *	This routine copies 'n' bytes from the source to the
- *	destination.
+ * This routine copies 'n' bytes from the source to the
+ * destination.
  */
 void
 movc3( char *source, char *dest, int count )
@@ -353,13 +348,12 @@ movc3( char *source, char *dest, int count )
 
 
 
-/* BUFF_DESTROY - Delete an existing buffer
+/**
+ * \brief Delete an existing buffer
  *
- * Function:
- *
- *	This routine is called to delete an existing buffer. The routine is
- *	supplied the address of the buffer structure. We have to clean up
- *	all the lines in the buffer, all the display lines, etc.
+ * This routine is called to delete an existing buffer. The routine is
+ * supplied the address of the buffer structure. We have to clean up
+ * all the lines in the buffer, all the display lines, etc.
  */
 void
 buff_destroy( struct buff_header *hbp )
@@ -419,12 +413,11 @@ register struct buff_line *lbp;
 
 
 
-/* BUFF_FIND_LINE - Find the line structure that <position> is on
+/**
+ * \brief Find the line structure that \a position is on
  *
- * Function:
- *
- *	This routine is called to find the line_buffer structure that
- *	the buffer position resides on.
+ * This routine is called to find the \p line_buffer structure that
+ * the buffer position resides on.
  */
 struct buff_line *
 buff_find_line( struct buff_header *hbp, int position )
@@ -520,12 +513,11 @@ register int i;
 
 
 
-/* BUFF_FIND_OFFSET - Find offset onto line structure that <position> is on
+/**
+ * \brief Find offset onto line structure that \a position is on
  *
- * Function:
- *
- *	This routine is called to find the offset into the line_buffer of
- *	the specified position.
+ * This routine is called to find the offset into the \p line_buffer of
+ * the specified position.
  */
 int
 buff_find_offset(	struct buff_header *hbp, 
@@ -552,14 +544,13 @@ buff_find_offset(	struct buff_header *hbp,
 
 
 
-/* BUFF_CONTENTS - Return the character at the specified position
+/**
+ * \brief Return the character at the specified position
  *
- * Function:
- *
- *	This routine is called to fetch the single character which is at
- *	the specified buffer position. This routine is generally called
- *	by routines which are low frequence or only handle a small number
- *	of characters at any one time.
+ * This routine is called to fetch the single character which is at
+ * the specified buffer position. This routine is generally called
+ * by routines which are low frequence or only handle a small number
+ * of characters at any one time.
  */
 int
 buff_contents( struct buff_header *hbp, int position )
@@ -591,14 +582,13 @@ register int i;
 
 }/* End Routine */
 
-/* BUFF_CACHED_CONTENTS - Return the character and positional information
+/**
+ * \brief Return the character and positional information
  *
- * Function:
- *
- *	This routine is called to fetch the single character which is at
- *	the specified buffer position. This routine is generally called
- *	by routines which are low frequence or only handle a small number
- *	of characters at any one time.
+ * This routine is called to fetch the single character which is at
+ * the specified buffer position. This routine is generally called
+ * by routines which are low frequence or only handle a small number
+ * of characters at any one time.
  */
 int
 buff_cached_contents(	struct buff_header *hbp, 
@@ -641,12 +631,11 @@ register int i;
 
 
 
-/* BUFF_INIT - Routine to initialize the buffer routines
+/**
+ * \brief Routine to initialize the buffer routines
  *
- * Function:
- *
- *	This routine is called before the first buffer operations to
- *	initialize the buffer routines.
+ * This routine is called before the first buffer operations to
+ * initialize the buffer routines.
  */
 int
 buff_init()
@@ -678,12 +667,11 @@ buff_init()
 
 
 
-/* BUFF_OPENBUFFER - Routine to read a file into a TECO edit buffer
+/**
+ * \brief Routine to read a file into a TECO edit buffer
  *
- * Function:
- *
- *	This routine is called to load a file into the named buffer. If the
- *	buffer already exists, we simply switch to it and don't modify it.
+ * This routine is called to load a file into the named buffer. If the
+ * buffer already exists, we simply switch to it and don't modify it.
  */
 int
 buff_openbuffer(	char *name, int buffer_number, int readonly_flag )
@@ -748,12 +736,11 @@ buff_openbuffer(	char *name, int buffer_number, int readonly_flag )
 
 
 
-/* BUFF_OPENBUFFNUM - Routine to open buffer number 'n'
+/**
+ * \brief Routine to open buffer number 'n'
  *
- * Function:
- *
- *	This routine is called with the number of a buffer which is to be
- *	made the 'current' edit buffer.
+ * This routine is called with the number of a buffer which is to be
+ * made the 'current' edit buffer.
  */
 int
 buff_openbuffnum( int buffer_number, int map_flag )
@@ -779,12 +766,11 @@ buff_openbuffnum( int buffer_number, int map_flag )
 
 
 
-/* BUFF_REOPENBUFF - Called by undo to re-create an edit buffer
+/**
+ * \brief Called by undo to re-create an edit buffer
  *
- * Function:
- *
- *	This routine is called to place a buffer back onto the buffer
- *	list.
+ * This routine is called to place a buffer back onto the buffer
+ * list.
  */
 void
 buff_reopenbuff( struct buff_header *bp )
@@ -832,12 +818,11 @@ register struct buff_header *obp;
 
 
 
-/* BUFF_READ - Routine to read a file into an existing TECO edit buffer
+/**
+ * \brief Routine to read a file into an existing TECO edit buffer
  *
- * Function:
- *
- *	This routine is called to read a file into the specified edit buffer.
- *	The edit buffer must already exist.
+ * This routine is called to read a file into the specified edit buffer.
+ * The edit buffer must already exist.
  */
 int
 buff_read( struct buff_header *hbp, char *name )
@@ -865,13 +850,12 @@ buff_read( struct buff_header *hbp, char *name )
 
 
 
-/* BUFF_READFD - Reads the file descriptor into the specified buffer
+/**
+ * \brief Reads the file descriptor into the specified buffer
  *
- * Function:
- *
- *	This routine is called with a buffer and a file descriptor. The
- *	entire contents of the file descriptor are read into the specified
- *	buffer.
+ * This routine is called with a buffer and a file descriptor. The
+ * entire contents of the file descriptor are read into the specified
+ * buffer.
  */
 int
 buff_readfd( struct buff_header *hbp, char *name, int iochan )
@@ -984,12 +968,11 @@ buff_readfd( struct buff_header *hbp, char *name, int iochan )
 
 
 
-/* BUFF_WRITE - Write the specified buffer out to a file
+/**
+ * \brief Write the specified buffer out to a file
  *
- * Function:
- *
- *	This routine is generally called on an EW command when the user
- *	wishes to write out the contents of the buffer.
+ * This routine is generally called on an EW command when the user
+ * wishes to write out the contents of the buffer.
  */
 int
 buff_write( struct buff_header *hbp, int chan, int start, int end )
@@ -1049,12 +1032,11 @@ int status;
 
 
 
-/* BUFF_SWITCH - Switch the current edit buffer
+/**
+ * \brief Switch the current edit buffer
  *
- * Function:
- *
- *	This routine is called when we wish to switch the current buffer
- *	to some other edit buffer.
+ * This routine is called when we wish to switch the current buffer
+ * to some other edit buffer.
  */
 int
 buff_switch( struct buff_header *hbp, int map_flag )
@@ -1087,12 +1069,11 @@ char *cp;
 
 
 
-/* BUFF_BUFFER_MAP - Build a map of the existing buffers.
+/**
+ * \brief Build a map of the existing buffers.
  *
- * Function:
- *
- *	This routine is called when the buffer map buffer is entered. It is
- *	used to fill this routine with the appropriate text.
+ * This routine is called when the buffer map buffer is entered. It is
+ * used to fill this routine with the appropriate text.
  */
 void
 buff_buffer_map()
@@ -1241,12 +1222,11 @@ int max_length;
 
 
 
-/* BUFF_INSERT - Insert a string at current position
+/**
+ * \brief Insert a string at current position
  *
- * Function:
- *
- *	This routine is called to insert a string into the specified buffer
- *	at the buffer's current location.
+ * This routine is called to insert a string into the specified buffer
+ * at the buffer's current location.
  */
 int
 buff_insert( struct buff_header *hbp, int position, char *buffer, int length )
@@ -1315,15 +1295,14 @@ register char *cp;
 
 
 
-/* BUFF_INSERT_FROM_BUFFER_WITH_UNDO - Copy bytes from another buffer
+/**
+ * \brief Copy bytes from another buffer
  *
- * Function:
- *
- *	This routine copies bytes from one buffer to another, arranging
- *	undo capability so that we can reverse the process. Because it
- *	knows the lengths of each line, this should be a very efficient
- *	method of inserting data, and should certainly have preference
- *	over using the byte-at-a-time routines.
+ * This routine copies bytes from one buffer to another, arranging
+ * undo capability so that we can reverse the process. Because it
+ * knows the lengths of each line, this should be a very efficient
+ * method of inserting data, and should certainly have preference
+ * over using the byte-at-a-time routines.
  */
 int
 buff_insert_from_buffer_with_undo(	struct cmd_token *ct,
@@ -1755,12 +1734,11 @@ extern int tty_input_chan;
 }/* End Routine */
 
 
-/* BUFF_INSERT_WITH_UNDO - Insert a string and arrange for undo capability
+/**
+ * \brief Insert a string and arrange for undo capability
  *
- * Function:
- *
- *	This routine is called when characters need to be inserted, and
- *	also need to be un-inserted if the command is undone.
+ * This routine is called when characters need to be inserted, and
+ * also need to be un-inserted if the command is undone.
  */
 int
 buff_insert_with_undo(	struct cmd_token *ct,
@@ -1792,14 +1770,13 @@ struct undo_token *ut;
 
 
 
-/* BUFF_INSERT_CHAR - Insert the specified character into the current position
+/**
+ * \brief Insert the specified character into the current position
  *
- * Function:
- *
- *	This routine is called to insert the single character into the buffer
- *	at the current position (dot). It has to worry about such things as
- *	noting that the buffer has been modified, the screen display may be
- *	invalid, etc.
+ * This routine is called to insert the single character into the buffer
+ * at the current position (dot). It has to worry about such things as
+ * noting that the buffer has been modified, the screen display may be
+ * invalid, etc.
  */
 int
 buff_insert_char(	struct buff_header *hbp,
@@ -1936,12 +1913,11 @@ register int i,j;
 
 }/* End Routine */
 
-/* BUFF_INSERT_CHAR_WITH_UNDO - Insert a single char with undo capability
+/**
+ * \brief Insert a single char with undo capability
  *
- * Function:
- *
- *	This is an envelope routine which guarentees that the character
- *	to be input can be undone if necessary.
+ * This is an envelope routine which guarentees that the character
+ * to be input can be undone if necessary.
  */
 int
 buff_insert_char_with_undo(	struct cmd_token *ct,
@@ -1971,12 +1947,11 @@ struct undo_token *ut;
 
 
 
-/* BUFF_DELETE - Delete specified number of characters
+/**
+ * \brief Delete specified number of characters
  *
- * Function:
- *
- *	This routine is called to delete the specified number of characters
- *	at the specified location in the buffer.
+ * This routine is called to delete the specified number of characters
+ * at the specified location in the buffer.
  */
 void
 buff_delete(	struct buff_header *hbp,
@@ -2009,12 +1984,11 @@ buff_delete(	struct buff_header *hbp,
 
 
 
-/* BUFF_DELETE_CHAR - Delete the character at the current position
+/**
+ * \brief Delete the character at the current position
  *
- * Function:
- *
- *	This routine is called to delete the single character which is at
- *	the current buffer position.
+ * This routine is called to delete the single character which is at
+ * the current buffer position.
  */
 int
 buff_delete_char(	struct buff_header *hbp,
@@ -2157,14 +2131,13 @@ register int i,j;
 
 
 
-/* BUFF_DELETE_WITH_UNDO - Clobber buffer positions and build undo list
+/**
+ * \brief Clobber buffer positions and build undo list
  *
- * Function:
- *
- *	This routine is called when we want to delete a range of bytes in the
- *	buffer, and build an undo list so that we could replace them if we need
- *	to. This happens to be pretty efficient for a bulk delete since we can
- *	just move the line buffers over to the undo list.
+ * This routine is called when we want to delete a range of bytes in the
+ * buffer, and build an undo list so that we could replace them if we need
+ * to. This happens to be pretty efficient for a bulk delete since we can
+ * just move the line buffers over to the undo list.
  */
 int
 buff_delete_with_undo(	struct cmd_token *ct,
@@ -2360,12 +2333,11 @@ int bytes_deleted_so_far = 0;
 
 
 
-/* BUFF_BULK_INSERT - Insert a list of line buffer structures
+/**
+ * \brief Insert a list of line buffer structures
  *
- * Function:
- *
- *	This routine is used to insert a list of line buffer structures at
- *	the specified position in the buffer.
+ * This routine is used to insert a list of line buffer structures at
+ * the specified position in the buffer.
  */
 void
 buff_bulk_insert(	struct buff_header *hbp,
@@ -2462,13 +2434,12 @@ int offset;
 
 
 
-/* ALLOCATE_LINE_BUFFER - Routine to allocate a line buffer structure
+/**
+ * \brief Routine to allocate a line buffer structure
  *
- * Function:
- *
- *	This routine is used to allocate a line buffer structure with
- *	a data buffer large enough to accommodate the specified number
- *	of bytes.
+ * This routine is used to allocate a line buffer structure with
+ * a data buffer large enough to accommodate the specified number
+ * of bytes.
  */
 struct buff_line *
 allocate_line_buffer(	int size )
@@ -2526,12 +2497,11 @@ register struct buff_line *lbp;
 }/* End Routine */
 
 
-/* BUFF_FREE_LINE_BUFFER - Free up the associated storage
+/**
+ * \brief Free up the associated storage
  *
- * Function:
- *
- *	This routine is called when a line buffer is deleted. It cleans up any
- *	associated storage as well as the buffer itself.
+ * This routine is called when a line buffer is deleted. It cleans up any
+ * associated storage as well as the buffer itself.
  */
 void
 buff_free_line_buffer(	struct buff_line *lbp )
@@ -2562,11 +2532,10 @@ buff_free_line_buffer(	struct buff_line *lbp )
 
 }/* End Routine */
 
-/* BUFF_FREE_LINE_BUFFER_LIST - Release a whole list of line buffers
+/**
+ * \brief Release a whole list of line buffers
  *
- * Function:
- *
- *	This routine will delete an entire list of line buffers
+ * This routine will delete an entire list of line buffers
  */
 void
 buff_free_line_buffer_list(	struct buff_line *lbp )
@@ -2582,12 +2551,11 @@ register struct buff_line *olbp;
 
 }/* End Routine */
 
-/* BUFF_DEALLOCATE_LINE_BUFFER_LOOKASIDE_LIST - Free up lookaside list
+/**
+ * \brief Free up lookaside list
  *
- * Function:
- *
- *	This routine frees up any format_lines we've cached on our local
- *	lookaside list.
+ * This routine frees up any format_lines we've cached on our local
+ * lookaside list.
  */
 void
 buff_deallocate_line_buffer_lookaside_list()

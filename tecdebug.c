@@ -60,12 +60,11 @@ do_return_checks()
     do_preamble_checks();
 }
 
-/* TECDEBUG_CHECK_SCREEN_MAGIC - Check for matching magic numbers
- * 
- * Function:
+/**
+ * \brief Check for matching magic numbers
  *
- *	This routine checks that each saved screen array element has
- *	the correct magic number.
+ * This routine checks that each saved screen array element has
+ * the correct magic number.
  */
 void
 tecdebug_check_screen_magic()
@@ -95,12 +94,11 @@ register struct screen_line *sbp;
 
 
 
-/* TECDEBUG_CHECK_BUFFER_MAGIC - Check for matching magic numbers
- * 
- * Function:
+/**
+ * \brief Check for matching magic numbers
  *
- *	This routine checks that each buffer header to check for
- *	the correct magic number.
+ * This routine checks that each buffer header to check for
+ * the correct magic number.
  */
 void
 tecdebug_check_buffer_magic()
@@ -160,12 +158,11 @@ register int count;
 
 
 
-/* TECDEBUG_CHECK_LINE_MAGIC - Check for matching magic numbers
- * 
- * Function:
+/**
+ * \brief Check for matching magic numbers
  *
- *	This routine checks that each line buffer data structure for
- *	the correct magic number.
+ * This routine checks that each line buffer data structure for
+ * the correct magic number.
  */
 void
 tecdebug_check_line_magic()
@@ -222,12 +219,11 @@ register int count;
 
 
 
-/* TECDEBUG_CHECK_FORMAT_MAGIC - Check for matching magic numbers
- * 
- * Function:
+/**
+ * \brief Check for matching magic numbers
  *
- *	This routine checks each screen format buffer data structure for
- *	the correct magic number.
+ * This routine checks each screen format buffer data structure for
+ * the correct magic number.
  */
 void
 tecdebug_check_format_magic()
@@ -272,14 +268,13 @@ register int count;
 
 
 
-/* TECDEBUG_CHECK_COMPANION_POINTERS - Check for pointer consistency
- * 
- * Function:
+/**
+ * \brief Check for pointer consistency
  *
- *	This routine checks that each saved_screen entry points to
- *	a single format line which also points back. It's an error
- *	if a structure points to another structure which doesn't
- *	point back.
+ * This routine checks that each saved_screen entry points to
+ * a single format line which also points back. It's an error
+ * if a structure points to another structure which doesn't
+ * point back.
  */
 void
 tecdebug_check_companion_pointers()
@@ -334,14 +329,13 @@ register struct format_line *fbp;
 
 
 
-/* TECDEBUG_CHECK_WINDOW_POINTERS - Check for window pointer consistency
- * 
- * Function:
+/**
+ * \brief Check for window pointer consistency
  *
- *	This routine checks that every format line is correctly chained with respect
- *	to which window it is connected to. An error occurs if the line_buffer does
- *	not chain down to it. Also, for every "next_window" pointer, all format
- *	structures chained off of it must belong to the same window.
+ * This routine checks that every format line is correctly chained with respect
+ * to which window it is connected to. An error occurs if the line_buffer does
+ * not chain down to it. Also, for every "next_window" pointer, all format
+ * structures chained off of it must belong to the same window.
  */
 void
 tecdebug_check_window_pointers()

@@ -36,12 +36,11 @@ char *tecstate_c_version = "tecstate.c: $Revision: 1.3 $";
 
 
 
-/* PARSE_INPUT_CHARACTER - Continue the parse with the supplied character
+/**
+ * \brief Continue the parse with the supplied character
  *
- * Function:
- *
- *	We re-enter the parser with a new character at this point. We jump back
- *	to the state we left before.
+ * We re-enter the parser with a new character at this point. We jump back
+ * to the state we left before.
  */
 void
 parse_input_character( struct cmd_token *ct, struct cmd_token *uct )
@@ -2340,14 +2339,13 @@ register struct cmd_token *oct = NULL;
 
 
 
-/* PARSE_CHECK_QNAME - Check that the specified Q-register name is ok
+/**
+ * \brief Check that the specified Q-register name is ok
  *
- * Function:
- *
- *	This routine is called when a parse state wants to verify that the
- *	specified Q-register name is syntactically correct. It does not
- *	verify that the Q-register exists, because the execute phase may just
- *	not have got around to that yet.
+ * This routine is called when a parse state wants to verify that the
+ * specified Q-register name is syntactically correct. It does not
+ * verify that the Q-register exists, because the execute phase may just
+ * not have got around to that yet.
  */
 int
 parse_check_qname( struct cmd_token *ct, char name )
