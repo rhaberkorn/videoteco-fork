@@ -227,8 +227,8 @@ register int i;
 
     mp = (struct memblock *)( addr - sizeof(struct memblock) );
     if(mp->type != type){
-	printf("\nTEC_RELEASE: TYPE Mismatch: Supplied %d Stored %d addr 0x%x\n",
-	    type,mp->type,(unsigned int)addr);
+	printf("\nTEC_RELEASE: TYPE Mismatch: Supplied %d Stored %d addr %p\n",
+	       type, mp->type, addr);
 #ifdef UNIX
 	kill(getpid(),SIGQUIT);
 #endif
@@ -278,9 +278,8 @@ register int i;
 
     mp = (struct memblock *)( addr - sizeof(struct memblock) );
     if(mp->type != type){
-	printf(
-	    "\nTYPE Mismatch: Supplied %d Stored %d addr %x '%s'\n",
-	    type,mp->type,(unsigned int)addr,message);
+	printf("\nTYPE Mismatch: Supplied %d Stored %d addr %p '%s'\n",
+	       type, mp->type, addr, message);
 	exit(1);
     }/* End IF */
 

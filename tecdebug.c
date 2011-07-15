@@ -131,11 +131,7 @@ register int count;
 
     if(curbuf != NULL && saw_curbuf == 0){
 	restore_tty();
-	fprintf(
-	    stderr,
-	    "?curbuf 0x%x not on buff_headers list\n",
-	    (unsigned int)curbuf
-	);
+	fprintf(stderr, "?curbuf %p not on buff_headers list\n", curbuf);
 	CAUSE_BUS_ERROR();
     }/* End IF */
 
@@ -295,13 +291,9 @@ register struct format_line *fbp;
 	if(sbp->companion == NULL) continue;
 	if(sbp->companion->fmt_saved_line != sbp){
 	    restore_tty();
-	    fprintf(
-		stderr,
-		"?saved_screen[%d] companion 0x%08x ->fmt_saved_line 0x%08x\n",
-		i,
-		(unsigned int)sbp->companion,
-		(unsigned int)sbp->companion->fmt_saved_line
-	    );
+	    fprintf(stderr,
+	    	    "?saved_screen[%d] companion %p ->fmt_saved_line %p\n",
+	    	    i, sbp->companion, sbp->companion->fmt_saved_line);
 	    CAUSE_BUS_ERROR();
 	}/* End IF */
     }/* End FOR */
@@ -315,13 +307,8 @@ register struct format_line *fbp;
     while(fbp){
 	if(fbp->fmt_saved_line && fbp->fmt_saved_line->companion != fbp){
 	    restore_tty();
-	    fprintf(
-		stderr,
-		"?fbp 0x%08x fbp->fmt_saved 0x%08x ->companion 0x%08x\n",
-		(unsigned int)fbp,
-		(unsigned int)fbp->fmt_saved_line,
-		(unsigned int)fbp->fmt_saved_line->companion
-	    );
+	    fprintf(stderr, "?fbp %p fbp->fmt_saved %p ->companion %p\n",
+	    	    fbp, fbp->fmt_saved_line, fbp->fmt_saved_line->companion);
 	    CAUSE_BUS_ERROR();
 	}/* End IF */
 	fbp = fbp->fmt_next_alloc;
@@ -362,35 +349,27 @@ char saw_our_format_line;
 		if(fl_temp == fbp) saw_our_format_line = 1;
 		if(fl_temp->fmt_window_ptr != wptr){
 		    restore_tty();
-		    fprintf(
-			stderr,
-	"?wrong window in fmt chain format_line 0x%08x format_line->wptr 0x%08x wptr 0x%08x\n",
-			(unsigned int)fl_temp,
-			(unsigned int)fl_temp->fmt_window_ptr,
-			(unsigned int)wptr
-		    );
+		    fprintf(stderr,
+		    	    "?wrong window in fmt chain format_line %p "
+		    	    "format_line->wptr %p wptr %p\n",
+		    	    fl_temp, fl_temp->fmt_window_ptr, wptr);
 		    CAUSE_BUS_ERROR();
 		}/* End IF */
 		if(fl_temp->fmt_buffer_line != blp){
 		    restore_tty();
-		    fprintf(
-			stderr,
-	"?wrong buffer_line in fmt chain fmt 0x%08x fmt->fmt_buffer_line 0x%08x lbp 0x%08x\n",
-			(unsigned int)fl_temp,
-			(unsigned int)fl_temp->fmt_buffer_line,
-			(unsigned int)blp
-		    );
+		    fprintf(stderr,
+		    	    "?wrong buffer_line in fmt chain fmt %p "
+		    	    "fmt->fmt_buffer_line %p lbp %p\n",
+		    	    fl_temp, fl_temp->fmt_buffer_line, blp);
 		    CAUSE_BUS_ERROR();
 		}/* End IF */
 	    }/* End FOR */
 	}/* End FOR */
 	if(saw_our_format_line == 0){
 	    restore_tty();
-	    fprintf(
-		stderr,
-		"?never encountered our format line 0x%08x in format list\n",
-		(unsigned int)fbp
-	    );
+	    fprintf(stderr,
+	    	    "?never encountered our format line %p in format list\n",
+	    	    fbp);
 	    CAUSE_BUS_ERROR();
 	}/* End IF */
     }/* End FOR */

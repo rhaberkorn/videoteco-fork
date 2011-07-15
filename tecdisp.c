@@ -278,12 +278,9 @@ register struct screen_line *lp;
 	for(lp = saved_screen, i = 0; i < term_lines; i++,lp++){
     	    if(lp->companion){
 		if(lp->companion->fmt_saved_line != lp){
-		    fprintf(
-			stderr,
-			"lp->companion 0x%x != ->fmt_saved_line 0x%x\n",
-			(unsigned int)lp->companion,
-			(unsigned int)lp->companion->fmt_saved_line
-		    );
+		    fprintf(stderr,
+		    	    "lp->companion %p != ->fmt_saved_line %p\n",
+		    	    lp->companion, lp->companion->fmt_saved_line);
 		    CAUSE_BUS_ERROR();
 		}/* End IF */
     		lp->companion->fmt_saved_line = NULL;
@@ -1447,12 +1444,9 @@ register struct screen_line *lp;
 	for(lp = saved_screen, i = 0; i < term_lines; i++,lp++){
     	    if(lp->companion){
 		if(lp->companion->fmt_saved_line != lp){
-		    fprintf(
-			stderr,
-			"lp->companion 0x%x != ->fmt_saved_line 0x%x\n",
-			(unsigned int)lp->companion,
-			(unsigned int)lp->companion->fmt_saved_line
-		    );
+		    fprintf(stderr,
+		    	    "lp->companion %p != ->fmt_saved_line %p\n",
+		    	    lp->companion, lp->companion->fmt_saved_line);
 		    CAUSE_BUS_ERROR();
 		}/* End IF */
 		if( lp->companion->fmt_permanent ) continue;
@@ -2019,12 +2013,9 @@ register struct format_line *next_win;
  */
 	if(sbp->fmt_saved_line){
 	    if(sbp->fmt_saved_line->companion != sbp){
-		fprintf(
-		    stderr,
-		    "sbp->fmt_saved_line 0x%x != sbp->...companion 0x%x\n",
-		    (unsigned int)sbp->fmt_saved_line,
-		    (unsigned int)sbp->fmt_saved_line->companion
-		);
+		fprintf(stderr,
+			"sbp->fmt_saved_line %p != sbp->...companion %p\n",
+			sbp->fmt_saved_line, sbp->fmt_saved_line->companion);
 		CAUSE_BUS_ERROR();
 	    }/* End IF */
 	    sbp->fmt_saved_line->companion = NULL;
@@ -2088,13 +2079,9 @@ screen_check_format_lines( struct format_line *sbp, int who )
  */
 	if(sbp->fmt_saved_line){
 	    if(sbp->fmt_saved_line->companion != sbp){
-		fprintf(
-		    stderr,
-		    "w%d sbp->fmt_saved_line 0x%x != sbp->...companion 0x%x\n",
-		    who,
-		    (unsigned int)sbp->fmt_saved_line,
-		    (unsigned int)sbp->fmt_saved_line->companion
-		);
+		fprintf(stderr,
+			"w%d sbp->fmt_saved_line %p != sbp->...companion %p\n",
+			who, sbp->fmt_saved_line, sbp->fmt_saved_line->companion);
 		CAUSE_BUS_ERROR();
 	    }/* End IF */
 	}/* End IF */

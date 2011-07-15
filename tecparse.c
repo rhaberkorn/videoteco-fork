@@ -1547,11 +1547,10 @@ register char *state_name;
 	case TRACE_C_PARSE:
 	    state_name = trace_convert_opcode_to_name(ct0->opcode);
 	    if(state_name == NULL) state_name = "UNKNOWN";
-	    sprintf(tmp_message,"PARSE: 0x%08X Opcode %s %c",
-		(unsigned int)ct0,
-		state_name,
-/*		ct0->opcode == TOK_C_INPUTCHAR ? ct0->input_byte : ' '); */
-		ct0->flags & TOK_M_EAT_TOKEN ? ct0->input_byte : ' ');
+	    sprintf(tmp_message, "PARSE: %p Opcode %s %c",
+	    	    ct0, state_name,
+/*		    ct0->opcode == TOK_C_INPUTCHAR ? ct0->input_byte : ' '); */
+		    ct0->flags & TOK_M_EAT_TOKEN ? ct0->input_byte : ' ');
 	    if(ct0->flags & TOK_M_EAT_TOKEN){
 		strcat(tmp_message," TOK_M_EAT_TOKEN");
 	    }/* End IF */
@@ -1607,7 +1606,7 @@ register char *state_name;
 		ct0->ctx.iarg2_flag,ct0->ctx.iarg2,ct0->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    carg 0x%x\n",(unsigned int)ct0->ctx.carg);
+	    sprintf(tmp_message,"    carg %p\n",ct0->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    tmpval %d (0x%x)\n",
@@ -1621,8 +1620,8 @@ register char *state_name;
 			trace_convert_state_to_name(ct0->ctx.return_state);
 		    if(state_name == NULL) state_name = "UNKNOWN";
 		}/* End IF */
-		sprintf(tmp_message,"    return_state %s caller_token 0x%x\n",
-		    state_name,(unsigned int)ct0->ctx.caller_token);
+		sprintf(tmp_message, "    return_state %s caller_token %p\n",
+			state_name, ct0->ctx.caller_token);
 		buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 	    }/* End IF */
 	    break;
@@ -1630,8 +1629,8 @@ register char *state_name;
 	case TRACE_C_EXEC:
 	    state_name = trace_convert_exec_state_to_name(ct0->execute_state);
 	    if(state_name == NULL) state_name = "UNKNOWN";
-	    sprintf(tmp_message,"EXEC: 0x%08X Exec State: %s\n",
-		(unsigned int)ct1,state_name);
+	    sprintf(tmp_message, "EXEC: %p Exec State: %s\n",
+	    	    ct1, state_name);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %d (0x%x)",
@@ -1652,11 +1651,11 @@ register char *state_name;
 		ct1->ctx.iarg2_flag,ct1->ctx.iarg2,ct1->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    carg 0x%x",(unsigned int)ct0->ctx.carg);
+	    sprintf(tmp_message,"    carg %p",ct0->ctx.carg);
 	    while(strlen(tmp_message) < 39) strcat(tmp_message," ");
 	    strcat(tmp_message," ");
 	    cp = &tmp_message[strlen(tmp_message)];
-	    sprintf(cp,"    carg 0x%x\n",(unsigned int)ct1->ctx.carg);
+	    sprintf(cp,"    carg %p\n",ct1->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    tmpval %d (0x%x)",
@@ -1672,11 +1671,10 @@ register char *state_name;
 	case TRACE_C_MACRO:
 	    state_name = trace_convert_opcode_to_name(ct0->opcode);
 	    if(state_name == NULL) state_name = "UNKNOWN";
-	    sprintf(tmp_message,"MACRO PLACEHOLDER: 0x%08X Opcode %s %c",
-		(unsigned int)ct0,
-		state_name,
-/*		ct0->opcode == TOK_C_INPUTCHAR ? ct0->input_byte : ' '); */
-		ct0->flags & TOK_M_EAT_TOKEN ? ct0->input_byte : ' ');
+	    sprintf(tmp_message, "MACRO PLACEHOLDER: %p Opcode %s %c",
+	    	    ct0, state_name,
+/*		    ct0->opcode == TOK_C_INPUTCHAR ? ct0->input_byte : ' '); */
+		    ct0->flags & TOK_M_EAT_TOKEN ? ct0->input_byte : ' ');
 	    if(ct0->flags & TOK_M_EAT_TOKEN){
 		strcat(tmp_message," TOK_M_EAT_TOKEN");
 	    }/* End IF */
@@ -1732,7 +1730,7 @@ register char *state_name;
 		ct0->ctx.iarg2_flag,ct0->ctx.iarg2,ct0->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    carg 0x%x\n",(unsigned int)ct0->ctx.carg);
+	    sprintf(tmp_message,"    carg %p\n",ct0->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    tmpval %d (0x%x)\n",
@@ -1746,8 +1744,8 @@ register char *state_name;
 			trace_convert_state_to_name(ct0->ctx.return_state);
 		    if(state_name == NULL) state_name = "UNKNOWN";
 		}/* End IF */
-		sprintf(tmp_message,"    return_state %s caller_token 0x%x\n",
-		    state_name,(unsigned int)ct0->ctx.caller_token);
+		sprintf(tmp_message, "    return_state %s caller_token %p\n",
+			state_name, ct0->ctx.caller_token);
 		buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 	    }/* End IF */
 	    break;
