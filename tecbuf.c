@@ -9,10 +9,12 @@ struct buff_header *buff_create( char *name, char internal_flag );
  * $Locker:  $
  */
 
-/* tecbuf.c
- * Subroutines to handle the edit buffers
- *
- *
+/**
+ * \file tecbuf.c
+ * \brief Subroutines to handle the edit buffers
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

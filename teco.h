@@ -5,10 +5,12 @@
  * $Locker:  $
  */
 
-/* teco.h
- * Global TECO Definitions
- * %W% (PC) %G%
- *
+/**
+ * \file teco.h
+ * \brief Global TECO Definitions
+ */
+
+/*
  *                     COPYRIGHT (c) 1985-2007 BY Paul Cantrell
  *
  *    Copyright (C) <year>  <name of author>
@@ -76,7 +78,7 @@
  * conditional compilation based on different machines quirks can be done.
  */
 
-/*
+/**
  * Unless defined otherwise, we assume 32 bits to an integer and 8 bits / char
  */
 #ifndef BITS_PER_INT
@@ -340,7 +342,7 @@
 
 typedef unsigned long teco_ptrint_t;
 
-/*
+/**
  * We define unix except for the really different operating systems, like
  * vms. It lets us write our own version of functions which simply do not
  * exist outside of unix.

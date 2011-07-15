@@ -7,10 +7,12 @@ char *tecdebug_c_version = "tecdebug.c: $Revision: 1.2 $";
  * $Locker:  $
  */
 
-/* tecdebug.c
- * Debugging routines for Teco
- *
- *
+/**
+ * \file tecdebug.c
+ * \brief Debugging routines for Teco
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

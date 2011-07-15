@@ -7,10 +7,12 @@ char *tecstate_c_version = "tecstate.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecstate.c
- * Main SWITCH/CASE statements to implement the parser syntax stage
- *
- *
+/**
+ * \file tecstate.c
+ * \brief Main SWITCH/CASE statements to implement the parser syntax stage
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

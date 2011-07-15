@@ -5,11 +5,12 @@
  * $Locker:  $
  */
 
-/* tecvms.h
- * Include file for VMS build
- * %W% (PC) %G%
- *
- *
+/**
+ * \file tecvms.h
+ * \brief Include file for VMS build
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

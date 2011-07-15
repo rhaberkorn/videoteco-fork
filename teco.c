@@ -8,10 +8,12 @@ char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
  * $Locker:  $
  */
 
-/* teco.c
- * Main TECO entry point with most of the initialization code
- *
- *
+/**
+ * \file teco.c
+ * \brief Main TECO entry point with most of the initialization code
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify
@@ -74,12 +76,12 @@ char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
     int		checkpoint_interval = DEFAULT_CHECKPOINT;
 
     char	*output_tty_name;
-/*
+/**
  * Table of Bit Positions
  */
     unsigned int IntBits[BITS_PER_INT];
 
-/*
+/**
  * Table of Spaces for tab expansion
  */
     char	tab_expand[MAX_TAB_WIDTH+1];

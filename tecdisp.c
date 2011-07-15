@@ -7,10 +7,12 @@ char *tecdisp_c_version = "tecdisp.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecdisp.c
- * Terminal Screen Display Subroutines
- *
- *
+/**
+ * \file tecdisp.c
+ * \brief Terminal Screen Display Subroutines
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

@@ -7,10 +7,12 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* teccmd.c
- * Subroutines which implement (usually large) TECO commands
- *
- *
+/**
+ * \file teccmd.c
+ * \brief Subroutines which implement (usually large) TECO commands
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

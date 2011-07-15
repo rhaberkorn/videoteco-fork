@@ -7,10 +7,12 @@ char *tecmem_c_version = "tecmem.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecmem.c
- * Subroutines to manage memory allocation and deallocation
- *
- *
+/**
+ * \file tecmem.c
+ * \brief Subroutines to manage memory allocation and deallocation
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

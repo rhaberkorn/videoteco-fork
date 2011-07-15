@@ -7,10 +7,12 @@ char *tecparse_c_version = "tecparse.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecparse.c
- * Subroutines to implement the finite state parser
- *
- *
+/**
+ * \file tecparse.c
+ * \brief Subroutines to implement the finite state parser
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

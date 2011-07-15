@@ -7,10 +7,12 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecexec.c
- * The SWITCH/CASE statements which implement execution stage of the parser
- *
- *
+/**
+ * \file tecexec.c
+ * \brief The SWITCH/CASE statements which implement execution stage of the parser
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify

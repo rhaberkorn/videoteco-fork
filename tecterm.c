@@ -7,10 +7,12 @@ char *tecterm_c_version = "tecterm.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecterm.c
- * Terminal Escape Sequence Subroutines (termcap/terminfo et all)
- *
- *
+/**
+ * \file tecterm.c
+ * \brief Terminal Escape Sequence Subroutines (termcap/terminfo et all)
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify
@@ -98,7 +100,7 @@ char *tecterm_c_version = "tecterm.c: $Revision: 1.3 $";
     extern int tty_input_chan;
     extern int tty_output_chan;
 
-/*
+/**
  * The following array gives the number of tens of milliseconds per
  * character for each speed as returned by gtty.  Thus since 300
  * baud returns a 7, there are 33.3 milliseconds per char at 300 baud.

@@ -5,10 +5,12 @@
  * $Locker:  $
  */
 
-/* tecparse.h
- * Definitions for TECO parser
- * %W% (PC) %G%
- *
+/**
+ * \file tecparse.h
+ * \brief Definitions for TECO parser
+ */
+
+/*
  *
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
@@ -26,7 +28,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
+/**
  * This structure holds the context which must be passed forward as the
  * parse progresses. We split it out of the cmd_token structure so that
  * it can be easily duplicated.
@@ -49,7 +51,7 @@ struct cmd_context {
 	struct	cmd_token *caller_token;
 };
 
-/*
+/**
  * Define the structure which we use to describe commands
  */
 struct cmd_token {
@@ -86,20 +88,20 @@ struct undo_token {
 #define CTOK_M_ATSIGN_SEEN	(1 << 1)
 #define CTOK_M_STATUS_PASSED	(1 << 2)
 
-#define TOK_C_UNUSED          0 /* Value before it gets set		*/
-#define TOK_C_FIRSTTOKEN      1 /* The begining of it all		*/
-#define TOK_C_INPUTCHAR       2 /* An input character was recieved here	*/
-#define TOK_C_COPYTOKEN       3 /* A copy of a previous command token	*/
-#define TOK_C_ITERATION_BEGIN 4	/* Marks the begining of an iteration	*/
-#define TOK_C_ITERATION_END   5	/* Marks the end of an iteration	*/
-#define TOK_C_CONDITIONAL_END 6 /* Marks end of a conditional cmd	*/
-#define TOK_C_LABEL_BEGIN     7	/* Begining of a label tag !like this!	*/
-#define TOK_C_LABEL_END       8	/* End of a label tag			*/
-#define TOK_C_GOTO_BEGIN      9	/* Begining of an Omumble$ string	*/
-#define TOK_C_GOTO_END       10	/* End of an Omumble$ string		*/
-#define TOK_C_FINALTOKEN     11	/* Like FINALSTATE			*/
-#define TOK_C_INITIALSTATE   12	/* Used by ^W to find begining of cmds	*/
-#define TOK_C_CONDITIONAL_ELSE 13/* Marks begining of an ELSE clause	*/
+#define TOK_C_UNUSED		0	/**< Value before it gets set			*/
+#define TOK_C_FIRSTTOKEN	1	/**< The begining of it all			*/
+#define TOK_C_INPUTCHAR		2	/**< An input character was recieved here	*/
+#define TOK_C_COPYTOKEN		3	/**< A copy of a previous command token		*/
+#define TOK_C_ITERATION_BEGIN	4	/**< Marks the begining of an iteration		*/
+#define TOK_C_ITERATION_END	5	/**< Marks the end of an iteration		*/
+#define TOK_C_CONDITIONAL_END	6	/**< Marks end of a conditional cmd		*/
+#define TOK_C_LABEL_BEGIN	7	/**< Begining of a label tag <tt>!like this!</tt>*/
+#define TOK_C_LABEL_END		8	/**< End of a label tag				*/
+#define TOK_C_GOTO_BEGIN	9	/**< Begining of an \c Omumble\$ string		*/
+#define TOK_C_GOTO_END		10	/**< End of an \c Omumble\$ string		*/
+#define TOK_C_FINALTOKEN	11	/**< Like \c FINALSTATE				*/
+#define TOK_C_INITIALSTATE	12	/**< Used by \c ^W to find begining of cmds	*/
+#define TOK_C_CONDITIONAL_ELSE	13	/**< Marks begining of an ELSE clause		*/
 
 #define STATE_C_INITIALSTATE	0
 #define STATE_C_MAINCOMMANDS	1

@@ -7,10 +7,12 @@ char *tecundo_c_version = "tecundo.c: $Revision: 1.3 $";
  * $Locker:  $
  */
 
-/* tecundo.c
- * Subroutines to implement the undo capabilities of the parser
- *
- *
+/**
+ * \file tecundo.c
+ * \brief Subroutines to implement the undo capabilities of the parser
+ */
+
+/*
  *                     Copyright (C) 1985-2007 BY Paul Cantrell
  *
  *    This program is free software: you can redistribute it and/or modify
