@@ -2013,25 +2013,49 @@ extern int tab_width;
 /**
  * \brief Perform UNIX tags function
  *
- * This routine performs various unix tags functions. The following
+ * This routine performs various UNIX tags functions. The following
  * functions are supported:
  *
  * <table>
  *	<tr>
- *		<td>\b arg1</td>
- *		<td>\b Function</td>
+ *		<td>\b arg1</td><td>\b arg2</td><td>\b string</td>
+ *		<td>\b Description</td>
  *	</tr><tr>
- *		<td>\e none</td>
- *		<td>Load tags file indicated in \a string</td>
+ *		<td>0 \e (optional)</td><td>-</td><td>Tags file name</td>
+ *		<td>Load tags file given in \a string.
+ *		    It can be either in \e etags or \e ctags format.</td>
  *	</tr><tr>
- *		<td>0</td>
- *		<td>(same as \e none)</td>
+ *		<td>1</td><td>\e optional (default: 0)</td><td>Symbol name</td>
+ *		<td>Find tag entry whose symbol matches \a string,
+ *		    skipping \a arg2 matching entries</td>
  *	</tr><tr>
- *		<td>1</td>
- *		<td>Find tag entry which corresponds with \a string. \a arg2
- *		    is a flags word which says what to do with the tag</td>
+ *		<td>2</td><td>-</td><td>-</td>
+ *		<td>Check whether a tags file has been loaded</td>
+ *	</tr><tr>
+ *		<td>3</td><td>-</td><td>-</td>
+ *		<td>Insert current tag entry's target file name into the edit buffer</td>
+ *	</tr><tr>
+ *		<td>4</td><td>-</td><td>-</td>
+ *		<td>Insert current tag entry's search string into the edit buffer</td>
+ *	</tr><tr>
+ *		<td>5</td><td>-</td><td>-</td>
+ *		<td>Insert current tag entry's line number into the edit buffer</td>
+ *	</tr><tr>
+ *		<td>6</td><td>-</td><td>-</td>
+ *		<td>Dump entire tag database into the edit buffer</td>
  *	</tr>
  * </table>
+ *
+ * \param uct		Command Token
+ * \param arg_count	Number of arguments: 0 \e none, 1 \a arg1 given,
+ *			2 \a arg1 and \a arg2 given
+ * \param arg1		Operation identifier
+ * \param arg2		Operation parameter if required, depending on \a arg1
+ * \param string	Tags file name or symbol depending on \a arg1
+ *
+ * \return		Status code
+ * \retval SUCCESS	Operation was successful
+ * \retval FAIL		Operation failed, an error message has been displayed
  */
 int
 cmd_tags(
@@ -2151,8 +2175,13 @@ int hashval,skip_cnt;
 /**
  * \brief Read in a tags file
  *
- * This is a huge monolithic nasty routine which reads either VI or
- * EMACS tags files, and builds an internal representation.
+ * This is a huge monolithic nasty routine which reads either VI (\e ctags) or
+ * EMACS (\e etags) tags files, and builds an internal representation.
+ *
+ * \param string	File name of tags file to load
+ *
+ * \return		Internal representation of tags database
+ * \retval NULL		An error occurred, an error message has been displayed
  */
 struct tags *
 tag_load_file( char *string )
@@ -2535,6 +2564,11 @@ err:
 
 }/* End Routine */
 
+/**
+ * \brief Release memory associated with a tags database
+ *
+ * \param tp Tags database
+ */
 void
 tag_free_struct( struct tags *tp )
 {
@@ -2570,6 +2604,13 @@ register int i;
 
 }/* End Routine */
 
+/**
+ * \brief Hash function for tag entries of a tags database
+ *
+ * \param string	Tag entry symbol name
+ *
+ * \return		Hash value
+ */
 int
 tag_calc_hash( char *string )
 {
@@ -2586,6 +2627,12 @@ register int shift = 0;
 
 }/* End Routine */
 
+/**
+ * \brief Dump tags database into edit buffer
+ *
+ * \param tp	Tags database
+ * \param uct	Command Token
+ */
 void
 tag_dump_database( struct tags *tp, struct cmd_token *uct )
 {
