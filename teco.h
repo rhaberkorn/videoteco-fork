@@ -80,14 +80,15 @@
  * conditional compilation based on different machines quirks can be done.
  */
 
-/**
- * Unless defined otherwise, we assume 32 bits to an integer and 8 bits / char
- */
-#ifndef BITS_PER_INT
-#define BITS_PER_INT 32
-#endif
 #ifndef BITS_PER_CHAR
+/**
+ * Unless defined otherwise, we assume 8 bits / char
+ */
 #define BITS_PER_CHAR 8
+#endif
+
+#ifndef BITS_PER_INT
+#define BITS_PER_INT (BITS_PER_CHAR * (int)sizeof(int))
 #endif
 
 #define ESCAPE 27
