@@ -33,7 +33,6 @@
 #define NO  0
 #define FAIL 0
 #define SUCCESS 1
-#define NULL 0
 
 #if 0
 #define CREATE_OLD_FILES	/**< Create \c .OLD backup files */
