@@ -35,7 +35,9 @@
 #define SUCCESS 1
 #define NULL 0
 
-#define CREATE_OLD_FILES
+#if 0
+#define CREATE_OLD_FILES	/**< Create \c .OLD backup files */
+#endif
 
 #define BLOCKED 2
 #define INVALIDATE 3
