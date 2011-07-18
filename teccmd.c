@@ -1712,9 +1712,12 @@ register int length;
 int
 cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
 {
+int last_intr_flag;
+int line_cnt,w;
 char tmpbuf[LINE_BUFFER_SIZE];
+char pipebuff[IO_BUFFER_SIZE];
+extern char susp_flag;
 struct undo_token *ut;
-int olddot;
 int pid;
 int bidir_flag;
 int input_pipe[2], output_pipe[2];
@@ -1757,14 +1760,13 @@ int status;
         if(bidir_flag){
             close(0); dup(input_pipe[0]);
             close(1); dup(output_pipe[1]);
-            close(2); dup(output_pipe[1]);
             close(input_pipe[0]);
             close(input_pipe[1]);
 	}else{
 	    close(1); dup(output_pipe[1]);
-	    close(2); dup(output_pipe[1]);
 	    close(0);
 	}
+	close(2);
 	close(output_pipe[0]);
 	close(output_pipe[1]);
 
@@ -1797,6 +1799,14 @@ int status;
     	    goto failreap;
     	}/* End If */
 
+	ut = allocate_undo_token(uct);
+	if(ut == NULL){
+	    close(output_pipe[0]);
+	    goto failreap;
+	}/* End If */
+	ut->opcode = UNDO_C_CHANGEDOT;
+	ut->iarg1 = curbuf->dot;
+
     	status = buff_delete_with_undo(uct,curbuf,arg1,arg2-arg1);
     	if(status == FAIL){
     	    close(output_pipe[0]);
@@ -1809,12 +1819,6 @@ int status;
  * EOF which means the process has finished. Update the screen
  * on newlines so the user can see what is going on.
  */
-    if(bidir_flag){
-    	/* TODO: allocate UNDO token for pointer change */
-    	olddot = curbuf->dot;
-    	curbuf->dot = arg1;
-    }/* End If */
-
     ut = allocate_undo_token(uct);
     if(ut == NULL){
     	close(output_pipe[0]);
@@ -1822,17 +1826,49 @@ int status;
     }/* End If */
     ut->opcode = UNDO_C_DELETE;
     ut->carg1 = (char *)curbuf;
-    ut->iarg1 = curbuf->dot;
+    ut->iarg1 = bidir_flag ? arg1 : curbuf->dot;
+    ut->iarg2 = 0;
 
-    status = buff_readfd(curbuf,cp,output_pipe[0]);
+    last_intr_flag = intr_flag;
+    line_cnt = 0;
+
+    while((w = read(output_pipe[0],pipebuff,sizeof(pipebuff))) > 0){
+    	char *p = pipebuff;
+
+	status = buff_insert(curbuf,ut->iarg1 + ut->iarg2,pipebuff,w);
+	if(status == FAIL){
+	    close(output_pipe[0]);
+    	    goto failreap;
+        }/* End If */
+
+	if(intr_flag != last_intr_flag){
+	    kill(pid,SIGINT);
+	    last_intr_flag = intr_flag;
+	}/* End IF */
+
+	if(susp_flag){
+	    cmd_pause();
+	}/* End IF */
+
+	ut->iarg2 += w;
+
+	while(w--){
+	    if(intr_flag != last_intr_flag) break;
+	    if(*p++ == '\n' && line_cnt++ > (term_lines / 4)){
+		line_cnt = 0;
+		if(tty_input_pending()) break;
+		screen_format_windows();
+		screen_refresh();
+	    }/* End IF */
+	}/* End While */
+    }/* End While */
+    _errno = errno;
     close(output_pipe[0]);
-    if(status == FAIL) goto failreap;
-
-    ut->iarg2 = curbuf->dot - ut->iarg1;
-
-    if(bidir_flag){
-    	curbuf->dot = olddot;
-    	if(curbuf->dot >= ut->iarg1) curbuf->dot += ut->iarg2;
+    if(w < 0){
+    	sprintf(tmpbuf,"?Error reading from child process <%d>: %s",
+    		pid,error_text(_errno));
+	error_message(tmpbuf);
+	goto failreap;
     }/* End If */
  
 /*
@@ -1840,9 +1876,10 @@ int status;
  * stay around as a zombie.
  */
     if(waitpid(pid,&status,0) == -1){
-    	sprintf(tmpbuf,"?Error waiting for child process <%d>: %s",
+    	sprintf(tmpbuf,"?Error reaping child process <%d>: %s",
     		pid,error_text(errno));
 	error_message(tmpbuf);
+	kill(pid,SIGKILL);
 	return(FAIL);
     }/* End If */
     if (!WIFEXITED(status)){
