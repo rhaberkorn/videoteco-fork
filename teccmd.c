@@ -1719,19 +1719,15 @@ char pipebuff[IO_BUFFER_SIZE];
 extern char susp_flag;
 struct undo_token *ut;
 int pid;
-int bidir_flag;
+int bidir_flag = arg_count > 0;
 int input_pipe[2], output_pipe[2];
 int _errno;
 int status;
 
     PREAMBLE();
 
-    /* TODO: if only arg1 is given, calculate the buffer range */
-    /* FIXME: colon modifier does not return status */
-    bidir_flag = (arg_count == 1 && arg1 != 0) || arg_count == 2;
-
 /*
- * For bidirectional piping mode, we need an additional input_pipe
+ * In bidirectional piping mode, the process will read stdin from input_pipe
  */
     if(bidir_flag){
 	if (pipe(input_pipe)) {
@@ -1742,8 +1738,8 @@ int status;
     }/* End IF */
 
 /*
- * otherwise the process will not get any input and write both stdout and stderr
- * to output_pipe
+ * otherwise the process will not get any input and only write stdout to
+ * output_pipe
  */
     if(pipe(output_pipe)){
 	sprintf(tmpbuf,"?Error creating PIPE: %s",error_text(errno));
@@ -1766,11 +1762,13 @@ int status;
 	    close(1); dup(output_pipe[1]);
 	    close(0);
 	}
-	close(2);
+	close(2); /* don't use stderr */
 	close(output_pipe[0]);
 	close(output_pipe[1]);
 
-	/* FIXME: close other file descriptors */
+	/* Clean up */
+	for (w = 3; w < 256; w++)
+	    close(w);
 
 	execl("/bin/sh","sh","-c",cp,NULL);
 	exit(EXIT_FAILURE);
@@ -1791,6 +1789,10 @@ int status;
 	return(FAIL);
     }/* End IF */
 
+/*
+ * In bidirectional mode, write buffer range to input_pipe, delete buffer range
+ * and care about the Undo structures
+ */
     if(bidir_flag){
     	status = buff_write(curbuf,input_pipe[1],arg1,arg2);
     	close(input_pipe[1]);
@@ -1818,6 +1820,9 @@ int status;
  * Loop reading stuff coming back from the pipe until we get an
  * EOF which means the process has finished. Update the screen
  * on newlines so the user can see what is going on.
+ *
+ * In unidirectional mode, process output is written to DOT, otherwise to
+ * the selected buffer range (it effectively gets replaced by the process output).
  */
     ut = allocate_undo_token(uct);
     if(ut == NULL){
@@ -1873,7 +1878,8 @@ int status;
  
 /*
  * The wait here is required so that the process we forked doesn't
- * stay around as a zombie.
+ * stay around as a zombie. Also the command will only be Successful
+ * if the process indicated Success.
  */
     if(waitpid(pid,&status,0) == -1){
     	sprintf(tmpbuf,"?Error reaping child process <%d>: %s",
@@ -1897,11 +1903,12 @@ int status;
 
     return(SUCCESS);
 
-failreap:
-
 /*
- * NOTE: error message has already been displayed
+ * In case of errors, the process gets killed and is reaped.
+ * NOTE: Error message has already been displayed
  */
+
+failreap:
     kill(pid,SIGKILL);
     waitpid(pid,NULL,0);
     return(FAIL);
