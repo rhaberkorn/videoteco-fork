@@ -1710,129 +1710,164 @@ register int length;
  * user to execute operating system commands from within the editor.
  */
 int
-cmd_oscmd( struct cmd_token *ct )
+cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
 {
-register char *cp;
-int pid,w,status;
-int pipe_desc[2];
-int last_intr_flag;
-int line_cnt;
 char tmpbuf[LINE_BUFFER_SIZE];
-char pipebuff[IO_BUFFER_SIZE];
-extern char susp_flag;
-int pipe_buf_flag = 0;
-int buf_pipe[2];
+struct undo_token *ut;
+int olddot;
+int pid;
+int bidir_flag;
+int input_pipe[2], output_pipe[2];
+int _errno;
+int status;
 
     PREAMBLE();
 
-    if(ct->ctx.flags & CTOK_M_COLON_SEEN){
-	pipe_buf_flag = 1;
-	status = pipe(buf_pipe);
-	if (status != 0) {
-		error_message("?Error creating buffer pipe");
+    /* TODO: if only arg1 is given, calculate the buffer range */
+    /* FIXME: colon modifier does not return status */
+    bidir_flag = (arg_count == 1 && arg1 != 0) || arg_count == 2;
+
+/*
+ * For bidirectional piping mode, we need an additional input_pipe
+ */
+    if(bidir_flag){
+	if (pipe(input_pipe)) {
+		sprintf(tmpbuf,"?Error creating PIPE: %s",error_text(errno));
+		error_message(tmpbuf);
 		return(FAIL);
-	}
+	}/* End IF */
     }/* End IF */
 
-    cp = ct->ctx.carg;
 /*
- * Create a PIPE so that we can capture the output of the child process
+ * otherwise the process will not get any input and write both stdout and stderr
+ * to output_pipe
  */
-    status = pipe(pipe_desc);
-    if(status != 0){
+    if(pipe(output_pipe)){
 	sprintf(tmpbuf,"?Error creating PIPE: %s",error_text(errno));
 	error_message(tmpbuf);
 	return(FAIL);
     }/* End IF */
+
 /*
  * Fork to get a process to run the shell
  */
-    if((pid = fork()) == 0){
-        if (pipe_buf_flag) {
-            close(0); dup(buf_pipe[0]);
-            close(buf_pipe[0]);
-	    close(buf_pipe[1]);
+    pid = fork();
+    _errno = errno;
+    if(pid == 0){
+        if(bidir_flag){
+            close(0); dup(input_pipe[0]);
+            close(1); dup(output_pipe[1]);
+            close(2); dup(output_pipe[1]);
+            close(input_pipe[0]);
+            close(input_pipe[1]);
+	}else{
+	    close(1); dup(output_pipe[1]);
+	    close(2); dup(output_pipe[1]);
+	    close(0);
 	}
-	close(1); dup(pipe_desc[1]);
-	close(2); dup(pipe_desc[1]);
-	close(pipe_desc[0]);
-	close(pipe_desc[1]);
+	close(output_pipe[0]);
+	close(output_pipe[1]);
+
+	/* FIXME: close other file descriptors */
+
 	execl("/bin/sh","sh","-c",cp,NULL);
-	_exit(127);
+	exit(EXIT_FAILURE);
     }/* End IF */
+
+/*
+ * Close file descriptors which are no longer needed in the parent process
+ */
+    if(bidir_flag) close(input_pipe[0]);
+    close(output_pipe[1]);
+
     if(pid == -1){
-	close(pipe_desc[0]);
-	close(pipe_desc[1]);
-	sprintf(tmpbuf,"?Error performing FORK: %s",error_text(errno));
+    	if(bidir_flag) close(input_pipe[1]);
+	close(output_pipe[0]);
+
+	sprintf(tmpbuf,"?Error forking child process: %s",error_text(_errno));
+	error_message(tmpbuf);
 	return(FAIL);
     }/* End IF */
 
-    if (pipe_buf_flag) {
-	struct buff_line *tmp_line = curbuf->first_line;
+    if(bidir_flag){
+    	status = buff_write(curbuf,input_pipe[1],arg1,arg2);
+    	close(input_pipe[1]);
+    	if(status == FAIL){
+    	    close(output_pipe[0]);
+    	    goto failreap;
+    	}/* End If */
 
-	close(buf_pipe[0]);
-	while (tmp_line) {
-	    int n = tmp_line->byte_count;
-	    char *lb = tmp_line->buffer;
-
-	    w = write(buf_pipe[1], lb, n);
-	    while (w > 0) {
-		n -= w;
-		lb += w;
-		if (n == 0)
-		    break;
-		w = write(pipe_desc[1], lb, n);
-	    }
-	    tmp_line = tmp_line->next_line;
-	}
-	close(buf_pipe[1]);
-    }
-    close(pipe_desc[1]);
+    	status = buff_delete_with_undo(uct,curbuf,arg1,arg2-arg1);
+    	if(status == FAIL){
+    	    close(output_pipe[0]);
+    	    goto failreap;
+    	}/* End If */
+    }/* End If */
 
 /*
  * Loop reading stuff coming back from the pipe until we get an
  * EOF which means the process has finished. Update the screen
  * on newlines so the user can see what is going on.
  */
-    last_intr_flag = intr_flag;
-    line_cnt = 0;
+    if(bidir_flag){
+    	/* TODO: allocate UNDO token for pointer change */
+    	olddot = curbuf->dot;
+    	curbuf->dot = arg1;
+    }/* End If */
 
-    while((w = read(pipe_desc[0],pipebuff,sizeof(pipebuff))) > 0){
+    ut = allocate_undo_token(uct);
+    if(ut == NULL){
+    	close(output_pipe[0]);
+    	goto failreap;
+    }/* End If */
+    ut->opcode = UNDO_C_DELETE;
+    ut->carg1 = (char *)curbuf;
+    ut->iarg1 = curbuf->dot;
 
-	buff_insert(curbuf,curbuf->dot,pipebuff,w);
+    status = buff_readfd(curbuf,cp,output_pipe[0]);
+    close(output_pipe[0]);
+    if(status == FAIL) goto failreap;
 
-	if(intr_flag != last_intr_flag){
-	    kill(pid,SIGINT);
-	    last_intr_flag = intr_flag;
-	}/* End IF */
+    ut->iarg2 = curbuf->dot - ut->iarg1;
 
-	if(susp_flag){
-	    cmd_pause();
-	}/* End IF */
-
-	cp = pipebuff;
-	while(w--){
-	    if(intr_flag != last_intr_flag) break;
-	    if(*cp++ == '\n' && line_cnt++ > (term_lines / 4)){
-		line_cnt = 0;
-		if(tty_input_pending()) break;
-		screen_format_windows();
-		screen_refresh();
-	    }/* End IF */
-	}/* End While */
-
-    }/* End While */
-
-    close(pipe_desc[0]);
-
+    if(bidir_flag){
+    	curbuf->dot = olddot;
+    	if(curbuf->dot >= ut->iarg1) curbuf->dot += ut->iarg2;
+    }/* End If */
+ 
 /*
  * The wait here is required so that the process we forked doesn't
  * stay around as a zombie.
  */
-    status = 0;
-    while((w = wait(&status)) != pid && w != -1);
+    if(waitpid(pid,&status,0) == -1){
+    	sprintf(tmpbuf,"?Error waiting for child process <%d>: %s",
+    		pid,error_text(errno));
+	error_message(tmpbuf);
+	return(FAIL);
+    }/* End If */
+    if (!WIFEXITED(status)){
+    	sprintf(tmpbuf,"?Child process <%d> terminated abnormally",
+    		pid);
+	error_message(tmpbuf);
+	return(FAIL);
+    }/* End If */
+    if(WEXITSTATUS(status) != EXIT_SUCCESS){
+    	sprintf(tmpbuf,"?Child process <%d> terminated with status %d",
+    		pid,WEXITSTATUS(status));
+	error_message(tmpbuf);
+	return(FAIL);
+    }/* End If */
 
     return(SUCCESS);
+
+failreap:
+
+/*
+ * NOTE: error message has already been displayed
+ */
+    kill(pid,SIGKILL);
+    waitpid(pid,NULL,0);
+    return(FAIL);
 
 }/* End Routine */
 

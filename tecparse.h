@@ -297,7 +297,7 @@ struct undo_token {
 #define UNDO_C_SELECT_TAGS	25
 #define UNDO_C_SET_EXIT_FLAG	26
 
-int cmd_oscmd(struct cmd_token *ct);
+int cmd_oscmd(struct cmd_token *, int, int, int, char *);
 int buff_insert_from_buffer_with_undo( struct cmd_token *,
 			struct buff_header *,int,struct buff_header *,int,int);
 int buff_delete_with_undo( struct cmd_token *,struct buff_header *,int,int);

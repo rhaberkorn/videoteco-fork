@@ -2426,17 +2426,20 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_ECCOMMAND:
 	    {/* Local Block */
-	    int status;
+	    register int arg_count = 0;
+	    register int status;
 
-	    ut = allocate_undo_token(uct);
-	    if(ut == NULL) return(FAIL);
-	    ut->opcode = UNDO_C_DELETE;
-	    ut->carg1 = (char *)curbuf;
-	    ut->iarg1 = curbuf->dot;
-	    ut->iarg2 = 0;
+	    if(ct->ctx.iarg1_flag == YES) arg_count = 1;
+	    if(ct->ctx.iarg2_flag == YES) arg_count = 2;
 
-	    status = cmd_oscmd(ct);
-	    ut->iarg2 = curbuf->dot - ut->iarg1;
+	    status = cmd_oscmd(uct, arg_count, ct->ctx.iarg1, ct->ctx.iarg2,
+	    	    	       ct->ctx.carg);
+
+	    if(ct->ctx.flags & CTOK_M_COLON_SEEN){
+		ct->ctx.tmpval = status;
+		return(SUCCESS);
+	    }/* End IF */
+
 	    return(status);
 
 	    }/* End Local Block */

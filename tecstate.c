@@ -822,10 +822,8 @@ register struct cmd_token *oct = NULL;
  * into the edit buffer.
  */
 		case 'C': case 'c':
-		    if(ct->ctx.iarg1_flag == YES){
-			ct->execute_state = EXEC_C_ECCOMMAND;
-			ct->ctx.state = STATE_C_INITIALSTATE;
-			return;
+		    if(ct->ctx.flags & CTOK_M_COLON_SEEN){
+			ct->ctx.flags |= CTOK_M_STATUS_PASSED;
 		    }/* End IF */
 
 		    ct->ctx.state = STATE_C_STRING;
