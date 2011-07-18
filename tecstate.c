@@ -825,7 +825,6 @@ register struct cmd_token *oct = NULL;
 		    if(ct->ctx.flags & CTOK_M_COLON_SEEN){
 			ct->ctx.flags |= CTOK_M_STATUS_PASSED;
 		    }/* End IF */
-
 		    ct->ctx.state = STATE_C_STRING;
 		    oct = ct;
 		    ct = allocate_cmd_token(oct);
@@ -1365,6 +1364,16 @@ register struct cmd_token *oct = NULL;
 	    ct->execute_state = EXEC_C_ECCOMMAND;
 	    ct->ctx.state = STATE_C_INITIALSTATE;
 	    if(ct->input_byte == ESCAPE) ct->ctx.state = STATE_C_ESCAPESEEN;
+	    if(ct->ctx.flags & CTOK_M_STATUS_PASSED){
+		oct = ct;
+		ct = allocate_cmd_token(oct);
+		if(ct == NULL){
+		    oct->ctx.state = STATE_C_ERRORSTATE;
+		    return;
+		}/* End IF */
+		ct->ctx.iarg1_flag = YES; ct->ctx.iarg2_flag = NO;
+		ct->execute_state = EXEC_C_STORE1;
+	    }/* End IF */
 	    return;
 /*
  * The following state gets entered when the user has typed ^A

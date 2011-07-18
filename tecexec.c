@@ -2427,13 +2427,76 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	case EXEC_C_ECCOMMAND:
 	    {/* Local Block */
 	    register int arg_count = 0;
+	    register struct buff_header *hbp;
+	    register struct buff_line *lbp;
+	    register int i,j;
 	    register int status;
+	    int pos1 = 0, pos2 = 0;
 
 	    if(ct->ctx.iarg1_flag == YES) arg_count = 1;
 	    if(ct->ctx.iarg2_flag == YES) arg_count = 2;
 
-	    status = cmd_oscmd(uct, arg_count, ct->ctx.iarg1, ct->ctx.iarg2,
-	    	    	       ct->ctx.carg);
+	    hbp = curbuf;
+/*
+ * If two arguments were specified, then he has specified an a,b range to
+ * be piped into the process.
+ */
+	    if(arg_count == 2){
+		pos1 = ct->ctx.iarg1;
+		pos2 = ct->ctx.iarg2;
+		if(parse_illegal_buffer_position(pos1,pos2,"EC")){
+		    return(FAIL);
+		}/* End IF */
+		if(pos2 < pos1){
+		    pos2 = ct->ctx.iarg1;
+		    pos1 = ct->ctx.iarg2;
+		}/* End IF */
+	    }/* End IF */
+/*
+ * Else, if it was a single command, it is a relative EC which affects a
+ * portion of the buffer in a similar way as if it was an L command. Our job
+ * now is to turn it into a a,b range.
+ */
+	    else if(arg_count == 1){
+		lbp = buff_find_line(hbp,hbp->dot);
+/*
+ * Start by pretending it was a 0L command, and get to the begining of
+ * the line. That allows us to not worry about offset onto current line.
+ */
+		j = 0 - buff_find_offset(hbp,lbp,hbp->dot);
+		i = ct->ctx.iarg1;
+/*
+ * If argument is positive, movement is forward
+ */
+		if(i > 0){
+		    while(i-- && lbp){
+			j += lbp->byte_count;
+			lbp = lbp->next_line;
+		    }/* End WHILE */
+		    if(lbp == NULL){
+			error_message("?Attempt to Move Pointer Off Page with EC");
+			return(FAIL);
+		    }/* End IF */
+		    pos1 = hbp->dot;
+		    pos2 = hbp->dot + j;
+		}/* End IF */
+
+		else {
+
+		    while(i++ && lbp){
+			lbp = lbp->prev_line;
+			if(lbp == NULL){
+			    error_message("?Attempt to Move Pointer Off Page with EC");
+			    return(FAIL);
+			}/* End IF */
+			j -= lbp->byte_count;
+		    }/* End WHILE */
+		    pos1 = hbp->dot + j;
+		    pos2 = hbp->dot;
+		}/* End Else */
+	    }/* End Else */
+
+	    status = cmd_oscmd(uct,arg_count,pos1,pos2,ct->ctx.carg);
 
 	    if(ct->ctx.flags & CTOK_M_COLON_SEEN){
 		ct->ctx.tmpval = status;
