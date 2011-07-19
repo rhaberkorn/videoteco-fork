@@ -1706,8 +1706,28 @@ register int length;
 /**
  * \brief Issue a command to the operating system
  *
- * This routine is called in response to the EC command which allows the
+ * This routine is called in response to the \c EC command which allows the
  * user to execute operating system commands from within the editor.
+ * Buffer content can either be piped into the process and replaced with its
+ * output (filtering) or the command's output can be inserted at the current
+ * buffer pointer position.
+ *
+ * \param uct		Command Token
+ * \param arg_count	Number of arguments passed to \c EC. 0 results in
+ *			unidirectional piping of the command's output into
+ *			the edit buffer (at \e DOT). 1 or 2 indicates that
+ *			\a arg1 and \a arg2 contain a buffer range that should
+ *			be filtered through the command (single-arguments to
+ *			\c EC indicating a relative buffer range in lines are
+ *			already translated).
+ * \param arg1		Start of buffer range. It is ensured to be less than
+ *			\a arg2.
+ * \param arg2		End of buffer range
+ * \param cp		Command string that will be executed by \c /bin/sh
+ *
+ * \return		Status Code
+ * \retval SUCCESS	Command succeeded
+ * \retval FAIL		Command failed. Error message has been displayed.
  */
 int
 cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
