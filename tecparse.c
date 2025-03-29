@@ -1004,6 +1004,19 @@ char inbuf[4];
 
 	if(errno == EINTR) continue;
 #endif
+#ifdef MSDOS
+	waiting_for_input_flag = YES;
+	/* does not echo */
+	i = getch();
+	waiting_for_input_flag = NO;
+
+	intr_flag = 0;
+
+	if(i != EOF){
+	    inbuf[0] = i;
+	    break;
+	}
+#endif
 #ifdef VMS
 	waiting_for_input_flag = YES;
 	i = sys$qiow(0,tty_input_chan,IO$_READVBLK|IO$M_NOECHO|IO$M_NOFILTR,
@@ -1091,7 +1104,7 @@ register struct buff_header *qbp;
  * The return code determines whether this was done okay or not.
  */
 int
-unpreserve_rubout_char( struct cmd_token *ct __attribute__((unused)))
+unpreserve_rubout_char( struct cmd_token *ct )
 {
 register struct buff_header *qbp;
 int c;
@@ -1133,7 +1146,7 @@ int c;
  * special Q-register so that it doesn't grow without bounds.
  */
 void
-parser_clean_preserve_list()
+parser_clean_preserve_list( void )
 {
 register struct buff_header *qbp;
 

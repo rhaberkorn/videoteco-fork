@@ -41,8 +41,8 @@
 #define BLOCKED 2
 #define INVALIDATE 3
 
-#define VMAJOR 6
-#define VMINOR 7
+#define VMAJOR 7
+#define VMINOR 0
 #define AUTO_DATE "$Date: 2007/12/10 22:13:07 $"
 
 #define TECO_FILENAME_TOTAL_LENGTH 1024
@@ -60,7 +60,12 @@
 #define LINE_BUFFER_SIZE 1024
 #define DEFAULT_CHECKPOINT (5*60)
 #define TAG_HASH_ENTRIES	1024
+#if defined(MSDOS) && !defined(__HUGE__)
+/* make sure that all variables fit into 64kb */
+#define PARSER_STRING_MAX	512
+#else
 #define PARSER_STRING_MAX	1024
+#endif
 #define	SEARCH_STRING_MAX	PARSER_STRING_MAX
 #define NORMAL_TAB_WIDTH 8
 #define MAX_TAB_WIDTH 16
@@ -69,8 +74,18 @@
 #define INITIAL_LINE_BUFFER_SIZE 32
 #define INCREMENTAL_LINE_BUFFER_SIZE 32
 #define MINIMUM_ALLOCATION_BLOCK 32
+#if defined(MSDOS) && !defined(__HUGE__)
+/*
+ * FIXME: The lookaside mechanism needs to be revised.
+ * It has been disabled, so that all tec_alloc() are
+ * more or less directly passed to malloc().
+ */
+#define LOOKASIDE_COUNT 1
+#define LARGEST_LOOKASIDE_BLOCK 0
+#else
 #define LOOKASIDE_COUNT 32
 #define LARGEST_LOOKASIDE_BLOCK (LOOKASIDE_COUNT * MINIMUM_ALLOCATION_BLOCK)
+#endif
 #define BIG_MALLOC_HUNK_SIZE (LARGEST_LOOKASIDE_BLOCK * 64)
 #define NORMAL_TAB_WIDTH 8
 
@@ -129,12 +144,12 @@
 #define TYPE_C_TAGSTR		49
 #define TYPE_C_MAXTYPE		49
 
-#define MAGIC_SCREEN		0x01010101
-#define MAGIC_BUFFER		0x02020202
-#define MAGIC_LINE		0x03030303
-#define MAGIC_LINE_LOOKASIDE	0x04040404
-#define MAGIC_FORMAT		0x05050505
-#define MAGIC_FORMAT_LOOKASIDE	0x06060606
+#define MAGIC_SCREEN		((int)0x01010101)
+#define MAGIC_BUFFER		((int)0x02020202)
+#define MAGIC_LINE		((int)0x03030303)
+#define MAGIC_LINE_LOOKASIDE	((int)0x04040404)
+#define MAGIC_FORMAT		((int)0x05050505)
+#define MAGIC_FORMAT_LOOKASIDE	((int)0x06060606)
 
 #ifdef DEBUG1
 void do_preamble_checks(void);
@@ -352,15 +367,22 @@ typedef unsigned long teco_ptrint_t;
  * vms. It lets us write our own version of functions which simply do not
  * exist outside of unix.
  */
-#ifndef VMS
+#if !defined(VMS) && !defined(MSDOS)
 #define UNIX
 #define JOB_CONTROL
 #endif
 
 /*
  * Include Files From GNU Autoconf/Autoheader
+ *
+ * FIXME: The Autoconf build system does not pass down -DHAVE_CONFIG_H.
+ * This should be fixed by rewriting it as the original sources
+ * are missing.
  */
+//#ifdef HAVE_CONFIG_H
+#ifndef __WATCOMC__
 #include "config.h"
+#endif
 
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
@@ -451,6 +473,10 @@ typedef unsigned long teco_ptrint_t;
 #endif
 #endif
 
+#if HAVE_DIRECT_H
+#include <direct.h>
+#endif
+
 #if HAVE_SYS_WAIT_H
 # include <sys/wait.h>
 #endif
@@ -473,6 +499,10 @@ typedef unsigned long teco_ptrint_t;
 
 #if HAVE_TERMIO_H
 # include <termio.h>
+#endif
+
+#if HAVE_IO_H
+#include <io.h>
 #endif
 
 #if HAVE_FCNTL_H
@@ -563,6 +593,10 @@ typedef unsigned long teco_ptrint_t;
 		    fake_destination = *((int *)(0x0FFFFFFF));	\
 		    (void)fake_destination;			\
 		}
+#endif
+
+#ifdef MSDOS
+#include <conio.h>
 #endif
 
 /* method declarations */

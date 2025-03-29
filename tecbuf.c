@@ -92,10 +92,10 @@ unsigned int hash = stringHash( name );
 //	printf("hash match! %s %s\n",name,bp->name);
 /*
  * This loop implements the equivalent of strcmp, except that in the
- * case of VMS, it is case insensitive.
+ * case of VMS and MS-DOS, it is case insensitive.
  */
 	for(cp1 = name, cp2 = bp->name;;cp1++,cp2++){
-#ifdef VMS
+#if defined(VMS) || defined(MSDOS)
 	    if(UPCASE(*cp1) != UPCASE(*cp2)) break;
 #else
 	    if(*cp1 != *cp2) break;
@@ -1488,9 +1488,11 @@ char outbuf[1024];
 		bytes_required_for_line + INCREMENTAL_LINE_BUFFER_SIZE - 1;
 	    bytes_to_allocate -=
 		bytes_to_allocate % INCREMENTAL_LINE_BUFFER_SIZE;
+#if LARGEST_LOOKASIDE_BLOCK > 0
 	    if(dlbp->buffer_size > LARGEST_LOOKASIDE_BLOCK){
 		bytes_to_allocate = dlbp->buffer_size * 2;
 	    }/* End IF */
+#endif
 
 	    if(bytes_to_allocate < bytes_required_for_line){
 		char tmp_message[1024];
@@ -1610,9 +1612,11 @@ char outbuf[1024];
 		bytes_required_for_line + INCREMENTAL_LINE_BUFFER_SIZE - 1;
 	    bytes_to_allocate -=
 		bytes_to_allocate % INCREMENTAL_LINE_BUFFER_SIZE;
+#if LARGEST_LOOKASIDE_BLOCK > 0
 	    if(dlbp->buffer_size > LARGEST_LOOKASIDE_BLOCK){
 		bytes_to_allocate = dlbp->buffer_size * 2;
 	    }/* End IF */
+#endif
 
 	    if(bytes_to_allocate < bytes_required_for_line){
 		char tmp_message[1024];

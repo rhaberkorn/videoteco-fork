@@ -39,7 +39,7 @@ char *tecmem_c_version = "tecmem.c: $Revision: 1.3 $";
 
     char *starting_break;
 
-#ifndef HAVE_UNISTD_H
+#if !defined(HAVE_UNISTD_H) && !defined(HAVE_STDLIB_H)
     char *malloc();
     void free();
     void exit();

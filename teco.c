@@ -188,7 +188,7 @@ register int i;
     remove_checkpoint_file();
 #endif /* CHECKPOINT */
 
-#ifdef UNIX
+#if defined(UNIX) || defined(MSDOS)
     return(0);
 #endif
 
@@ -210,7 +210,7 @@ register int i;
  * package a chance to initialize itself.
  */
 void
-initialize_tty()
+initialize_tty( void )
 {
 #if HAVE_TERMIOS_H
     struct termios tmp_tty_modes;
@@ -427,7 +427,56 @@ initialize_tty()
 
 /* END OF UNIX CONDITIONAL CODE */
 
+#ifdef MSDOS
+
+void
+initialize_tty( void )
+{
+    tty_input_chan = 0;
+    tty_output_chan = 1;
+
+    /*
+     * The terminal speed is checked in various situations,
+     * so it's important to be initialized even though we're
+     * not on a real serial connection.
+     */
+    term_speed = 32000;
+    main_delete_character = 8;
+
+    // Block cursor
+    //_settextcursor(0x0007);
+
+/*
+ * Check out the termcap description for this tty now. It makes
+ * no sense to go changing the terminal modes all around until
+ * we decide whether we can run on this terminal or not.
+ */
+    init_term_description();
+
+    if(forced_height > 0) term_lines = forced_height;
+    if(forced_width > 0) term_columns = forced_width;
+    if(term_lines == 0) term_lines = 24;
+    if(term_columns == 0) term_columns = 80;
+
+    if(term_lines >= SCREEN_MAX_LINES){
+	char tmp_message[LINE_BUFFER_SIZE];
+	sprintf(
+	    tmp_message,
+	    "terminal line count of %d exceeds maximum of %d",
+	    term_lines,
+	    SCREEN_MAX_LINES
+	);
+	tec_error(E2BIG,tmp_message);
+    }/* End IF */
+
+    screen_init();
+}/* End Routine */
+
+#endif /* MSDOS */
+
 
+
+#ifndef MSDOS
 
 #if !HAVE_TCGETATTR
 
@@ -503,6 +552,8 @@ int status;
 }/* End Routine */
 
 #endif /* !HAVE_TCSETATTR */
+
+#endif /* !MSDOS */
 
 #ifdef VMS
 
@@ -741,6 +792,10 @@ int err;
 
 #endif
 
+#ifdef MSDOS
+    if(kbhit()) return(YES);
+#endif
+
     return(NO);
 
 }/* End Routine */
@@ -816,6 +871,16 @@ char comment_flag = NO;
     else return;
 
     (void) strcat(filename,"/.teco_ini");
+
+#endif
+
+#ifdef MSDOS
+
+    /*
+     * FIXME: We should use the location
+     * of teco.exe.
+     */
+    (void) strcat(filename,".teco_ini");
 
 #endif
 
@@ -956,7 +1021,11 @@ char *cp, c;
  * This code handles the command line arguments to VTECO. This requires
  * different processing for different operating systems.
  */
-#ifdef UNIX
+#if defined(UNIX) || defined(MSDOS)
+/*
+ * FIXME: Perhaps DOS should have its own version with `/` arguments.
+ * The Watcom C runtime probably also doesn't expand wildcards.
+ */
 int
 handle_command_line( int which_time, int argc, char **argv )
 {
@@ -1323,7 +1392,7 @@ char *cp,*sp;
  *
  * This routine returns a linked list of expanded filenames.
  */
-#ifdef UNIX
+#if defined(UNIX) || defined(MSDOS)
 struct wildcard_expansion *name_list;
 struct wildcard_expansion *name_list_end;
 
@@ -1339,12 +1408,16 @@ struct passwd *pw;
     name_list = NULL;
     name_list_end = NULL;
 
+    /*
+     * FIXME: DOS should use \ directory separators.
+     */
 /*
  * Else, start branching down into the directory list he specified
  */
     if(wildcard_string[0] == '/'){
 	process_directory(&wildcard_string[0],"/",2);
     }
+#ifdef UNIX
     else if (wildcard_string[0] == '~'){
 	cp = temp_name;
 	sp = &wildcard_string[1];
@@ -1360,6 +1433,7 @@ struct passwd *pw;
 	strcat(temp_name,sp);
 	process_directory(temp_name,"/",2);
     }
+#endif
     else {
 	strcpy(temp_name,"./");
 	strcat(temp_name,wildcard_string);
@@ -1616,7 +1690,7 @@ int pattern_char;
     }/* End While */
 }/* End Routine */
 
-#endif
+#endif /* UNIX || MSDOS */
 
 
 
@@ -1699,6 +1773,8 @@ open_debug_log_file()
 
 
 
+#ifndef MSDOS
+
 /**
  * \brief Map system dependent baud fields to a standard integer
  *
@@ -1774,6 +1850,8 @@ static int equivalent_baudrates[] = {
 
 }/* End Routine */
 
+#endif /* !MSDOS */
+
 
 
 /**
@@ -1842,7 +1920,7 @@ static char *tec_errlist[] = {
     }/* End IF */
 #endif
 
-#ifdef UNIX
+#if defined(UNIX) || defined(MSDOS)
 #if 0
     return((char *)sys_errlist[err_num]);
 #endif

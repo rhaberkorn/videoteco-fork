@@ -1,0 +1,41 @@
+CC = $(%WATCOM)/binl64/wcc
+LD = $(%WATCOM)/binl64/wlink
+
+# For the fastest code (C Guide, p.70):
+# -onatx -oh -oi+ -ei -zp8 -0 -fpi87
+# Large data model: far code and data pointers
+!ifdef DEBUG
+# You can also -dDEBUG or even -dDEBUG1.
+CFLAGS = -d2
+#-dDEBUG1
+LDFLAGS = debug all
+!endif
+
+CFLAGS += -q -ze -j -os -0 -ml -bt=DOS @WCC_DEFS
+LDFLAGS += format dos option map option stack=16k &
+           libpath $(%WATCOM)/lib286:$(%WATCOM)/lib286/dos
+
+.BEFORE
+!ifndef %WATCOM
+	set WATCOM=/usr/bin/watcom
+!endif
+	set include=$(%WATCOM)/h
+	set lib=$(%WATCOM)/lib286;$(%WATCOM)/lib286/dos
+	set WCC_DEFS=-dSTDC_HEADERS=1 -dHAVE_STDIO_H -dHAVE_CTYPE_H -dHAVE_ERRNO_H &
+	             -dHAVE_STRING_H -dHAVE_STRINGS_H -dHAVE_FCNTL_H -dHAVE_IO_H &
+	             -dHAVE_SYS_STAT_H -dHAVE_SIGNAL_H -dHAVE_STDLIB_H -dHAVE_UNISTD_H &
+	             -dHAVE_STDINT_H -dHAVE_DIRECT_H -dHAVE_SBRK -dHAVE_STRCHR -dTERMCAP
+
+all : teco.exe .SYMBOLIC
+
+teco.exe : tecbuf.obj teccmd.obj tecdebug.obj tecdisp.obj tecexec.obj &
+           tecmem.obj teco.obj tecparse.obj tecstate.obj tecterm.obj tecundo.obj
+	set WLINK_OBJ=$(LDFLAGS) name $@ file { $< }
+	$(LD) @WLINK_OBJ
+
+.c.obj:
+	$(CC) $(CFLAGS) -fo=$@ $<
+
+clean: .SYMBOLIC
+	rm -f teco.exe
+	rm *.obj

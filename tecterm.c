@@ -37,6 +37,13 @@ char *tecterm_c_version = "tecterm.c: $Revision: 1.3 $";
 #include <term.h>
 #endif
 
+#if defined(VMS) || defined(MSDOS)
+int tgetent(char *,char *);
+int scan_termcap(FILE *,char *,char *);
+int tgetnum(char *);
+char *tgetstr(char *, char **);
+#endif
+
 /*
  * Global Storage is defined here for lack of a better place.
  */
@@ -1045,7 +1052,7 @@ term_flush()
 
     i = SCREEN_OUTPUT_BUFFER_SIZE - scr_outbuf_left;
 
-#ifdef UNIX
+#if defined(UNIX) || defined(MSDOS)
     if(i) write(tty_output_chan,scr_outbuf,(unsigned)i);
 #endif
 
@@ -1072,7 +1079,7 @@ term_flush()
  * has certain basic capabilities that we require.
  */
 int
-init_term_description()
+init_term_description( void )
 {
     char termcap_description_buffer[TERMCAP_BUFFER_SIZE];
     char *terminal_name;
@@ -1086,7 +1093,11 @@ init_term_description()
 
     if((terminal_name = getenv("TECO_TERM")) == NULL){
 	if((terminal_name = getenv("TERM")) == NULL){
+#ifdef MSDOS
+	    terminal_name = "ansi.sys";
+#else
 	    tec_error(ENOENT,"Environment variable TERM not found");
+#endif
 	}/* End IF */
     }/* End IF */
 
@@ -1319,7 +1330,6 @@ init_term_description()
 
 
 #ifdef VMS
-char *current_termcap_description;
 char *termcap =
 "d1|vt100-80|vt-100|dec vt100:\
 :co#80:li#24:cl=50\\E[;H\\E[2J:bs:am:cm=5\\E[%i%2;%2H:nd=2\\E[C:up=2\\E[A:\
@@ -1328,7 +1338,33 @@ char *termcap =
 :ku=\\E[A:kd=\\E[B:kr=\\E[C:kl=\\E[D:\
 :cs=\\E[%i%d;%dr:sf=5\\ED:\
 :kh=\\E[H:k1=\\EOP:k2=\\EOQ:k3=\\EOR:k4=\\EOS:pt:sr=5\\EM:xn:xv:";
+#endif
 
+#ifdef MSDOS
+/*
+ * Generated via `infocmp -C ansi.sys`.
+ */
+char *termcap =
+"ansi.sys|ANSI.SYS 3.1 and later versions:\
+:am:bs:mi:ms:xo:\
+:co#80:li#25:\
+:K1=\\0G:K2=\\0L:K3=\\0I:K4=\\0O:K5=\\0Q:ce=\\E[K:cl=\\E[2J:\
+:cm=\\E[%i%d;%dH:do=\\E[B:ho=\\E[H:is=\\E[m\\E[?7h:k1=\\0;:\
+:k2=\\0<:k3=\\0=:k4=\\0>:k5=\\0?:k6=\\0@:k7=\\0A:k8=\\0B:k9=\\0C:\
+:kD=\\0S:kI=\\0R:kN=\\0Q:kP=\\0I:kb=^H:kd=\\0P:kh=\\0G:kl=\\0K:\
+:kr=\\0M:ku=\\0H:le=^H:mb=\\E[5m:md=\\E[1m:me=\\E[0m:mr=\\E[7m:\
+:nd=\\E[C:rc=\\E[u:\
+:..sa=\\E[0;10%?%p1%t;7%;%?%p2%t;4%;%?%p3%t;7%;%?%p4%t;5%;%?%p6%t;1%;%?%p7%t;8%;%?%p9%t;11%;m:\
+:sc=\\E[s:se=\\E[m:so=\\E[7m:ue=\\E[m:up=\\E[A:us=\\E[4m:"
+/*
+ * Some extensions.
+ * At least Dosbox seems to have these escapes.
+ */
+":cd=50\\E[J:al=\\E[1L:dl=\\E[1M:ic=\\E[1@:dc=\\E[1P:";
+#endif
+
+#if defined(VMS) || defined(MSDOS)
+char *current_termcap_description;
 
 /**
  * \brief Version of TGETENT for Non-UNIX systems
@@ -1398,6 +1434,7 @@ FILE *fd;
  * This routine scans the termcap file for an entry which matches our
  * terminal, and returns non-zero if it finds it.
  */
+int
 scan_termcap(fd,temp_buffer,term_name)
 FILE *fd;
 char *temp_buffer;
@@ -1553,4 +1590,4 @@ char *buffer;
 
 /* END OF VMS CONDITIONAL CODE */
 
-#endif
+#endif /* VMS || MSDOS */

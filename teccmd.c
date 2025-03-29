@@ -1047,6 +1047,11 @@ int status;
 
     PREAMBLE();
 
+    /*
+     * FIXME: This could be supported on MS-DOS if we
+     * respected DOS directory separators and
+     * used short filename extensions.
+     */
 #ifdef UNIX
 /*
  * First step is to separate the path elements from the filename itself.
@@ -1198,7 +1203,12 @@ register int status;
     PREAMBLE();
 
 #ifndef HAVE_LONG_FILE_NAMES
-    if(mkdir(pathname,0777)){
+#ifdef MSDOS
+    i = mkdir(pathname);
+#else
+    i = mkdir(pathname,0777);
+#endif
+    if(i){
 	if(errno != EEXIST){
 	    sprintf(tmp_message,"?Error creating subdirectory <%s>: %s",
 		pathname,error_text(errno));
@@ -1492,8 +1502,12 @@ cmd_interrupt()
 	if(waiting_for_input_flag == NO){
 	    restore_tty();
 	    fprintf(stderr,"TECO aborted...\n");
+#ifdef MSDOS
+	    abort();
+#else
 	    signal(SIGINT,(void (*)(int))SIG_DFL);
 	    kill(getpid(),SIGINT);
+#endif
 	}/* End IF */
     }/* End IF */
 
@@ -1937,11 +1951,7 @@ failreap:
 
 /* END OF UNIX CONDITIONAL CODE */
 
-#endif
-
-
-
-#ifdef VMS
+#else /* UNIX */
 
 /**
  * \brief Issue a command to the operating system
@@ -1949,12 +1959,16 @@ failreap:
  * This routine is called in response to the EC command which allows the
  * user to execute operating system commands from within the editor.
  */
-cmd_oscmd(ct)
-register struct cmd_token *ct;
+int
+cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
 {
     PREAMBLE();
 
-    error_message("?VMS Does not currently support EC");
+    /*
+     * FIXME: We could at least implement a subset with system(),
+     * that would work on DOS as well.
+     */
+    error_message("?OS Does not currently support EC");
     return(FAIL);
 
 }/* End Routine */
