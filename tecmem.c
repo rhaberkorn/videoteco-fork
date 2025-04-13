@@ -78,7 +78,7 @@ char *
 tec_alloc( int type, int size )
 {
 int actual_size;
-register int i,j;
+register int i;
 register char *cp;
 register struct memblock *mp;
 register struct memlist *lp;
@@ -173,7 +173,7 @@ extern char outof_memory;
     }/* End IF */
 
     if(lookaside_lists[i] == NULL){
-	j = BIG_MALLOC_HUNK_SIZE / actual_size;
+	//j = BIG_MALLOC_HUNK_SIZE / actual_size;
 	cp = (char *)malloc((unsigned)(BIG_MALLOC_HUNK_SIZE));
 
 	if(cp == NULL){

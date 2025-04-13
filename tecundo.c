@@ -311,7 +311,7 @@ register struct cmd_token *ct;
 	case UNDO_C_SET_SEARCH_GLOBALS:
 	    last_search_pos1 = ut->iarg1;
 	    last_search_pos2 = ut->iarg2;
-	    last_search_status = (int)ut->carg1;
+	    last_search_status = (int)(uintptr_t)ut->carg1;
 	    break;
 /*
  * This function puts the previous tags file back

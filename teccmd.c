@@ -522,7 +522,7 @@ int new_length;
     ut->opcode = UNDO_C_SET_SEARCH_GLOBALS;
     ut->iarg1 = last_search_pos1;
     ut->iarg2 = last_search_pos2;
-    ut->carg1 = (char *)last_search_status;
+    ut->carg1 = (char *)(uintptr_t)last_search_status;
 
 /*
  * If the new length is the same as the old length, there is a chance we are
@@ -1223,7 +1223,7 @@ register int status;
 	    errno = EEXIST;
 	    return(FAIL);
 	}/* End IF */
-	sprintf(tmp_message,"?Error opening <%s>: %s",
+	snprintf(tmp_message,sizeof(tmp_message),"?Error opening <%s>: %s",
 	    tmp_filename,error_text(errno));
 	error_message(tmp_message);
 	errno = 0;
@@ -1233,7 +1233,7 @@ register int status;
     while(1){
 	i = read(fi,iobuf,IO_BUFFER_SIZE);
 	if(i < 0){
-	    sprintf(tmp_message,"?Error reading <%s>: %s",
+	    snprintf(tmp_message,sizeof(tmp_message),"?Error reading <%s>: %s",
 		input_filename,error_text(errno));
 	    error_message(tmp_message);
 	    close(fo);
@@ -1243,7 +1243,7 @@ register int status;
 
 	status = write(fo,iobuf,(unsigned)i);
 	if(status < 0){
-	    sprintf(tmp_message,"?Error writing <%s>: %s",
+	    snprintf(tmp_message,sizeof(tmp_message),"?Error writing <%s>: %s",
 		tmp_filename,error_text(errno));
 	    error_message(tmp_message);
 	    close(fo);

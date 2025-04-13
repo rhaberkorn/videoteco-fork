@@ -137,6 +137,9 @@
 #define MAGIC_FORMAT_LOOKASIDE	0x06060606
 
 #ifdef DEBUG1
+void do_preamble_checks(void);
+void do_return_checks(void);
+
 #define PREAMBLE() 		\
     do_preamble_checks();
 
@@ -558,6 +561,7 @@ typedef unsigned long teco_ptrint_t;
 		{						\
 		    int fake_destination;			\
 		    fake_destination = *((int *)(0x0FFFFFFF));	\
+		    (void)fake_destination;			\
 		}
 #endif
 
@@ -571,7 +575,7 @@ int buff_readfd(struct buff_header *hbp,char *name,int iochan);
 int buff_insert(struct buff_header *hbp,int position,char *buffer,int length);
 int screen_label_line(struct buff_header *buffer,char *string,int field);
 int buff_write(struct buff_header *hbp,int chan,int start,int end);
-void tecmem_stats();
+void tecmem_stats(void);
 void screen_free_format_lines(struct format_line *sbp);
 int buff_delete_char(struct buff_header *hbp,int position);
 int compile_search_string(struct search_buff *search_tbl);
@@ -628,29 +632,27 @@ void screen_scroll(int);
 void parser_dump_command_line(struct buff_header *);
 int parser_replace_command_line(struct buff_header *);
 void tec_gc_lists(void);
-void screen_deallocate_format_lookaside_list();
-void buff_deallocate_line_buffer_lookaside_list();
-int buff_init();
+void screen_deallocate_format_lookaside_list(void);
+void buff_deallocate_line_buffer_lookaside_list(void);
+int buff_init(void);
 void tec_error(int, char *);
 int handle_command_line(int,int,char **);
-void tecparse();
+void tecparse(void);
 //void term_putc(char);
 int term_putc(int);
-void term_flush();
-int screen_init();
-void screen_finish();
-int exec_doq0();
+void term_flush(void);
+int screen_init(void);
+void screen_finish(void);
+int exec_doq0(void);
 void punt(int);
-void screen_reset_message();
+void screen_reset_message(void);
 int tecparse_syntax(int);
 void screen_echo(char);
-void cmd_pause();
-void cmd_suspend();
+void cmd_pause(void);
+void cmd_suspend(void);
 int term_putnum(char *,int,int);
 int term_scroll_region(int,int);
-int init_term_description();
-//int tgetent(char *,char *);
-//int tgetnum(char *);
+int init_term_description(void);
 char *tec_alloc(int,int);
 void initialize_memory_stats( void );
 struct buff_header *buff_qfind(char,char);

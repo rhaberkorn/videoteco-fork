@@ -1927,7 +1927,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 		    char string1[PARSER_STRING_MAX];
 
 		    extract_label(goto_ptr,string1);
-		    (void) sprintf(tmp_message,"?Can't find label <%s>",
+		    (void) snprintf(tmp_message,sizeof(tmp_message),"?Can't find label <%s>",
 			string1);
 		    error_message(tmp_message);
 		    return(FAIL);

@@ -757,11 +757,11 @@ init_signals()
 {
 
 #if 0
-int cmd_suspend();
+int cmd_suspend(void);
 #endif
-int cmd_interrupt();
-int cmd_alarm();
-int cmd_winch();
+int cmd_interrupt(void);
+int cmd_alarm(void);
+int cmd_winch(void);
 
     PREAMBLE();
 
@@ -1056,7 +1056,7 @@ register int i,j;
 int count;
 register char *cp,*dp;
 struct wildcard_expansion *name_list,*np;
-struct wildcard_expansion *expand_filename();
+struct wildcard_expansion *expand_filename(char *);
 int number_of_buffers_opened = 0;
 char switch_buffer[TECO_FILENAME_TOTAL_LENGTH];
 char *command_line;

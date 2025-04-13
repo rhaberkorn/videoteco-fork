@@ -1106,7 +1106,7 @@ int max_length;
     for(hbp = buffer_headers; hbp != NULL ; hbp = hbp->next_header){
 	if(hbp->buffer_number <= 0) continue;
 	i = max_length - strlen(hbp->name);
-	sprintf(tmp_buffer,"<Buffer %-4d> %s%s %s %6d bytes\n",
+	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6d bytes\n",
 	    hbp->buffer_number,hbp->name,&padd_buffer[sizeof(padd_buffer)-1-i],
 	    hbp->ismodified ? "(modified)" : "          ",hbp->zee);
 	i = strlen(tmp_buffer);
@@ -1118,7 +1118,7 @@ int max_length;
     for(hbp = buffer_headers; hbp != NULL ; hbp = hbp->next_header){
 	if(hbp->buffer_number >= 0) continue;
 	i = max_length - strlen(hbp->name);
-	sprintf(tmp_buffer,"<Buffer %-4d> %s%s %s %6d bytes\n",
+	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6d bytes\n",
 	    hbp->buffer_number,hbp->name,&padd_buffer[sizeof(padd_buffer)-1-i],
 	    hbp->ismodified ? "(modified)" : "          ",hbp->zee);
 	i = strlen(tmp_buffer);
@@ -1327,8 +1327,6 @@ int bytes_inserted_so_far = 0;
 
 #ifdef DEBUG
 char outbuf[1024];
-char inbuf[10];
-extern int tty_input_chan;
     term_goto(0,0);
     term_clrtobot();
     term_flush();
