@@ -2408,6 +2408,7 @@ struct buff_header *hbp = wptr->win_buffer;
 	    tec_alloc(TYPE_C_SCREEN,sizeof(struct format_line));
 	if(sbp == NULL) return(NULL);
 
+	memset(sbp,0,sizeof(*sbp));
 	sbp->fmt_buffer_size = term_columns;
 	sbp->fmt_buffer = (short *)
 	    tec_alloc(
@@ -2495,6 +2496,7 @@ register int i;
     wptr = (struct window *)tec_alloc(TYPE_C_WINDOW,sizeof(struct window));
     if(wptr == NULL) return(NULL);
 
+    memset(wptr,0,sizeof(*wptr));
     wptr->win_label_line.fmt_buffer = (short *)
 	tec_alloc(TYPE_C_SCRBUF,(int)(sizeof(short) * x_size));
     if(wptr->win_label_line.fmt_buffer == NULL){
@@ -2503,32 +2505,21 @@ register int i;
     }/* End IF */
 
     wptr->win_window_number = next_window_number++;
-    wptr->win_next_window = NULL;
-    wptr->win_buffer = NULL;
 /*
  * Initialize the xy size of the window. The y gets set to size-1 to leave
  * room for the label line.
  */
     wptr->win_x_size = x_size;
     wptr->win_y_size = y_size - 1;
-    wptr->win_y_base = 0;
     wptr->win_y_end = wptr->win_y_base + wptr->win_y_size;
 /*
  * Initialize the label line structure. Each window has one of these in
  * reverse video showing which buffer is being displayed.
  */
-    wptr->win_label_line.fmt_next_line = 
-	wptr->win_label_line.fmt_prev_line =
-	wptr->win_label_line.fmt_next_alloc =
-	wptr->win_label_line.fmt_prev_alloc = NULL;
-
     wptr->win_label_line.fmt_permanent = 1;
-    wptr->win_label_line.fmt_sequence = 0;
-    wptr->win_label_line.fmt_owning_buffer = NULL;
     wptr->win_label_line.fmt_visible_line_position = -1;
 
     wptr->win_label_line.fmt_window_ptr = wptr; /* FIX */
-    wptr->win_label_line.fmt_buffer_line = NULL;
     wptr->win_label_line.fmt_buffer_size = x_size;
 
     for(i = 0; i < x_size; i++){
@@ -2536,10 +2527,6 @@ register int i;
     }/* End FOR */
 
     wptr->win_label_line.fmt_sequence = screen_sequence;
-
-    for(i = 0; i < SCREEN_MAX_LABEL_FIELDS; i++){
-	wptr->win_label_field_contents[i] = NULL;
-    }/* End FOR */
 
     return(wptr);
 

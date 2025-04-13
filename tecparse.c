@@ -1303,21 +1303,8 @@ register struct cmd_token *ct;
  * We set up the initial state to be that of an empty token, with fields
  * which are not set up yet set to their proper defaults.
  */
-    ct->opcode = TOK_C_UNUSED;
-    ct->ctx.iarg1_flag = ct->ctx.iarg2_flag = NO;
-    ct->ctx.iarg1 = ct->ctx.iarg2 = 0;
-    ct->ctx.carg = NULL;
-    ct->next_token = NULL;
-    ct->undo_list = NULL;
-    ct->execute_state = 0;
-    ct->flags = 0;
+    memset(ct,0,sizeof(*ct));
 
-    ct->prev_token = NULL;
-    ct->ctx.state = 0;
-    ct->ctx.go_flag = NO;
-    ct->ctx.return_state = 0;
-    ct->ctx.caller_token = NULL;
-    ct->ctx.pnest = ct->ctx.inest = ct->ctx.cnest = 0;
 /*
  * If there was an old token specified, two things must happen. First, we
  * have to link the new token onto the old token list. Second, we have to

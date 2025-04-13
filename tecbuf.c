@@ -180,6 +180,8 @@ register int i = 0;
     );
 
     if(bp == NULL) return(NULL);
+
+    memset(bp,0,sizeof(*bp));
     bp->buf_magic = MAGIC_BUFFER;
     bp->buf_hash = stringHash( name );
 
@@ -206,12 +208,6 @@ register int i = 0;
     if(internal_flag) bp->buffer_number = i - 1;
     else bp->buffer_number = i + 1;
 
-    bp->ismodified = NO;
-    bp->isreadonly = NO;
-    bp->isbackedup = NO;
-    bp->dot = 0;
-    bp->zee = 0;
-
 /*
  * Create the first line buffer structure
  */
@@ -223,11 +219,6 @@ register int i = 0;
 	return((struct buff_header *)NULL);
     }/* End IF */
     bp->first_line = lbp;
-/*
- * Initialize the rest of the special locations
- */
-    bp->pos_cache.lbp = NULL;
-    bp->pos_cache.base = 0;
 
 /*
  * Link it into the list of buffer headers, in order by buffer number
@@ -1244,17 +1235,13 @@ register char *cp;
 
     if(fake_line == NULL) return(FAIL);
 
-    fake_header.dot = 0;
-    fake_header.zee = 0;
+    memset(&fake_header,0,sizeof(fake_header));
     fake_header.pos_cache.lbp = fake_line;
-    fake_header.pos_cache.base = 0;
     fake_header.first_line = fake_line;
 
+    memset(fake_line,0,sizeof(*fake_line));
     fake_line->buffer_size = LINE_BUFFER_SIZE;
     fake_line->buffer = buffer;
-    fake_line->next_line = NULL;
-    fake_line->prev_line = NULL;
-    fake_line->format_line = NULL;
 
     while(length){
 	cp = fake_line->buffer;
@@ -2469,6 +2456,7 @@ register struct buff_line *lbp;
     lbp = (struct buff_line *)tec_alloc(TYPE_C_LINE,sizeof(struct buff_line));
     if(lbp == NULL) return(NULL);
 
+    memset(lbp,0,sizeof(*lbp));
     if(size <= INITIAL_LINE_BUFFER_SIZE){
 	lbp->buffer_size = INITIAL_LINE_BUFFER_SIZE;
     }/* End IF */
@@ -2487,10 +2475,6 @@ register struct buff_line *lbp;
 	return(NULL);
     }/* End IF */
 
-    lbp->byte_count = 0;
-    lbp->next_line = NULL;
-    lbp->prev_line = NULL;
-    lbp->format_line = NULL;
     lbp->lin_magic = MAGIC_LINE;
     return(lbp);
 

@@ -368,11 +368,7 @@ register struct undo_token *ut;
     ut = (struct undo_token *)tec_alloc(TYPE_C_UNDO,sizeof(struct undo_token));
     if(ut == NULL) return(NULL);
 
-    ut->opcode = UNDO_C_UNUSED;
-    ut->iarg1 = 0;
-    ut->iarg2 = 0;
-    ut->carg1 = NULL;
-    ut->next_token = NULL;
+    memset(ut,0,sizeof(*ut));
 
     if(ct != NULL){
 	ut->next_token = ct->undo_list;
