@@ -1013,7 +1013,7 @@ char inbuf[4];
 	intr_flag = 0;
 
 	if(i != EOF){
-	    inbuf[0] = i;
+	    inbuf[0] = i == '\r' ? '\n' : i;
 	    break;
 	}
 #endif
