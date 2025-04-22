@@ -1,17 +1,30 @@
-CC = $(%WATCOM)/binl64/wcc
-LD = $(%WATCOM)/binl64/wlink
+# This is an OpenWatcom 1.9 Makefile, that should work
+# both when hosted on DOS and on Linux.
+#
+# NOTE: owsetenv.sh on Linux might not set up
+# the environment for targetting DOS.
+# You should have $WATCOM set and the binl/binl64 directory
+# added to $PATH.
+CC = wcc
+LD = wlink
 
-# For the fastest code (C Guide, p.70):
-# -onatx -oh -oi+ -ei -zp8 -0 -fpi87
-# Large data model: far code and data pointers
 !ifdef DEBUG
 # You can also -dDEBUG or even -dDEBUG1.
-CFLAGS = -d2
+CFLAGS = -d2 -od
 #-dDEBUG1
 LDFLAGS = debug all
+!else
+# For the fastest code (C Guide, p.70):
+# -onatx -oh
+CFLAGS = -d0 -onasx -oh
 !endif
 
-CFLAGS += -q -ze -j -os -0 -ml -bt=DOS @WCC_DEFS
+# NOTE: Referencing @WCC_DEFS is a workaround for command line length
+# restrictions when building under DOS.
+# Perhaps it would be more elegant to have a DOS-specific config.h.
+#
+# Large data model: far code and data pointers
+CFLAGS += -q -wx -ze -j -0 -ml -bt=DOS @WCC_DEFS
 LDFLAGS += format dos option map option stack=16k &
            libpath $(%WATCOM)/lib286:$(%WATCOM)/lib286/dos
 
