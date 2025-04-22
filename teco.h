@@ -477,6 +477,10 @@ typedef unsigned long teco_ptrint_t;
 #include <direct.h>
 #endif
 
+#if HAVE_I86_H
+#include <i86.h>
+#endif
+
 #if HAVE_SYS_WAIT_H
 # include <sys/wait.h>
 #endif

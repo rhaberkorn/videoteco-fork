@@ -1069,6 +1069,32 @@ term_flush()
 
 }/* End Routine */
 
+#ifdef MSDOS
+
+#define VIDEO 0x10
+
+static int
+term_isvga(void)
+{
+    union REGS regs;
+    regs.x.ax = 0x1a00;
+    int86(VIDEO, &regs, &regs);
+    return regs.h.al == 0x1a && regs.h.bl > 6;
+}
+
+static int
+term_isega(void)
+{
+    union REGS regs;
+    if(term_isvga()) return 0;
+    regs.h.ah = 0x12;
+    regs.h.bl = 0x10;
+    int86(VIDEO, &regs, &regs);
+    return regs.h.bl != 0x10;
+}
+
+#endif
+
 
 
 /**
@@ -1115,6 +1141,15 @@ init_term_description( void )
  * really knows the size of the terminal window, and in this case, we will
  * leave it alone.
  */
+#ifdef MSDOS
+    /*
+     * NOTE: It could also be done generically with
+     * term_goto(9999,9999), followed by \e[6n
+     */
+    if(!term_columns) term_columns = *(uint8_t*)MK_FP(0x40,0x4a) & 255;
+    if(!term_lines && (term_isvga() || term_isega())) term_lines = *(uint8_t*)MK_FP(0x40,0x84) + 1;
+#endif
+
 #ifdef TERMCAP
     if(!term_columns) term_columns = tgetnum("co");
     if(!term_lines) term_lines = tgetnum("li");
