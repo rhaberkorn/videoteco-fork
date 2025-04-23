@@ -110,7 +110,7 @@ char *copyright = "Copyright (c) 1985-2007 Paul Cantrell";
  * Prototypes
  */
     void init_signals(void);
-    void teco_ini(void);
+    void teco_ini(const char *);
     void process_directory(char *,char*,int);
     int match_name(char *,char *);
     int map_baud(int);
@@ -161,7 +161,7 @@ register int i;
 
     handle_command_line(1,argc,argv);
 
-    teco_ini();
+    teco_ini(argv[0]);
 
     teco_startup = NO;
 
@@ -848,7 +848,7 @@ int cmd_winch(void);
  * Q-Register contents he has specified. It also executes Q-Register 0.
  */
 void
-teco_ini()
+teco_ini(const char *prg)
 {
 register char *cp;
 register int c,dc;
@@ -877,12 +877,24 @@ char comment_flag = NO;
 #ifdef MSDOS
 
     /*
-     * FIXME: We should use the location
-     * of teco.exe.
+     * Locate TECO.INI in the same directory
+     * as the executable.
+     * This approach may fail in some command interpreters,
+     * so you may have to point the VTECO environment
+     * variable to the directory with TECO.INI instead.
      */
-    (void) strcat(filename,".teco_ini");
+    if((cp = getenv("VTECO"))){
+	strcpy(filename,cp);
+    }/* End If */
+    else if((cp = strrchr(prg,'\\'))){
+	strncpy(filename,prg,cp-prg);
+	filename[cp-prg] = '\0';
+    }/* End If */
+    else return;
 
-#endif
+    strcat(filename,"\\TECO.INI");
+
+#endif /* MSDOS */
 
 #ifdef VMS
 
