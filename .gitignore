@@ -1,0 +1,32 @@
+# Autotools
+#/configure
+/config.h
+#/config.h.in
+/config.log
+/config.status
+/config
+/aclocal.m4
+/autom4te.cache
+/libtool
+.deps/
+.libs/
+*.la
+*.lo
+*.a
+*.o
+makefile
+#makefile.in
+/teco
+
+# OpenWatcom build system
+*.obj
+*.OBJ
+*.exe
+*.EXE
+*.map
+*.MAP
+*.err
+*.ERR
+
+# Doxygen
+/doc/html
