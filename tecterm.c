@@ -1093,7 +1093,19 @@ term_isega(void)
     return regs.h.bl != 0x10;
 }
 
-#endif
+/**
+ * Detect NANSI.SYS (4.0c or later).
+ */
+static inline int
+term_have_nansi(void)
+{
+    union REGS regs;
+    regs.x.ax = 0x1a00;
+    int86(0x2f, &regs, &regs);
+    return regs.h.al == 0xFF;
+}
+
+#endif /* MSDOS */
 
 
 
@@ -1377,26 +1389,35 @@ char *termcap =
 
 #ifdef MSDOS
 /*
- * Generated via `infocmp -C ansi.sys`.
+ * Generated via `infocmp -C ansi.sys` and revised
+ * manually.
+ *
+ * NOTE: When turning off individual video attributes,
+ * this will turn off all attributes (\E[0m).
  */
 char *termcap =
 "ansi.sys|ANSI.SYS 3.1 and later versions:\
 :am:bs:mi:ms:xo:\
 :co#80:li#25:\
 :K1=\\0G:K2=\\0L:K3=\\0I:K4=\\0O:K5=\\0Q:ce=\\E[K:cl=\\E[2J:\
-:cm=\\E[%i%d;%dH:do=\\E[B:ho=\\E[H:is=\\E[m\\E[?7h:k1=\\0;:\
+:cm=\\E[%i%d;%dH:do=\\E[1B:ho=\\E[H:is=\\E[0m\\E[?7h:k1=\\0;:\
 :k2=\\0<:k3=\\0=:k4=\\0>:k5=\\0?:k6=\\0@:k7=\\0A:k8=\\0B:k9=\\0C:\
 :kD=\\0S:kI=\\0R:kN=\\0Q:kP=\\0I:kb=^H:kd=\\0P:kh=\\0G:kl=\\0K:\
 :kr=\\0M:ku=\\0H:le=^H:mb=\\E[5m:md=\\E[1m:me=\\E[0m:mr=\\E[7m:\
-:nd=\\E[C:rc=\\E[u:\
-:..sa=\\E[0;10%?%p1%t;7%;%?%p2%t;4%;%?%p3%t;7%;%?%p4%t;5%;%?%p6%t;1%;%?%p7%t;8%;%?%p9%t;11%;m:\
-:sc=\\E[s:se=\\E[m:so=\\E[7m:ue=\\E[m:up=\\E[A:us=\\E[4m:"
+:nd=\\E[1C:rc=\\E[u:\
+:sa=\\E[0;10%?%p1%t;7%;%?%p2%t;4%;%?%p3%t;7%;%?%p4%t;5%;%?%p6%t;1%;%?%p7%t;8%;%?%p9%t;11%;m:\
+:sc=\\E[s:se=\\E[0m:so=\\E[7m:ue=\\E[0m:up=\\E[1A:us=\\E[4m"
 /*
- * Some extensions.
- * At least Dosbox seems to have these escapes.
+ * NOTE: This clears the ENTIRE screen, but term_clrtobot()
+ * is practically only used after term_goto(0,0), so it will be safe.
  */
-":cd=50\\E[J:al=\\E[1L:dl=\\E[1M:ic=\\E[1@:dc=\\E[1P:";
-#endif
+":cd=\\E[2J:"
+/*
+ * Some NANSI.SYS extensions, i.e. not supported by MS-DOS ANSI.SYS.
+ * They are enabled dynamically by overwriting the leading null byte.
+ */
+"\0al=\\E[1L:AL=\\E[%dL:dl=\\E[1M:DL=\\E[%dM:ic=\\E[1@:dc=\\E[1P:";
+#endif /* MSDOS */
 
 #if defined(VMS) || defined(MSDOS)
 char *current_termcap_description;
@@ -1438,7 +1459,13 @@ FILE *fd;
 	}/* End IF */
     }/* End IF */
 
-    if(cp == NULL) cp = termcap;
+    if(cp == NULL){
+	cp = termcap;
+#ifdef MSDOS
+	/* enable extended NANSI.SYS definitions */
+	if(term_have_nansi()) *strchr(cp, '\0') = ':';
+#endif
+    }
     dp = current_termcap_description = buffer;
 
     while(*cp != NULL){
