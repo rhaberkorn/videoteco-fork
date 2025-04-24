@@ -45,7 +45,11 @@
 #define VMINOR 0
 #define AUTO_DATE "$Date: 2007/12/10 22:13:07 $"
 
-#define TECO_FILENAME_TOTAL_LENGTH 1024
+#if HAVE_STDIO_H
+#include <stdio.h>
+#endif
+
+#define TECO_FILENAME_TOTAL_LENGTH FILENAME_MAX
 #define TECO_FILENAME_COMPONENT_LENGTH 256
 #define TECO_READONLY_NAME "visit"
 #define TECO_INTERNAL_BUFFER_NAME "TECO-"
@@ -533,10 +537,6 @@ typedef unsigned long teco_ptrint_t;
 
 #if HAVE_CTYPE_H
 #include <ctype.h>
-#endif
-
-#if HAVE_STDIO_H
-#include <stdio.h>
 #endif
 
 #if HAVE_ERRNO_H
