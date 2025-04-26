@@ -47,8 +47,8 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.3 $";
 /*
  * Globals
  */
-    int last_search_pos1;
-    int last_search_pos2;
+    unsigned long last_search_pos1;
+    unsigned long last_search_pos2;
     int last_search_status;
     struct tags *current_tags;
 
@@ -102,16 +102,16 @@ char *teccmd_c_version = "teccmd.c: $Revision: 1.3 $";
  */
 int
 cmd_search(
-			int arg1,
-			int arg2,
+			long arg1,
+			long arg2,
 			struct search_buff *search_tbl )
 {
 int count;
 char forwards;
 int status;
-int pos1;
-int pos2;
-int original_dot;
+unsigned long pos1;
+unsigned long pos2;
+unsigned long original_dot;
 
     PREAMBLE();
 
@@ -191,8 +191,8 @@ int original_dot;
  */
 int
 cmd_forward_search(
-					int pos1,
-					int pos2,
+					unsigned long pos1,
+					unsigned long pos2,
 					struct search_buff *search_tbl )
 {
 register struct search_element *ep;
@@ -210,7 +210,7 @@ struct position_cache running_position;
 /*
  * Insure the search string is non-null
  */
-    if(search_tbl->length <= 0){
+    if(!search_tbl->length){
 	error_message("?Null Search String");
 	search_tbl->error_message_given = YES;
 	return(FAIL);
@@ -351,7 +351,7 @@ struct position_cache running_position;
 /*
  * Insure the search string is non-null
  */
-    if(search_tbl->length <= 0){
+    if(!search_tbl->length){
 	error_message("?Null Search String");
 	search_tbl->error_message_given = YES;
 	return(FAIL);
@@ -576,7 +576,7 @@ int new_length;
 int
 compile_search_string( struct search_buff *search_tbl )
 {
-register int position;
+register unsigned long position;
 register char c;
 register char *cp;
 register struct buff_header *qbp;
@@ -1282,7 +1282,7 @@ register int status;
  * number of words.
  */
 int
-cmd_wordmove( int count )
+cmd_wordmove( long count )
 {
     register int c;
 
@@ -1744,7 +1744,7 @@ register int length;
  * \retval FAIL		Command failed. Error message has been displayed.
  */
 int
-cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
+cmd_oscmd(struct cmd_token *uct, int arg_count, unsigned long arg1, unsigned long arg2, char *cp)
 {
 int last_intr_flag;
 int line_cnt,w;
@@ -1960,7 +1960,7 @@ failreap:
  * user to execute operating system commands from within the editor.
  */
 int
-cmd_oscmd(struct cmd_token *uct, int arg_count, int arg1, int arg2, char *cp)
+cmd_oscmd(struct cmd_token *uct, int arg_count, unsigned long arg1, unsigned long arg2, char *cp)
 {
     PREAMBLE();
 
@@ -2053,8 +2053,8 @@ int length;
  */
 int
 cmd_setoptions(
-				int arg1,
-				int arg2,
+				long arg1,
+				long arg2,
 				struct undo_token *uct )
 {
 struct undo_token fake_token;

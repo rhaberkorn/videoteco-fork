@@ -413,10 +413,10 @@ register struct buff_line *lbp;
  * the buffer position resides on.
  */
 struct buff_line *
-buff_find_line( struct buff_header *hbp, int position )
+buff_find_line( struct buff_header *hbp, unsigned long position )
 {
 register struct buff_line *lbp;
-register int i;
+register unsigned long i;
 
     PREAMBLE();
 
@@ -479,10 +479,10 @@ register int i;
 	if(lbp->next_line == NULL){
 	    char panic_string[LINE_BUFFER_SIZE];
 	    sprintf(panic_string,
-		"buff_find_line: position %d specified in buffer %s, z=%d",
+		"buff_find_line: position %lu specified in buffer %s, z=%lu",
 		position,hbp->name,hbp->zee);
 	    tec_panic(panic_string);
-	    printf("NULL ptr %d bytes still to go\n",i);
+	    printf("NULL ptr %lu bytes still to go\n",i);
 	}/* End IF */
 	lbp = lbp->next_line;
     }/* End While */
@@ -514,7 +514,7 @@ register int i;
  */
 int
 buff_find_offset(	struct buff_header *hbp, 
-					struct buff_line *lbp, int position )
+					struct buff_line *lbp, long position )
 {
 
     PREAMBLE();
@@ -546,7 +546,7 @@ buff_find_offset(	struct buff_header *hbp,
  * of characters at any one time.
  */
 int
-buff_contents( struct buff_header *hbp, int position )
+buff_contents( struct buff_header *hbp, long position )
 {
 register struct buff_line *lbp;
 register int i;
@@ -558,7 +558,7 @@ register int i;
     if(position > hbp->zee || position < 0){
 	char panic_string[LINE_BUFFER_SIZE];
 	sprintf(panic_string,
-	    "buff_contents: illegal position %d specified in buffer %s",
+	    "buff_contents: illegal position %ld specified in buffer %s",
 	    position,hbp->name);
 	tec_panic(panic_string);
     }/* End IF */
@@ -585,7 +585,7 @@ register int i;
  */
 int
 buff_cached_contents(	struct buff_header *hbp, 
-						int position, struct position_cache *cache )
+						unsigned long position, struct position_cache *cache )
 {
 register struct buff_line *lbp;
 register int i;
@@ -596,7 +596,7 @@ register int i;
  */
     if(position > hbp->zee || position < 0){
 	char tmp_message[LINE_BUFFER_SIZE];
-	sprintf(tmp_message,"buff_contents: illegal position %d %s Z = %d\n",
+	sprintf(tmp_message,"buff_contents: illegal position %lu %s Z = %lu\n",
 	    position,hbp->name,hbp->zee);
 	tec_panic(tmp_message);
     }/* End IF */
@@ -968,7 +968,7 @@ buff_readfd( struct buff_header *hbp, char *name, int iochan )
  * wishes to write out the contents of the buffer.
  */
 int
-buff_write( struct buff_header *hbp, int chan, int start, int end )
+buff_write( struct buff_header *hbp, int chan, unsigned long start, unsigned long end )
 {
 register int bcount;
 register struct buff_line *lbp;
@@ -1097,7 +1097,7 @@ int max_length;
     for(hbp = buffer_headers; hbp != NULL ; hbp = hbp->next_header){
 	if(hbp->buffer_number <= 0) continue;
 	i = max_length - strlen(hbp->name);
-	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6d bytes\n",
+	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6lu bytes\n",
 	    hbp->buffer_number,hbp->name,&padd_buffer[sizeof(padd_buffer)-1-i],
 	    hbp->ismodified ? "(modified)" : "          ",hbp->zee);
 	i = strlen(tmp_buffer);
@@ -1109,7 +1109,7 @@ int max_length;
     for(hbp = buffer_headers; hbp != NULL ; hbp = hbp->next_header){
 	if(hbp->buffer_number >= 0) continue;
 	i = max_length - strlen(hbp->name);
-	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6d bytes\n",
+	snprintf(tmp_buffer,sizeof(tmp_buffer),"<Buffer %-4d> %s%s %s %6lu bytes\n",
 	    hbp->buffer_number,hbp->name,&padd_buffer[sizeof(padd_buffer)-1-i],
 	    hbp->ismodified ? "(modified)" : "          ",hbp->zee);
 	i = strlen(tmp_buffer);
@@ -1222,7 +1222,7 @@ int max_length;
  * at the buffer's current location.
  */
 int
-buff_insert( struct buff_header *hbp, int position, char *buffer, int length )
+buff_insert( struct buff_header *hbp, unsigned long position, char *buffer, unsigned long length )
 {
 struct buff_header fake_header;
 struct buff_line *fake_line;
@@ -1296,10 +1296,10 @@ register char *cp;
 int
 buff_insert_from_buffer_with_undo(	struct cmd_token *ct,
 									struct buff_header *dbp,
-									int dest_position,
+									unsigned long dest_position,
 									struct buff_header *sbp,
-									int src_position,
-									int length )
+									unsigned long src_position,
+									size_t length )
 {
 register int i;
 struct undo_token *ut = 0;
@@ -1323,21 +1323,21 @@ char outbuf[1024];
 /*
  * Insure that the specified position is legal
  */
-    if(src_position < 0 || src_position > sbp->zee){
+    if(src_position > sbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
 	sprintf(
 	    tmp_message,
-	    "buff_insert_from_buffer_with_undo: bad src pos %d %s Z = %d\n",
+	    "buff_insert_from_buffer_with_undo: bad src pos %lu %s Z = %lu\n",
 	    src_position,
 	    sbp->name,sbp->zee
 	);
 	tec_panic(tmp_message);
     }/* End IF */
-    if(dest_position < 0 || dest_position > dbp->zee){
+    if(dest_position > dbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
 	sprintf(
 	    tmp_message,
-	    "buff_insert_from_buffer_with_undo: bad dest pos %d %s Z = %d\n",
+	    "buff_insert_from_buffer_with_undo: bad dest pos %lu %s Z = %lu\n",
 	    dest_position,
 	    dbp->name,dbp->zee
 	);
@@ -1734,9 +1734,9 @@ char outbuf[1024];
 int
 buff_insert_with_undo(	struct cmd_token *ct,
 						struct buff_header *hbp,
-						int position,
+						unsigned long position,
 						char *buffer,
-						int length )
+						unsigned long length )
 {
 struct undo_token *ut;
 
@@ -1771,7 +1771,7 @@ struct undo_token *ut;
  */
 int
 buff_insert_char(	struct buff_header *hbp,
-					int position,
+					unsigned long position,
 					char data )
 {
 register struct buff_line *lbp;
@@ -1786,7 +1786,7 @@ register int i,j;
  */
     if(position > hbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
-	sprintf(tmp_message,"buff_insert_char: bad position %d %s Z = %d\n",
+	sprintf(tmp_message,"buff_insert_char: bad position %lu %s Z = %lu\n",
 	    position,hbp->name,hbp->zee);
 	tec_panic(tmp_message);
     }/* End IF */
@@ -1913,7 +1913,7 @@ register int i,j;
 int
 buff_insert_char_with_undo(	struct cmd_token *ct,
 							struct buff_header *hbp,
-							int position,
+							unsigned long position,
 							char data )
 {
 struct undo_token *ut;
@@ -1946,8 +1946,8 @@ struct undo_token *ut;
  */
 void
 buff_delete(	struct buff_header *hbp,
-				int position,
-				int count )
+				unsigned long position,
+				unsigned long count )
 {
 
     PREAMBLE();
@@ -1957,7 +1957,7 @@ buff_delete(	struct buff_header *hbp,
  */
     if((position + count) > hbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
-	sprintf(tmp_message,"buff_delete: illegal range %d-%d %s Z = %d\n",
+	sprintf(tmp_message,"buff_delete: illegal range %lu-%lu %s Z = %lu\n",
 	    position,position+count,hbp->name,hbp->zee);
 	tec_panic(tmp_message);
     }/* End IF */
@@ -1983,7 +1983,7 @@ buff_delete(	struct buff_header *hbp,
  */
 int
 buff_delete_char(	struct buff_header *hbp,
-					int position )
+					unsigned long position )
 {
 register struct buff_line *lbp;
 struct buff_line *nlbp;
@@ -1996,7 +1996,7 @@ register int i,j;
  */
     if(position >= hbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
-	sprintf(tmp_message,"buff_delete_char: bad position %d %s Z = %d\n",
+	sprintf(tmp_message,"buff_delete_char: bad position %lu %s Z = %lu\n",
 	    position,hbp->name,hbp->zee);
 	tec_panic(tmp_message);
     }/* End IF */
@@ -2133,15 +2133,15 @@ register int i,j;
 int
 buff_delete_with_undo(	struct cmd_token *ct,
 						struct buff_header *hbp,
-						int position,
-						int count )
+						unsigned long position,
+						long count )
 {
 register char *cp;
 struct undo_token *ut;
 register struct buff_line *lbp;
 struct buff_line *top_lbp;
-int top_offset,local_count,bulk_position;
-int bytes_deleted_so_far = 0;
+unsigned long top_offset,local_count,bulk_position;
+unsigned long bytes_deleted_so_far = 0;
 
     PREAMBLE();
 
@@ -2332,8 +2332,8 @@ int bytes_deleted_so_far = 0;
  */
 void
 buff_bulk_insert(	struct buff_header *hbp,
-					int position,
-					int count,
+					unsigned long position,
+					long count,
 					struct buff_line *lbp )
 {
 register struct buff_line *olbp;

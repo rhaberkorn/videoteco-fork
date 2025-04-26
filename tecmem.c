@@ -37,7 +37,7 @@ char *tecmem_c_version = "tecmem.c: $Revision: 1.3 $";
 #endif
 #endif
 
-    char *starting_break;
+    static char *starting_break;
 
 #if !defined(HAVE_UNISTD_H) && !defined(HAVE_STDLIB_H)
     char *malloc();
@@ -58,14 +58,15 @@ struct memlist {
     struct memlist *next_block;
 };
 
-char *malloc_leftover;
-int malloc_leftover_size;
-struct memlist *lookaside_lists[LOOKASIDE_COUNT];
-int lookaside_stat_allocated[LOOKASIDE_COUNT];
-int lookaside_stat_available[LOOKASIDE_COUNT];
-int malloc_stat_call_count,malloc_stat_inuse;
+static char *malloc_leftover;
+static size_t malloc_leftover_size;
+static struct memlist *lookaside_lists[LOOKASIDE_COUNT];
+static unsigned int lookaside_stat_allocated[LOOKASIDE_COUNT];
+static unsigned int lookaside_stat_available[LOOKASIDE_COUNT];
+static unsigned int malloc_stat_call_count;
+static unsigned long malloc_stat_inuse;
 
-int memstat_by_type[TYPE_C_MAXTYPE-TYPE_C_MINTYPE+1];
+static unsigned int memstat_by_type[TYPE_C_MAXTYPE-TYPE_C_MINTYPE+1];
 
 void tecmem_verify(unsigned char,char *,char *);
 
@@ -75,9 +76,9 @@ void tecmem_verify(unsigned char,char *,char *);
  * This routine is called to request memory
  */
 char *
-tec_alloc( int type, int size )
+tec_alloc( int type, size_t size )
 {
-int actual_size;
+size_t actual_size;
 register int i;
 register char *cp;
 register struct memblock *mp;
@@ -332,18 +333,20 @@ tecmem_stats()
 {
 char tmp_buffer[LINE_BUFFER_SIZE];
 register int i;
-register int size;
-int total_memory_in_use;
+register size_t size;
+unsigned long total_memory_in_use;
 char *current_break;
-int bss_in_use;
+unsigned long bss_in_use;
 
     PREAMBLE();
 
     total_memory_in_use = malloc_stat_inuse;
 
+#if LOOKASIDE_COUNT > 1
+
     sprintf(
 	tmp_buffer,
-	"\n\n%d non-lookaside allocations, %d bytes outstanding\n\n",
+	"\n\n%u non-lookaside allocations, %lu bytes outstanding\n\n",
 	malloc_stat_call_count,
 	malloc_stat_inuse
     );
@@ -357,7 +360,7 @@ int bss_in_use;
 
 	sprintf(
 	    tmp_buffer,
-	    "LA%2d, size %4d, bytes in use %6d, bytes available %6d\n",
+	    "LA%2u, size %4lu, bytes in use %6lu, bytes available %6lu\n",
 	    i,
 	    size,
 	    lookaside_stat_allocated[i] * size,
@@ -370,7 +373,7 @@ int bss_in_use;
 
     sprintf(
 	tmp_buffer,
-	"Malloc Leftover %d bytes\n",
+	"Malloc Leftover %lu bytes\n",
 	malloc_leftover_size
     );
     buff_insert(curbuf,curbuf->dot,tmp_buffer,strlen(tmp_buffer));
@@ -421,6 +424,8 @@ int bss_in_use;
 
     }/* End FOR */
 
+#endif /* LOOKASIDE_COUNT > 1 */
+
 #if HAVE_SBRK
     current_break = (char *)sbrk(0);
     if(current_break != sbrk(0)){
@@ -434,13 +439,12 @@ int bss_in_use;
     if( bss_in_use ){
 	sprintf(
 	    tmp_buffer,
-	    "\nTotal memory in use %d, Total allocated bss %d\n",
+	    "\nTotal memory in use %lu, Total allocated bss %lu\n",
 	    total_memory_in_use,
 	    bss_in_use
 	);
     } else {
-	sprintf(tmp_buffer,"\nTotal memory in use %d\n",total_memory_in_use);
+	sprintf(tmp_buffer,"\nTotal memory in use %lu\n",total_memory_in_use);
     }
     buff_insert(curbuf,curbuf->dot,tmp_buffer,strlen(tmp_buffer));
-
 }/* End Routine */

@@ -39,7 +39,7 @@ char *tecparse_c_version = "tecparse.c: $Revision: 1.3 $";
     struct cmd_token *last_token_executed;
     struct search_buff search_string;
     char user_message[PARSER_STRING_MAX];
-    int remembered_dot;
+    unsigned long remembered_dot;
     char immediate_execute_flag = YES;
     char trace_mode_flag = NO;
 
@@ -1123,7 +1123,7 @@ int c;
 /*
  * Make sure thre are some bytes in it
  */
-    if(qbp->zee <= 0) return(FAIL);
+    if(!qbp->zee) return(FAIL);
 
 /*
  * Get the first byte saved in the Q-register
@@ -1482,7 +1482,7 @@ char tmp_message[LINE_BUFFER_SIZE];
  * legal. If they are not, it generates an error message.
  */
 int
-parse_illegal_buffer_position( int pos1, int pos2, char *cmd_name )
+parse_illegal_buffer_position( long pos1, long pos2, char *cmd_name )
 {
 char illegal_position;
 char tmp_message[LINE_BUFFER_SIZE];
@@ -1598,18 +1598,18 @@ register char *state_name;
 		buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 	    }/* End IF */
 
-	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %d (0x%x)\n",
+	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %ld (0x%lx)\n",
 		ct0->ctx.iarg1_flag,ct0->ctx.iarg1,ct0->ctx.iarg1);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %d (0x%x)\n",
+	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %ld (0x%lx)\n",
 		ct0->ctx.iarg2_flag,ct0->ctx.iarg2,ct0->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    carg %p\n",ct0->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    tmpval %d (0x%x)\n",
+	    sprintf(tmp_message,"    tmpval %ld (0x%lx)\n",
 		ct0->ctx.tmpval,ct0->ctx.tmpval);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
@@ -1633,21 +1633,21 @@ register char *state_name;
 	    	    ct1, state_name);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %d (0x%x)",
+	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %ld (0x%lx)",
 		ct0->ctx.iarg1_flag,ct0->ctx.iarg1,ct0->ctx.iarg1);
 	    while(strlen(tmp_message) < 39) strcat(tmp_message," ");
 	    strcat(tmp_message," ");
 	    cp = &tmp_message[strlen(tmp_message)];
-	    sprintf(cp,"    iarg1_flag %d iarg1 %d (0x%x)\n",
+	    sprintf(cp,"    iarg1_flag %d iarg1 %ld (0x%lx)\n",
 		ct1->ctx.iarg1_flag,ct1->ctx.iarg1,ct1->ctx.iarg1);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %d (0x%x)",
+	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %ld (0x%lx)",
 		ct0->ctx.iarg2_flag,ct0->ctx.iarg2,ct0->ctx.iarg2);
 	    while(strlen(tmp_message) < 39) strcat(tmp_message," ");
 	    strcat(tmp_message," ");
 	    cp = &tmp_message[strlen(tmp_message)];
-	    sprintf(cp,"    iarg2_flag %d iarg2 %d (0x%x)\n",
+	    sprintf(cp,"    iarg2_flag %d iarg2 %ld (0x%lx)\n",
 		ct1->ctx.iarg2_flag,ct1->ctx.iarg2,ct1->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
@@ -1658,12 +1658,12 @@ register char *state_name;
 	    sprintf(cp,"    carg %p\n",ct1->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    tmpval %d (0x%x)",
+	    sprintf(tmp_message,"    tmpval %ld (0x%lx)",
 		ct0->ctx.tmpval,ct0->ctx.tmpval);
 	    while(strlen(tmp_message) < 39) strcat(tmp_message," ");
 	    strcat(tmp_message," ");
 	    cp = &tmp_message[strlen(tmp_message)];
-	    sprintf(cp,"    tmpval %d (0x%x)\n",
+	    sprintf(cp,"    tmpval %ld (0x%lx)\n",
 		ct1->ctx.tmpval,ct1->ctx.tmpval);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 	    break;
@@ -1722,18 +1722,18 @@ register char *state_name;
 		buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 	    }/* End IF */
 
-	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %d (0x%x)\n",
+	    sprintf(tmp_message,"    iarg1_flag %d iarg1 %ld (0x%lx)\n",
 		ct0->ctx.iarg1_flag,ct0->ctx.iarg1,ct0->ctx.iarg1);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %d (0x%x)\n",
+	    sprintf(tmp_message,"    iarg2_flag %d iarg2 %ld (0x%lx)\n",
 		ct0->ctx.iarg2_flag,ct0->ctx.iarg2,ct0->ctx.iarg2);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
 	    sprintf(tmp_message,"    carg %p\n",ct0->ctx.carg);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 
-	    sprintf(tmp_message,"    tmpval %d (0x%x)\n",
+	    sprintf(tmp_message,"    tmpval %ld (0x%lx)\n",
 		ct0->ctx.tmpval,ct0->ctx.tmpval);
 	    buff_insert(qbp,qbp->zee,tmp_message,strlen(tmp_message));
 

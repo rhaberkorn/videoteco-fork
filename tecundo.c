@@ -99,7 +99,7 @@ register struct cmd_token *ct;
 	    hbp = buff_qfind(ut->iarg1,0);
 	    if(hbp == NULL){
 		sprintf(tmp_message,"?Cannot find Q-register <%c>",
-		    ut->iarg1);
+		    (char)ut->iarg1);
 		error_message(tmp_message);
 		return(FAIL);
 	    }/* End IF */

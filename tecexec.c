@@ -42,9 +42,9 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.3 $";
     extern struct window *window_list;
     extern struct buff_header *curbuf,*buffer_headers;
     extern struct buff_header *qregister_push_down_list;
-    extern int last_search_pos1,last_search_pos2;
+    extern unsigned long last_search_pos1,last_search_pos2;
     extern int last_search_status;
-    extern int remembered_dot;
+    extern unsigned long remembered_dot;
     extern char intr_flag;
     extern char immediate_execute_flag;
     extern struct window *curwin;
@@ -355,8 +355,8 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    register struct buff_header *hbp;
 	    register struct buff_header *qbp;
 	    register struct buff_line *lbp;
-	    register int i,j;
-	    int pos1,pos2;
+	    register long i,j;
+	    long pos1,pos2;
 
 	    hbp = curbuf;
 /*
@@ -647,17 +647,17 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 		return(FAIL);
 	    }/* End IF */
 
-	    sprintf(tmp_buffer,"value = %d",ct->ctx.iarg1);
+	    sprintf(tmp_buffer,"value = %ld",ct->ctx.iarg1);
 	    screen_message(tmp_buffer);
 	    return(SUCCESS);
 
 	case EXEC_C_TWO_EQUALS:
-	    sprintf(tmp_buffer,"value = 0%o",ct->ctx.iarg1);
+	    sprintf(tmp_buffer,"value = 0%lo",ct->ctx.iarg1);
 	    screen_message(tmp_buffer);
 	    return(SUCCESS);
 
 	case EXEC_C_THREE_EQUALS:
-	    sprintf(tmp_buffer,"value = 0x%X",ct->ctx.iarg1);
+	    sprintf(tmp_buffer,"value = 0x%lX",ct->ctx.iarg1);
 	    screen_message(tmp_buffer);
 	    return(SUCCESS);
 /*
@@ -666,7 +666,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_BACKSLASH:
 	    {/* Local Block */
-	    register int i,j;
+	    register long i,j;
 	    char *cp;
 	    int length = 0;
 
@@ -774,7 +774,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_CHAR:
 	    {/* Local Block */
-	    register int i;
+	    register long i;
 
 	    i = curbuf->dot + 1;
 
@@ -798,7 +798,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_RCHAR:
 	    {/* Local Block */
-	    register int i;
+	    register long i;
 
 	    i = curbuf->dot - 1;
 	    if(ct->ctx.iarg1_flag == YES){
@@ -821,7 +821,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_DELETE:
 	    {/* Local Block */
-	    register int i;
+	    register long i;
 
 	    i = 1;
 	    if(ct->ctx.iarg1_flag == YES) i = ct->ctx.iarg1;
@@ -856,7 +856,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_WORD:
 	    {/* Local Block */
-	    register int count;
+	    register long count;
 
 	    ut = allocate_undo_token(uct);
 	    if(ut == NULL) return(FAIL);
@@ -878,9 +878,9 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_DELWORD:
 	    {/* Local Block */
-	    register int count;
-	    int original_position;
-	    int pos;
+	    register long count;
+	    unsigned long original_position;
+	    unsigned long pos;
 
 	    ut = allocate_undo_token(uct);
 	    if(ut == NULL) return(FAIL);
@@ -912,9 +912,9 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_RDELWORD:
 	    {/* Local Block */
-	    register int count;
-	    int original_position;
-	    int pos;
+	    register long count;
+	    unsigned long original_position;
+	    unsigned long pos;
 
 	    ut = allocate_undo_token(uct);
 	    if(ut == NULL) return(FAIL);
@@ -1047,8 +1047,8 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    {/* Local Block */
 	    register struct buff_header *hbp;
 	    register struct buff_line *lbp;
-	    register int i,j;
-	    int pos1,pos2;
+	    register long i,j;
+	    long pos1,pos2;
 
 	    hbp = curbuf;
 /*
@@ -1227,7 +1227,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_SEARCH:
 	    {/* Local Block */
-	    int arg1,arg2;
+	    long arg1,arg2;
 #if 0
 	    struct buff_header *qbp;
 #endif
@@ -1253,13 +1253,13 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	    if(ct->ctx.iarg1_flag && ct->ctx.iarg2_flag){
 		if(arg1 < 0 || arg1 > curbuf->zee){
 		    sprintf(tmp_message,
-			"?Illegal buffer position %d in search command",arg1);
+			"?Illegal buffer position %ld in search command",arg1);
 		    error_message(tmp_message);
 		    return(FAIL);
 		}/* End IF */
 		if(arg2 < 0 || arg2 > curbuf->zee){
 		    sprintf(tmp_message,
-			"?Illegal buffer position %d in search command",arg2);
+			"?Illegal buffer position %ld in search command",arg2);
 		    error_message(tmp_message);
 		    return(FAIL);
 		}/* End IF */
@@ -1299,7 +1299,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 	case EXEC_C_FRREPLACE:
 	    {/* Local Block */
 	    register struct buff_header *qbp;
-	    register int j;
+	    register unsigned long j;
 
 	    if(last_search_status == 0){
 		if(ct->ctx.flags & CTOK_M_COLON_SEEN){
@@ -1359,7 +1359,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  */
 	case EXEC_C_FSREPLACE1:
 	    {/* Local Block */
-	    register int j;
+	    register unsigned long j;
 	    register struct buff_header *qbp;
 
 	    ct->ctx.tmpval = 0;

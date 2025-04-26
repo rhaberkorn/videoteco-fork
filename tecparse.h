@@ -36,17 +36,17 @@
 struct cmd_context {
 	char	state;
 	char	flags;
-	char	go_flag;
 	char	pnest;
 	char	inest;
 	char	cnest;
-	char	iarg1_flag;
-	char	iarg2_flag;
+	unsigned go_flag : 1;
+	unsigned iarg1_flag : 1;
+	unsigned iarg2_flag : 1;
 	char	delimeter;
-	int	iarg1;
-	int	iarg2;
+	long	iarg1;
+	long	iarg2;
 	char	*carg;
-	int	tmpval;
+	long	tmpval;
 	int	return_state;
 	struct	cmd_token *caller_token;
 };
@@ -68,8 +68,8 @@ struct cmd_token {
 
 struct undo_token {
 	char	opcode;
-	int	iarg1;
-	int	iarg2;
+	long	iarg1;
+	long	iarg2;
 	char	*carg1;
 	struct	undo_token *next_token;
 };
@@ -297,17 +297,17 @@ struct undo_token {
 #define UNDO_C_SELECT_TAGS	25
 #define UNDO_C_SET_EXIT_FLAG	26
 
-int cmd_oscmd(struct cmd_token *, int, int, int, char *);
+int cmd_oscmd(struct cmd_token *,int,unsigned long,unsigned long,char *);
 int buff_insert_from_buffer_with_undo( struct cmd_token *,
-			struct buff_header *,int,struct buff_header *,int,int);
-int buff_delete_with_undo( struct cmd_token *,struct buff_header *,int,int);
+			struct buff_header *,unsigned long,struct buff_header *,unsigned long,size_t);
+int buff_delete_with_undo( struct cmd_token *,struct buff_header *,unsigned long,long);
 int buff_insert_with_undo( struct cmd_token *,
-					struct buff_header *,int,char *,int);
+					struct buff_header *,unsigned long,char *,unsigned long);
 int rename_edit_buffer(struct buff_header *,char *,struct cmd_token *);
-int cmd_setoptions(int,int,struct undo_token *);
+int cmd_setoptions(long,long,struct undo_token *);
 void tag_dump_database(struct tags *tp,struct cmd_token *uct);
 int buff_insert_char_with_undo(struct cmd_token *,
-					struct buff_header *,int,char);
+					struct buff_header *,unsigned long,char);
 int set_search_string_with_undo(char *,struct cmd_token *uct);
 int cmd_tags(struct cmd_token *uct,int,int,int,char *);
 int tecmacro(struct buff_header *,struct cmd_token *,struct cmd_token **);
