@@ -1411,7 +1411,7 @@ char *termcap =
  * NOTE: This clears the ENTIRE screen, but term_clrtobot()
  * is practically only used after term_goto(0,0), so it will be safe.
  */
-":cd=\\E[2J:"
+":cd=\\E[2J:te=\\E[2J:"
 /*
  * Some NANSI.SYS extensions, i.e. not supported by MS-DOS ANSI.SYS.
  * They are enabled dynamically by overwriting the leading null byte.
