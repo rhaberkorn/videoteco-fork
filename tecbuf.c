@@ -182,12 +182,12 @@ register int i = 0;
     if(bp == NULL) return(NULL);
 
     memset(bp,0,sizeof(*bp));
-    bp->buf_magic = MAGIC_BUFFER;
+    MAGIC_UPDATE(bp, MAGIC_BUFFER);
     bp->buf_hash = stringHash( name );
 
     bp->name = tec_alloc(TYPE_C_CBUFF,strlen(name)+1);
     if(bp->name == NULL){
-	bp->buf_magic = 0;
+	MAGIC_UPDATE(bp, 0);
 	tec_release(TYPE_C_BHDR,(char *)bp);
 	return(NULL);
     }/* End IF */
@@ -213,7 +213,7 @@ register int i = 0;
  */
     lbp = allocate_line_buffer(1);
     if(lbp == NULL){
-	bp->buf_magic = 0;
+	MAGIC_UPDATE(bp, 0);
 	tec_release(TYPE_C_CBUFF,bp->name);
 	tec_release(TYPE_C_BHDR,(char *)bp);
 	return((struct buff_header *)NULL);
@@ -278,7 +278,7 @@ register struct buff_line *dlp;
 
     (void) strcpy(dbp->name,sbp->name);
 
-    dbp->buf_magic = MAGIC_BUFFER;
+    MAGIC_UPDATE(dbp, MAGIC_BUFFER);
     dbp->ismodified = sbp->ismodified;
     dbp->isreadonly = sbp->isreadonly;
     dbp->isbackedup = sbp->isbackedup;
@@ -2449,7 +2449,7 @@ register struct buff_line *lbp;
 	    lbp->prev_line = NULL;
 	    lbp->format_line = NULL;
 	    lbp->byte_count = 0;
-	    lbp->lin_magic = MAGIC_LINE;
+	    MAGIC_UPDATE(lbp, MAGIC_LINE);
 	    return(lbp);
 	}/* End IF */
     }/* End IF */
@@ -2479,7 +2479,7 @@ register struct buff_line *lbp;
 	return(NULL);
     }/* End IF */
 
-    lbp->lin_magic = MAGIC_LINE;
+    MAGIC_UPDATE(lbp, MAGIC_LINE);
     return(lbp);
 
 }/* End Routine */
@@ -2506,10 +2506,10 @@ buff_free_line_buffer(	struct buff_line *lbp )
  * If this is a standard size line buffer, place it back on the lookaside list
  * rather than giving it back to tec_alloc.
  */
-    lbp->lin_magic = 0;
+    MAGIC_UPDATE(lbp, 0);
 
     if(lbp->buffer_size == INITIAL_LINE_BUFFER_SIZE){
-	lbp->lin_magic = MAGIC_LINE_LOOKASIDE;
+	MAGIC_UPDATE(lbp, MAGIC_LINE_LOOKASIDE);
 	lbp->next_line = line_buffer_lookaside_list;
 	line_buffer_lookaside_list = lbp;
 	return;
@@ -2554,7 +2554,7 @@ register struct buff_line *lbp;
 
     while((lbp = line_buffer_lookaside_list) != NULL){
 	line_buffer_lookaside_list = lbp->next_line;
-	lbp->lin_magic = 0;
+	MAGIC_UPDATE(lbp, 0);
 	tec_release(TYPE_C_LINEBUF,lbp->buffer);
 	tec_release(TYPE_C_LINE,(char *)lbp);
     }/* End While */

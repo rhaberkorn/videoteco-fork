@@ -173,7 +173,7 @@ register short *sp;
     screen_sequence = 1;
 
     for(lp = saved_screen, i = 0; i < term_lines; i++,lp++){
-	lp->scr_magic = MAGIC_SCREEN;
+	MAGIC_UPDATE(lp, MAGIC_SCREEN);
 	lp->companion = NULL;
 	lp->sequence = 0;
 	lp->buffer = (short *)
@@ -231,13 +231,13 @@ register short *sp;
 
     message_line.fmt_permanent = 1;
     message_line.fmt_saved_line = lp;
-    message_line.fmt_magic = MAGIC_FORMAT_LOOKASIDE;
+    MAGIC_UPDATE(&magic_line, MAGIC_FORMAT_LOOKASIDE);
     lp->companion = &message_line;
 
     lp += 1;
     echo_line.fmt_permanent = 1;
     echo_line.fmt_saved_line = lp;
-    echo_line.fmt_magic = MAGIC_FORMAT_LOOKASIDE;
+    MAGIC_UPDATE(&echo_line, MAGIC_FORMAT_LOOKASIDE);
     lp->companion = &echo_line;
 
     screen_label_line(curbuf," TECO",LABEL_C_TECONAME);
@@ -2033,7 +2033,7 @@ register struct format_line *next_win;
 /*
  * Take it off the head of the list and place it on the free list.
  */
-	sbp->fmt_magic = MAGIC_FORMAT_LOOKASIDE;
+	MAGIC_UPDATE(sbp, MAGIC_FORMAT_LOOKASIDE);
 	osbp = sbp;
 	sbp = sbp->fmt_next_line;
 	if(sbp == NULL) sbp = next_win;
@@ -2109,7 +2109,7 @@ register struct format_line *sbp;
 
     while((sbp = format_line_free_list) != NULL){
 	format_line_free_list = sbp->fmt_next_line;
-	sbp->fmt_magic = 0;
+	MAGIC_UPDATE(sbp, 0);
 	tec_release(TYPE_C_SCREENBUF,(char *)sbp->fmt_buffer);
 	tec_release(TYPE_C_SCREEN,(char *)sbp);
     }/* End While */
@@ -2421,7 +2421,7 @@ struct buff_header *hbp = wptr->win_buffer;
 	}/* End IF */
     }/* End Else */
 
-    sbp->fmt_magic = MAGIC_FORMAT;
+    MAGIC_UPDATE(sbp, MAGIC_FORMAT);
     sbp->fmt_owning_buffer = hbp;
     sbp->fmt_buffer_line = lbp;
     sbp->fmt_sequence = screen_sequence;

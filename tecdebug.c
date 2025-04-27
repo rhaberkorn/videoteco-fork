@@ -32,6 +32,8 @@ char *tecdebug_c_version = "tecdebug.c: $Revision: 1.2 $";
 #include "teco.h"
 #include "tecparse.h"
 
+#ifdef DEBUG1
+
     extern struct screen_line *saved_screen;
     extern char saved_screen_valid;
     extern int term_lines;
@@ -79,13 +81,13 @@ register struct screen_line *sbp;
  */
     if(saved_screen_valid){
 	for(sbp = saved_screen,i = 0; i < term_lines && sbp != NULL;i++,sbp++){
-	    if(sbp->scr_magic != MAGIC_SCREEN){
+	    if(sbp->__magic != MAGIC_SCREEN){
 		restore_tty();
 		fprintf(
 		    stderr,
 		    "?saved_screen[%d] bad magic#, 0x%08x should be 0x%08x\n",
 		    i,
-		    sbp->scr_magic,
+		    sbp->__magic,
 		    (int)MAGIC_SCREEN
 		);
 		CAUSE_BUS_ERROR();
@@ -103,7 +105,7 @@ register struct screen_line *sbp;
  * the correct magic number.
  */
 void
-tecdebug_check_buffer_magic()
+__magic()
 {
 register struct buff_header *bp;
 register char saw_curbuf;
@@ -114,13 +116,13 @@ register int count;
     saw_curbuf = 0;
     while(bp){
 	if(bp == curbuf) saw_curbuf = 1;
-	if(bp->buf_magic != MAGIC_BUFFER){
+	if(bp->__magic != MAGIC_BUFFER){
 	    restore_tty();
 	    fprintf(
 		stderr,
 		"?buff_headers[%d] bad magic#, 0x%08x should be 0x%08x\n",
 		count,
-		bp->buf_magic,
+		bp->__magic,
 		(int)MAGIC_BUFFER
 	    );
 	    CAUSE_BUS_ERROR();
@@ -138,13 +140,13 @@ register int count;
     bp = qregister_push_down_list;
     count = 0;
     while(bp){
-	if(bp->buf_magic != MAGIC_BUFFER){
+	if(bp->__magic != MAGIC_BUFFER){
 	    restore_tty();
 	    fprintf(
 		stderr,
 		"?qpushdown[%d] bad magic#, 0x%08x should be 0x%08x\n",
 		count,
-		bp->buf_magic,
+		bp->__magic,
 		(int)MAGIC_BUFFER
 	    );
 	    CAUSE_BUS_ERROR();
@@ -163,7 +165,7 @@ register int count;
  * the correct magic number.
  */
 void
-tecdebug_check_line_magic()
+__magic()
 {
 register struct buff_header *bp;
 register struct buff_line *lbp;
@@ -174,14 +176,14 @@ register int count;
 	lbp = bp->first_line;
 	count = 0;
 	while(lbp){
-	    if(lbp->lin_magic != MAGIC_LINE){
+	    if(lbp->__magic != MAGIC_LINE){
 		restore_tty();
 		fprintf(
 		    stderr,
 		    "?buf[%s] line %d bad magic#, 0x%08x should be 0x%08x\n",
 		    bp->name,
 		    count,
-		    lbp->lin_magic,
+		    lbp->__magic,
 		    (int)MAGIC_LINE
 		);
 		CAUSE_BUS_ERROR();
@@ -197,13 +199,13 @@ register int count;
 	lbp = bp->first_line;
 	count = 0;
 	while(lbp){
-	    if(lbp->lin_magic != MAGIC_LINE){
+	    if(lbp->__magic != MAGIC_LINE){
 		restore_tty();
 		fprintf(
 		    stderr,
 		    "?qreg pdl line %d bad magic#, 0x%08x should be 0x%08x\n",
 		    count,
-		    lbp->lin_magic,
+		    lbp->__magic,
 		    (int)MAGIC_LINE
 		);
 		CAUSE_BUS_ERROR();
@@ -224,19 +226,19 @@ register int count;
  * the correct magic number.
  */
 void
-tecdebug_check_format_magic()
+__magic()
 {
 register struct format_line *fp;
 register int count;
 
     fp = format_line_alloc_list;
     while(fp){
-	if(fp->fmt_magic != MAGIC_FORMAT){
+	if(fp->__magic != MAGIC_FORMAT){
 	    restore_tty();
 	    fprintf(
 		stderr,
 		"?format line bad magic#, 0x%08x should be 0x%08x\n",
-		fp->fmt_magic,
+		fp->__magic,
 		(int)MAGIC_FORMAT
 	    );
 	    CAUSE_BUS_ERROR();
@@ -247,13 +249,13 @@ register int count;
     fp = format_line_free_list;
     count = 0;
     while(fp){
-	if(fp->fmt_magic != MAGIC_FORMAT_LOOKASIDE){
+	if(fp->__magic != MAGIC_FORMAT_LOOKASIDE){
 	    restore_tty();
 	    fprintf(
 		stderr,
 		"?format lookaside[%d] bad magic#, 0x%08x should be 0x%08x\n",
 		count,
-		fp->fmt_magic,
+		fp->__magic,
 		(int)MAGIC_FORMAT_LOOKASIDE
 	    );
 	    CAUSE_BUS_ERROR();
@@ -375,3 +377,5 @@ char saw_our_format_line;
     }/* End FOR */
 
 }/* End Routine */
+
+#endif /* DEBUG1 */

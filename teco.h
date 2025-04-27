@@ -410,6 +410,11 @@
 void do_preamble_checks(void);
 void do_return_checks(void);
 
+#define MAGIC_HEADER()		\
+    int __magic
+#define MAGIC_UPDATE(X, VAL)	\
+    do (X)->__magic = (VAL); while (0)
+
 #define PREAMBLE() 		\
     do_preamble_checks();
 
@@ -421,6 +426,9 @@ void do_return_checks(void);
     do_return_checks();		\
     return(val);
 #else
+#define MAGIC_HEADER()
+#define MAGIC_UPDATE(X, VAL)	\
+    do {} while (0)
 #define PREAMBLE()
 #define RETURN
 #define RETURN_VAL()
@@ -453,7 +461,7 @@ void do_return_checks(void);
     }
 
     struct buff_header {
-	int	buf_magic;
+	MAGIC_HEADER();
 	unsigned int buf_hash;
 	char	*name;
 	int	buffer_number;
@@ -470,7 +478,7 @@ void do_return_checks(void);
     };
 
     struct buff_line {
-	int	lin_magic;
+	MAGIC_HEADER();
 	size_t	buffer_size;
 	size_t	byte_count;
 	char	*buffer;
@@ -480,7 +488,7 @@ void do_return_checks(void);
     };
 
     struct format_line {
-	int	fmt_magic;
+	MAGIC_HEADER();
 	struct	buff_header	*fmt_owning_buffer;
 	struct	buff_line	*fmt_buffer_line;
 	size_t	fmt_buffer_size;
@@ -500,7 +508,7 @@ void do_return_checks(void);
     };
 
     struct screen_line {
-	int	scr_magic;
+	MAGIC_HEADER();
 	short	*buffer;
 	struct	format_line	*companion;
 	int	sequence;
