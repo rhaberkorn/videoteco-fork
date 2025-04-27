@@ -1716,7 +1716,6 @@ register int length;
 
 
 
-#ifdef UNIX
 /**
  * \brief Issue a command to the operating system
  *
@@ -1743,6 +1742,8 @@ register int length;
  * \retval SUCCESS	Command succeeded
  * \retval FAIL		Command failed. Error message has been displayed.
  */
+#ifdef UNIX
+
 int
 cmd_oscmd(struct cmd_token *uct, int arg_count, unsigned long arg1, unsigned long arg2, char *cp)
 {
@@ -1953,27 +1954,128 @@ failreap:
 
 #else /* UNIX */
 
-/**
- * \brief Issue a command to the operating system
+/*
+ * This version will work on any/most systems with a standard C library
+ * as it relies on temporary files.
  *
- * This routine is called in response to the EC command which allows the
- * user to execute operating system commands from within the editor.
+ * FIXME: We cannot redirect stderr in MS-DOS.
  */
 int
 cmd_oscmd(struct cmd_token *uct, int arg_count, unsigned long arg1, unsigned long arg2, char *cp)
 {
+char tmpbuf[LINE_BUFFER_SIZE];
+char pipebuff[IO_BUFFER_SIZE];
+struct undo_token *ut;
+int bidir_flag = arg_count > 0;
+int status,w;
+char cmdline[TECO_FILENAME_TOTAL_LENGTH];
+int input_fd = -1, output_fd = -1;
+char input_filename[L_tmpnam] = "", output_filename[L_tmpnam] = "";
+int rc = FAIL;
+
     PREAMBLE();
 
-    /*
-     * FIXME: We could at least implement a subset with system(),
-     * that would work on DOS as well.
-     */
-    error_message("?OS Does not currently support EC");
-    return(FAIL);
+    snprintf(cmdline,sizeof(cmdline),"%s >%s <",
+             cp,tmpnam(output_filename));
 
+    if(bidir_flag){
+	strcat(cmdline,tmpnam(input_filename));
+	input_fd = open(input_filename,O_WRONLY|O_CREAT|O_TRUNC);
+	if(input_fd < 0){
+	    sprintf(tmpbuf,"?Error opening input temporary file %s: %s",
+	            input_filename,error_text(errno));
+	    error_message(tmpbuf);
+	    goto cleanup;
+	}/* End IF */
+
+/*
+ * In bidirectional mode, write buffer range to input_pipe, delete buffer range
+ * and care about the Undo structures
+ */
+	status = buff_write(curbuf,input_fd,arg1,arg2);
+	if(status == FAIL) goto cleanup;
+
+	ut = allocate_undo_token(uct);
+	if(ut == NULL) goto cleanup;
+	ut->opcode = UNDO_C_CHANGEDOT;
+	ut->iarg1 = curbuf->dot;
+
+	status = buff_delete_with_undo(uct,curbuf,arg1,arg2-arg1);
+	if(status == FAIL) goto cleanup;
+
+	close(input_fd);
+	input_fd = -1;
+    }/* End IF */
+#ifdef MSDOS
+    else{
+	strcat(cmdline,"NUL");
+    }/*End IF*/
+
+    _heapshrink();
+#endif
+    errno = 0;
+    status = system(cmdline);
+    if(errno){
+    	sprintf(tmpbuf,"?Error spawning external process: %s",
+    		error_text(errno));
+	error_message(tmpbuf);
+	goto cleanup;
+    }/* End If */
+    if(status){
+    	sprintf(tmpbuf,"?External process failed: %d",status);
+	error_message(tmpbuf);
+	goto cleanup;
+    }/* End If */
+
+    output_fd = open(output_filename,O_RDONLY);
+    if(output_fd < 0){
+	sprintf(tmpbuf,"?Error opening output temporary file %s: %s",
+	        output_filename,error_text(errno));
+	error_message(tmpbuf);
+	goto cleanup;
+    }/* End IF */
+
+/*
+ * Loop reading stuff coming back from the pipe until we get an
+ * EOF which means the process has finished. Update the screen
+ * on newlines so the user can see what is going on.
+ *
+ * In unidirectional mode, process output is written to DOT, otherwise to
+ * the selected buffer range (it effectively gets replaced by the process output).
+ */
+    ut = allocate_undo_token(uct);
+    if(ut == NULL) goto cleanup;
+    ut->opcode = UNDO_C_DELETE;
+    ut->carg1 = (char *)curbuf;
+    ut->iarg1 = bidir_flag ? arg1 : curbuf->dot;
+    ut->iarg2 = 0;
+
+    while((w = read(output_fd,pipebuff,sizeof(pipebuff))) > 0){
+	status = buff_insert(curbuf,ut->iarg1 + ut->iarg2,pipebuff,w);
+	if(status == FAIL) goto cleanup;
+
+	ut->iarg2 += w;
+    }/* End While */
+    if(w < 0){
+    	sprintf(tmpbuf,"?Error reading from output file %s: %s",
+    		output_filename,error_text(errno));
+	error_message(tmpbuf);
+	goto cleanup;
+    }/* End If */
+
+    rc = SUCCESS;
+
+cleanup:
+    if(input_fd < 0) close(input_fd);
+    if(*input_filename) unlink(input_filename);
+    if(output_fd < 0) close(output_fd);
+    if(*output_filename) unlink(output_filename);
+    return(rc);
 }/* End Routine */
 
-#endif
+#endif /* !UNIX */
+
+/* END OF UNIX CONDITIONAL CODE */
 
 
 

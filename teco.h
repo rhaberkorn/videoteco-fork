@@ -76,6 +76,10 @@
 #include <sys/ioctl.h>
 #endif
 
+#ifdef HAVE_MALLOC_H
+#include <malloc.h>
+#endif
+
 /*
  * sys/filio.h has the FIONREAD definition
  */
@@ -171,6 +175,14 @@
 
 #if HAVE_I86_H
 #include <i86.h>
+#endif
+
+#if HAVE_PROCESS_H
+#include <process.h>
+#endif
+
+#ifdef HAVE_CONIO_H
+#include <conio.h>
 #endif
 
 #if HAVE_SYS_WAIT_H
@@ -285,10 +297,6 @@
 		    fake_destination = *((int *)(0x0FFFFFFF));	\
 		    (void)fake_destination;			\
 		}
-#endif
-
-#ifdef MSDOS
-#include <conio.h>
 #endif
 
 #define TECO_FILENAME_TOTAL_LENGTH FILENAME_MAX

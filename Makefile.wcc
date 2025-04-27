@@ -37,7 +37,8 @@ LDFLAGS += format dos option eliminate option map option stack=16k &
 	set WCC_DEFS=-dSTDC_HEADERS=1 -dHAVE_STDIO_H -dHAVE_CTYPE_H -dHAVE_ERRNO_H &
 	             -dHAVE_STRING_H -dHAVE_STRINGS_H -dHAVE_FCNTL_H -dHAVE_IO_H &
 	             -dHAVE_SYS_STAT_H -dHAVE_SIGNAL_H -dHAVE_STDLIB_H -dHAVE_UNISTD_H &
-	             -dHAVE_STDINT_H -dHAVE_DIRECT_H -dHAVE_I86_H &
+	             -dHAVE_STDINT_H -dHAVE_DIRECT_H -dHAVE_I86_H -dHAVE_PROCESS_H -dHAVE_CONIO_H &
+	             -dHAVE_MALLOC_H &
 	             -dHAVE_SBRK -dHAVE_STRCHR -dTERMCAP -d__WATCOM_LFN__
 
 all : teco.exe .SYMBOLIC
