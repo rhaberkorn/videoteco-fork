@@ -1059,7 +1059,7 @@ int status;
  */
     cp1 = cp2 = filename;
     while(*cp1){
-	if(*cp1++ == '/') cp2 = cp1;
+	if(*cp1++ == TECO_DIRSEP) cp2 = cp1;
     }/* End While */
 
     combined_len = strlen(filename);
@@ -1221,7 +1221,7 @@ register int status;
 
     (void) strcpy(tmp_filename,pathname);
     if(strlen(tmp_filename)){
-	(void) strcat(tmp_filename,"/");
+	(void) strcat(tmp_filename,TECO_DIRSEP_S);
     }/* End IF */
 
     (void) strcat(tmp_filename,output_filename);
@@ -1585,7 +1585,7 @@ int i,status;
 	if(cp = (char *)getenv("HOME")){
 	    (void) strcpy(temp_buffer,cp);
 #ifndef VMS
-	    (void) strcat(temp_buffer,"/");
+	    (void) strcat(temp_buffer,TECO_DIRSEP_S);
 #endif /* VMS */
 	}/* End IF */
 

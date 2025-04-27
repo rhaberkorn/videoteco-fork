@@ -1420,20 +1420,17 @@ struct passwd *pw;
     name_list = NULL;
     name_list_end = NULL;
 
-    /*
-     * FIXME: DOS should use \ directory separators.
-     */
 /*
  * Else, start branching down into the directory list he specified
  */
-    if(wildcard_string[0] == '/'){
-	process_directory(&wildcard_string[0],"/",2);
+    if(wildcard_string[0] == TECO_DIRSEP){
+	process_directory(&wildcard_string[0],TECO_DIRSEP_S,2);
     }
 #ifdef UNIX
     else if (wildcard_string[0] == '~'){
 	cp = temp_name;
 	sp = &wildcard_string[1];
-	while(*sp && *sp != '/') *cp++ = *sp++;
+	while(*sp && *sp != TECO_DIRSEP) *cp++ = *sp++;
 	*cp++ = '\0';
 	if(temp_name[0] == '\0'){
 	    if((cp = getenv("HOME"))) strcpy(temp_name,cp);
@@ -1443,7 +1440,7 @@ struct passwd *pw;
 	    if(pw) strcpy(temp_name,pw->pw_dir);
 	}
 	strcat(temp_name,sp);
-	process_directory(temp_name,"/",2);
+	process_directory(temp_name,TECO_DIRSEP_S,2);
     }
 #endif
     else {
@@ -1476,7 +1473,7 @@ char *cp;
  * the end of the file specification, and this should be a file rather
  * than a directory.
  */
-    wildstr = (char *)strchr(wildstr,'/');
+    wildstr = (char *)strchr(wildstr,TECO_DIRSEP);
 
     directory_path[0] = '\0';
 
@@ -1526,20 +1523,20 @@ char *cp;
 	    case '?':
 	    case '[':
 	    case '{':
-		while(*cp != '\0' && *cp != '/') cp++;
+		while(*cp != '\0' && *cp != TECO_DIRSEP) cp++;
 		goto read_directory;
 	    case '\0':
 		strcpy(directory_path,path);
-		strcat(directory_path,"/");
+		strcat(directory_path,TECO_DIRSEP_S);
 		strcat(directory_path,wildstr+1);
 		process_directory(NULL,directory_path,-1);
 		return;
-	    case '/':
+	    case TECO_DIRSEP:
 		cp--;
 		*cp = '\0';
 		switch(flags){
 		    case 2:
-			strcpy(directory_path,"/");
+			strcpy(directory_path,TECO_DIRSEP_S);
 			strcat(directory_path,wildstr+1);
 			flags = 0;
 			break;
@@ -1550,12 +1547,12 @@ char *cp;
 		    case 0:
 		    case -1:
 			strcpy(directory_path,path);
-			strcat(directory_path,"/");
+			strcat(directory_path,TECO_DIRSEP_S);
 			strcat(directory_path,wildstr+1);
 			break;
 		}/* End Switch */
 
-		*cp = '/';
+		*cp = TECO_DIRSEP;
 		process_directory(wildstr+1,directory_path,flags);
 		return;
 	}/* End Switch */
@@ -1590,7 +1587,7 @@ read_directory:
 	if(match_name(dp->d_name,wildstr+1)){
 	    switch(flags){
 		case 2:
-		    strcpy(directory_path,"/");
+		    strcpy(directory_path,TECO_DIRSEP_S);
 		    strcat(directory_path,dp->d_name);
 		    break;
 		case 1:
@@ -1599,7 +1596,7 @@ read_directory:
 		case -1:
 		case 0:
 		    strcpy(directory_path,path);
-		    strcat(directory_path,"/");
+		    strcat(directory_path,TECO_DIRSEP_S);
 		    strcat(directory_path,dp->d_name);
 	    }/* End Switch */
 	    process_directory(cp,directory_path,-1);
@@ -1630,11 +1627,11 @@ int pattern_char;
 
     while(1){
 	switch(pattern_char = *pattern++){
-	    case '/':
+	    case TECO_DIRSEP:
 	    case '\0':
 		return(*name == '\0' ? 1 : 0);
 	    case '?':
-		return(*name == '\0' || *name == '/' ? 0 : 1);
+		return(*name == '\0' || *name == TECO_DIRSEP ? 0 : 1);
 /*
  * Open-Bracket allows any of a list of characters to match, such as [abc],
  * or a range such as [a-c], or a combination such as [abg-mz].
@@ -1689,7 +1686,7 @@ int pattern_char;
  */
 	    case '*':
 		if(*pattern == '\0') return(1);
-		if(*pattern == '/') return(1);
+		if(*pattern == TECO_DIRSEP) return(1);
 		for(c = 0; name[c] != '\0'; c++){
 		    if(match_name(&name[c],pattern)) return(1);
 		}/* End FOR */

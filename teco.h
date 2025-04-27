@@ -326,6 +326,14 @@
 #define MAX_TAB_WIDTH 16
 #define MAXOF( a,b) (a) > (b) ? (a) : (b)
 
+#ifdef MSDOS
+#define TECO_DIRSEP	'\\'
+#define TECO_DIRSEP_S	"\\"
+#else
+#define TECO_DIRSEP	'/'
+#define TECO_DIRSEP_S	"/"
+#endif
+
 #define INITIAL_LINE_BUFFER_SIZE 32
 #define INCREMENTAL_LINE_BUFFER_SIZE 32
 #define MINIMUM_ALLOCATION_BLOCK 32
