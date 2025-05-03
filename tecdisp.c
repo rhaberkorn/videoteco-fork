@@ -2162,11 +2162,12 @@ screen_format_buff_line( struct window *wptr, struct buff_line *lbp )
 register struct format_line *sbp;
 register char *cp;
 register short *sp;
-register unsigned int c;
+register unsigned int c,c_data;
 register int i;
 int byte_count;
 int current_column;
 char *multi_byte_echo;
+int multi_byte_echo_reverse;
 char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 
     PREAMBLE();
@@ -2202,6 +2203,7 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
     c = ' ';
     current_column = 0;
     multi_byte_echo = NULL;
+    multi_byte_echo_reverse = 0;
 
     while(byte_count > 0){
 
@@ -2215,8 +2217,16 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 	}/* End IF */
 
 	if(multi_byte_echo){
+	    /*
+	     * All multi-byte echos are for Escape ($) or ^x control chars.
+	     * Therefore they can be printed in reverse like in SciTECO.
+	     */
 	    c = *multi_byte_echo++;
-	    if(*multi_byte_echo == '\0') multi_byte_echo = NULL;
+	    if(multi_byte_echo_reverse) c |= SCREEN_M_REVERSE;
+	    if(*multi_byte_echo == '\0'){
+		multi_byte_echo = NULL;
+		multi_byte_echo_reverse = 0;
+	    }
 	}/* End IF */
 
 	else {
@@ -2224,15 +2234,17 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 	    byte_count -= 1;
 	}/* End Else */
 
-	c &= 0xFF;
+	/* without possible SCREEN_M_REVERSE flags */
+	c_data = c & 0xFF;
 
-	switch(c){
+	switch(c_data){
 	    case '\t':
 		i = tab_width - ( current_column % tab_width );
 		multi_byte_echo = tab_expand + MAX_TAB_WIDTH - i;
 		break;
 	    case ESCAPE:
 		multi_byte_echo = "$";
+		multi_byte_echo_reverse = 1;
 		break;
 
 	    case '\n':
@@ -2240,14 +2252,15 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 		current_column = 0;
 		break;
 	    default:
-		if(c < ' '){
+		if(c_data < ' '){
 		    if( hide_cr_flag ){
 			expand_buffer[0] = ' ';
 			expand_buffer[1] = '\0';
 		    } else {
 			expand_buffer[0] = '^';
-			expand_buffer[1] = c + 'A' - 1;
+			expand_buffer[1] = c_data + 'A' - 1;
 			expand_buffer[2] = '\0';
+			multi_byte_echo_reverse = 1;
 		    }
 		    multi_byte_echo = expand_buffer;
 		    continue;
@@ -2257,8 +2270,8 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
  * or as '.' if it is a non-printable character. We display it reverse video
  * if the terminal is not a brain damaged 'magic cookie' terminal.
  */
-		if(eight_bit_output_flag == NO && c >= 128){
-		    c -= 128;
+		if(eight_bit_output_flag == NO && c_data >= 128){
+		    c = c_data - 128;
 		    if(isprint(c)) c |= SCREEN_M_REVERSE;
 		    else c = '.' | SCREEN_M_REVERSE;
 #ifdef TERMCAP
