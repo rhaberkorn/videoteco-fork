@@ -1091,6 +1091,12 @@ int arg_skip;
 			output_tty_name = argv[i+1];
 			arg_skip++;
 			break;
+#ifdef __WATCOMC__
+		    case '8':
+			/* don't convert DOS linebreaks */
+			_fmode = O_BINARY;
+			break;
+#endif
 		    default:
 			fprintf(stderr,"teco: unknown switch '%c'\n",c);
 			cp = "";
