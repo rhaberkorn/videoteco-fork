@@ -53,7 +53,6 @@ char *tecexec_c_version = "tecexec.c: $Revision: 1.3 $";
     int find_conditional_end(struct cmd_token *);
     int compare_label(struct cmd_token *,struct cmd_token *);
     void extract_label(struct cmd_token *,char *);
-	struct wildcard_expansion *expand_filename( char *wildcard_string );
 
 
 

@@ -731,3 +731,4 @@ void term_delete_line(int,int);
 struct buff_header *buff_find(char *);
 struct buff_header *buff_duplicate(struct buff_header *);
 struct window *screen_split_window(struct window *,int,int);
+struct wildcard_expansion *expand_filename(char *);

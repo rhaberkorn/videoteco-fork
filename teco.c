@@ -1036,7 +1036,6 @@ char *cp, c;
 #if defined(UNIX) || defined(MSDOS)
 /*
  * FIXME: Perhaps DOS should have its own version with `/` arguments.
- * The Watcom C runtime probably also doesn't expand wildcards.
  */
 int
 handle_command_line( int which_time, int argc, char **argv )
@@ -1105,14 +1104,23 @@ int arg_skip;
 
 	if(!first_file_argument) first_file_argument = i;
 	if(!outof_memory){
+#ifdef MSDOS
+	    struct wildcard_expansion *name_list,*np;
+	    np = expand_filename(argv[i]);
+	    while(np){
+		buff_openbuffer(np->we_name,0,readonly_flag);
+		name_list = np;
+		np = np->we_next;
+		tec_release(TYPE_C_WILD,(char *)name_list);
+	    }/* End While */
+#else
 	    buff_openbuffer(argv[i],0,readonly_flag);
+#endif
 	}/* End IF */
 
     }/* End FOR */
 
-    if(first_file_argument){
-	buff_openbuffer(argv[first_file_argument],0,readonly_flag);
-    }/* End IF */
+    buff_openbuffnum(1,0);
 
     if(piped_input_flag){
 	buff_openbuffnum(-1,0);
@@ -1137,7 +1145,6 @@ register int i,j;
 int count;
 register char *cp,*dp;
 struct wildcard_expansion *name_list,*np;
-struct wildcard_expansion *expand_filename(char *);
 int number_of_buffers_opened = 0;
 char switch_buffer[TECO_FILENAME_TOTAL_LENGTH];
 char *command_line;
@@ -1444,7 +1451,7 @@ struct passwd *pw;
     }
 #endif
     else {
-	strcpy(temp_name,"./");
+	strcpy(temp_name,"." TECO_DIRSEP_S);
 	strcat(temp_name,wildcard_string);
 	process_directory(temp_name,".",1);
     }
@@ -1581,9 +1588,9 @@ read_directory:
     dirp = opendir(path);
 
     while((dp = readdir(dirp)) != NULL) {
-#ifndef _POSIX_SOURCE
+#if !defined(_POSIX_SOURCE) && !defined(MSDOS)
 	if(dp->d_ino == 0) continue;
-#endif /* _POSIX_SOURCE */
+#endif /* !_POSIX_SOURCE && !MSDOS */
 	if(match_name(dp->d_name,wildstr+1)){
 	    switch(flags){
 		case 2:
@@ -1606,6 +1613,16 @@ read_directory:
     closedir(dirp);
 
 }/* End Routine */
+
+#ifdef MSDOS
+/* case-insensitive */
+#define MATCH_CHR(A,B) (TOUPPER(A) == TOUPPER(B))
+#define MATCH_WITHIN(L,X,H) (TOUPPER(L) <= TOUPPER(X) && TOUPPER(X) <= TOUPPER(H))
+#else
+/* case-sensitive */
+#define MATCH_CHR(A,B) ((A) == (B))
+#define MATCH_WITHIN(L,X,H) ((L) <= (X) && (X) <= (H))
+#endif
 
 /**
  * \brief Check whether a name satisfies a wildcard specification
@@ -1641,7 +1658,7 @@ int pattern_char;
 		c = *name;
 		previous_char = 'A';
 		while((pattern_char = *pattern++)){
-		    if(pattern_char == c) match = 1;
+		    if(MATCH_CHR(pattern_char,c)) match = 1;
 		    if(pattern_char == ']'){
 			if(match) break;
 			return(0);
@@ -1652,7 +1669,7 @@ int pattern_char;
 			    pattern--;
 			    pattern_char = 'z';
 			}/* End IF */
-			if(c >= previous_char && c <= pattern_char){
+			if(MATCH_WITHIN(previous_char,c,pattern_char)){
 			    match = 1;
 			}/* End IF */
 		    }/* End IF */
@@ -1692,7 +1709,7 @@ int pattern_char;
 		}/* End FOR */
 		return(0);
 	    default:
-		if(pattern_char != *name) return(0);
+		if(!MATCH_CHR(pattern_char,*name)) return(0);
 		break;
 	}/* End Switch */
 	name++;
