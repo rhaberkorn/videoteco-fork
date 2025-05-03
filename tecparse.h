@@ -300,7 +300,7 @@ struct undo_token {
 int cmd_oscmd(struct cmd_token *,int,unsigned long,unsigned long,char *);
 int buff_insert_from_buffer_with_undo( struct cmd_token *,
 			struct buff_header *,unsigned long,struct buff_header *,unsigned long,size_t);
-int buff_delete_with_undo( struct cmd_token *,struct buff_header *,unsigned long,long);
+int buff_delete_with_undo( struct cmd_token *,struct buff_header *,unsigned long,unsigned long);
 int buff_insert_with_undo( struct cmd_token *,
 					struct buff_header *,unsigned long,char *,unsigned long);
 int rename_edit_buffer(struct buff_header *,char *,struct cmd_token *);

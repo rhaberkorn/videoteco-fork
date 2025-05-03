@@ -198,7 +198,7 @@ cmd_forward_search(
 register struct search_element *ep;
 register unsigned char buffer_char;
 register int table_position;
-int dotpos;
+unsigned long dotpos;
 char token_match;
 char tmp_message[LINE_BUFFER_SIZE];
 struct position_cache base_position;
@@ -254,7 +254,7 @@ struct position_cache running_position;
 		break;
 	    case SEARCH_C_QREGCHARS:
 		{ struct buff_header *qbp;
-		register int i;
+		register unsigned long i;
 		qbp = buff_qfind(ep->value,0);
 		token_match = 0;
 		if(qbp == NULL) break;
@@ -292,7 +292,7 @@ struct position_cache running_position;
 	if(token_match){
 	    table_position += 1;
 	    ep++;
-	    if(table_position == search_tbl->length){
+	    if((size_t)table_position == search_tbl->length){
 		curbuf->dot = last_search_pos2 = dotpos;
 		{/* Local Block */
 		    register struct buff_header *hbp;
@@ -332,14 +332,14 @@ struct position_cache running_position;
  */
 int
 cmd_reverse_search(
-					int pos1,
-					int pos2,
+					unsigned long pos1,
+					unsigned long pos2,
 					struct search_buff *search_tbl )
 {
 register struct search_element *ep;
 register unsigned char buffer_char;
 register int table_position;
-int dotpos;
+unsigned long dotpos;
 char token_match;
 char tmp_message[LINE_BUFFER_SIZE];
 struct position_cache base_position;
@@ -366,7 +366,7 @@ struct position_cache running_position;
 
     while(dotpos > pos1){
 
-	if(table_position == (search_tbl->length - 1)){
+	if((size_t)table_position == (search_tbl->length - 1)){
 	    last_search_pos2 = dotpos;
 	    base_position = running_position;
 	}/* End IF */
@@ -398,7 +398,7 @@ struct position_cache running_position;
 		break;
 	    case SEARCH_C_QREGCHARS:
 		{ struct buff_header *qbp;
-		register int i;
+		register unsigned long i;
 		qbp = buff_qfind(ep->value,0);
 		token_match = 0;
 		if(qbp == NULL) break;
@@ -478,9 +478,10 @@ set_search_string_with_undo(
 {
 register struct buff_header *qbp;
 register struct undo_token *ut;
-register int i,c;
+register unsigned long i;
+register int c;
 register char *cp;
-int new_length;
+unsigned long new_length;
 
     PREAMBLE();
 

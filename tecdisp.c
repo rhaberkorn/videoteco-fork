@@ -2394,7 +2394,7 @@ struct buff_header *hbp = wptr->win_buffer;
 
     sbp = format_line_free_list;
     if(sbp != NULL){
-	if(sbp->fmt_buffer_size == term_columns){
+	if(sbp->fmt_buffer_size == (size_t)term_columns){
 	    format_line_free_list = sbp->fmt_next_line;
 	}
 	else {

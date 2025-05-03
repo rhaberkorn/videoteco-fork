@@ -1250,13 +1250,13 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  * insure that the two positions specified are valid buffer positions.
  */
 	    if(ct->ctx.iarg1_flag && ct->ctx.iarg2_flag){
-		if(arg1 < 0 || arg1 > curbuf->zee){
+		if(arg1 < 0 || (unsigned long)arg1 > curbuf->zee){
 		    sprintf(tmp_message,
 			"?Illegal buffer position %ld in search command",arg1);
 		    error_message(tmp_message);
 		    return(FAIL);
 		}/* End IF */
-		if(arg2 < 0 || arg2 > curbuf->zee){
+		if(arg2 < 0 || (unsigned long)arg2 > curbuf->zee){
 		    sprintf(tmp_message,
 			"?Illegal buffer position %ld in search command",arg2);
 		    error_message(tmp_message);
@@ -1410,7 +1410,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
  * previous one. Only if we get a miscompare do we delete the contents of
  * the replacement q-register, and insert the new string.
  */
-	    if(qbp->zee > ct->ctx.tmpval){
+	    if((long)qbp->zee > ct->ctx.tmpval){
 		if(ct->input_byte == buff_contents(qbp,ct->ctx.tmpval)){
 		    ct->ctx.tmpval += 1;
 		    return(SUCCESS);
@@ -1433,7 +1433,7 @@ char tmp_buffer[LINE_BUFFER_SIZE],tmp_message[LINE_BUFFER_SIZE];
 		return(FAIL);
 	    }/* End IF */
 
-	    if(qbp->zee > ct->ctx.tmpval){
+	    if((long)qbp->zee > ct->ctx.tmpval){
 		buff_delete_with_undo(uct,qbp,ct->ctx.tmpval,
 		    qbp->zee-ct->ctx.tmpval);
 	    }

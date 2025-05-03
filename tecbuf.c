@@ -555,7 +555,7 @@ register int i;
 /*
  * Insure that the specified position is legal
  */
-    if(position > hbp->zee || position < 0){
+    if((unsigned long)position > hbp->zee || position < 0){
 	char panic_string[LINE_BUFFER_SIZE];
 	sprintf(panic_string,
 	    "buff_contents: illegal position %ld specified in buffer %s",
@@ -585,7 +585,7 @@ register int i;
  */
 int
 buff_cached_contents(	struct buff_header *hbp, 
-						unsigned long position, struct position_cache *cache )
+						long position, struct position_cache *cache )
 {
 register struct buff_line *lbp;
 register int i;
@@ -594,7 +594,7 @@ register int i;
 /*
  * Insure that the specified position is legal
  */
-    if(position > hbp->zee || position < 0){
+    if(position < 0 || (unsigned long)position > hbp->zee){
 	char tmp_message[LINE_BUFFER_SIZE];
 	sprintf(tmp_message,"buff_contents: illegal position %lu %s Z = %lu\n",
 	    position,hbp->name,hbp->zee);
@@ -862,7 +862,7 @@ buff_readfd( struct buff_header *hbp, char *name, int iochan )
     register int i;
     register struct buff_line *lbp;
     struct buff_line *olbp;
-    int original_zee = hbp->zee;
+    unsigned long original_zee = hbp->zee;
     int error_status = SUCCESS;
 
     PREAMBLE();
@@ -1301,16 +1301,16 @@ buff_insert_from_buffer_with_undo(	struct cmd_token *ct,
 									unsigned long src_position,
 									size_t length )
 {
-register int i;
+register unsigned int i;
 struct undo_token *ut = 0;
 struct buff_line *dlbp,*sb_lbp,*se_lbp,*nlbp;
 int doff,sb_off,se_off;
 int newline_included_in_src_data;
-int bytes_to_copy_from_source;
-int bytes_required_for_line,bytes_to_allocate;
+size_t bytes_to_copy_from_source;
+size_t bytes_required_for_line,bytes_to_allocate;
 char *new_buffer;
 register char *dcp,*scp;
-int bytes_inserted_so_far = 0;
+size_t bytes_inserted_so_far = 0;
 
 #ifdef DEBUG
 char outbuf[1024];
@@ -1498,7 +1498,7 @@ char outbuf[1024];
 		char tmp_message[1024];
 		sprintf(
 		    tmp_message,
-		    "buff_insert_from_buffer_with_undo need %d alloced %d\n",
+		    "buff_insert_from_buffer_with_undo need %lu alloced %lu\n",
 		    bytes_required_for_line,
 		    bytes_to_allocate
 		);
@@ -1622,7 +1622,7 @@ char outbuf[1024];
 		char tmp_message[1024];
 		sprintf(
 		    tmp_message,
-		    "buff_insert_from_buffer_with_undo needs %d alloced %d\n",
+		    "buff_insert_from_buffer_with_undo needs %lu alloced %lu\n",
 		    bytes_required_for_line,
 		    bytes_to_allocate
 		);
@@ -1856,7 +1856,7 @@ register int i,j;
 	    cp = lbp->buffer + i;
 	    ocp = nlbp->buffer;
 
-	    while(nlbp->byte_count < j){
+	    while(nlbp->byte_count < (unsigned int)j){
 		*ocp++ = *cp++;
 		nlbp->byte_count++;
 		lbp->byte_count--;
@@ -1988,7 +1988,8 @@ buff_delete_char(	struct buff_header *hbp,
 register struct buff_line *lbp;
 struct buff_line *nlbp;
 register char *cp,*ocp;
-register int i,j;
+register int i;
+register unsigned int j;
 
     PREAMBLE();
 /*
@@ -2134,13 +2135,14 @@ int
 buff_delete_with_undo(	struct cmd_token *ct,
 						struct buff_header *hbp,
 						unsigned long position,
-						long count )
+						unsigned long count )
 {
 register char *cp;
 struct undo_token *ut;
 register struct buff_line *lbp;
 struct buff_line *top_lbp;
-unsigned long top_offset,local_count,bulk_position;
+unsigned long top_offset,bulk_position;
+long local_count;
 unsigned long bytes_deleted_so_far = 0;
 
     PREAMBLE();
@@ -2195,7 +2197,7 @@ unsigned long bytes_deleted_so_far = 0;
  * removed in bulk. lbp gets left pointing at the final line which can be bulk
  * removed.
  */
-    if(lbp && lbp->byte_count <= local_count){
+    if(lbp && (ssize_t)lbp->byte_count <= local_count){
 /*
  * We will get to bulk delete at least one line, so allocate an undo buffer.
  * Point the undo token at the head of the list of line buffers. Remember
@@ -2221,7 +2223,7 @@ unsigned long bytes_deleted_so_far = 0;
 		lbp->format_line = NULL;
 	    }/* End IF */
 	    if(lbp->next_line == NULL) break;
-	    if(lbp->next_line->byte_count > local_count) break;
+	    if((ssize_t)lbp->next_line->byte_count > local_count) break;
 	    lbp = lbp->next_line;
 	}/* End While */
 /*

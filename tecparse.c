@@ -487,7 +487,7 @@ register struct cmd_token *last_token;
 int c = 0;
 int status;
 char token_used;
-int i;
+unsigned long i;
 char old_modified_state;
 struct buff_header *old_curbuf;
 struct undo_token *ut;
@@ -1207,10 +1207,10 @@ parser_replace_command_line( struct buff_header *qbp )
 {
 register struct cmd_token *ct;
 register struct cmd_token *first_different_ct;
-register int c;
+register unsigned long c;
 char temp;
 register char *command_buffer;
-register int cb_zee;
+register unsigned long cb_zee;
 
     PREAMBLE();
 
@@ -1491,9 +1491,9 @@ char tmp_message[LINE_BUFFER_SIZE];
 
     illegal_position = 0;
     if(pos1 < 0) illegal_position = 1;
-    if(pos2 < 0) illegal_position = 1;
-    if(pos1 > curbuf->zee) illegal_position = 1;
-    if(pos2 > curbuf->zee) illegal_position = 1;
+    else if(pos2 < 0) illegal_position = 1;
+    else if((unsigned long)pos1 > curbuf->zee) illegal_position = 1;
+    else if((unsigned long)pos2 > curbuf->zee) illegal_position = 1;
 
     if(illegal_position == 0) return(0);
 
