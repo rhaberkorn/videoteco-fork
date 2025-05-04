@@ -1153,6 +1153,13 @@ int max_length;
     buff_insert(curbuf,curbuf->dot,padd_buffer,i);
     buff_insert(curbuf,curbuf->dot,tmp_buffer,strlen(tmp_buffer));
 
+    (void) strcpy(tmp_buffer,"Munged by Robin Haberkorn");
+    i = (max_length - strlen(tmp_buffer))/2;
+    if(i < 0) i = 0;
+    (void) strcat(tmp_buffer,"\n");
+    buff_insert(curbuf,curbuf->dot,padd_buffer,i);
+    buff_insert(curbuf,curbuf->dot,tmp_buffer,strlen(tmp_buffer));
+
 #if 0
     (void) strcpy(tmp_buffer,id_string);
     if(tmp_buffer[0] == '%'){
