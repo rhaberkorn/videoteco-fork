@@ -72,6 +72,31 @@
 #include "config.h"
 #endif
 
+#ifdef MSDOS
+#define __WATCOM_LFN__
+#define STDC_HEADERS 1
+#define HAVE_STDIO_H 1
+#define HAVE_CTYPE_H 1
+#define HAVE_ERRNO_H 1
+#define HAVE_STRING_H 1
+#define HAVE_STRINGS_H 1
+#define HAVE_FCNTL_H 1
+#define HAVE_IO_H 1
+#define HAVE_SYS_STAT_H 1
+#define HAVE_SIGNAL_H 1
+#define HAVE_STDLIB_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_STDINT_H 1
+#define HAVE_DIRECT_H 1
+#define HAVE_I86_H 1
+#define HAVE_PROCESS_H 1
+#define HAVE_CONIO_H 1
+#define HAVE_MALLOC_H 1
+#define HAVE_SBRK 1
+#define HAVE_STRCHR 1
+#define TERMCAP 1
+#endif /* MSDOS */
+
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif

@@ -24,9 +24,14 @@ CFLAGS = -d0 -onasx -oh
 # Perhaps it would be more elegant to have a DOS-specific config.h.
 #
 # Large data model: far code and data pointers
-CFLAGS += -q -wx -ze -zm -j -0 -ml -bt=DOS @WCC_DEFS
+CFLAGS += -q -wx -ze -zm -j -0 -ml -bt=DOS
 LDFLAGS += format dos option eliminate option map option stack=16k &
            libpath $(%WATCOM)/lib286:$(%WATCOM)/lib286/dos
+
+# The `search_string` symbol is larger than 32kb.
+# If it's allocated as far data, it will be needlessly included in the
+# binary.
+CFLAGS += -zt=65536
 
 .BEFORE
 !ifndef %WATCOM
@@ -34,12 +39,6 @@ LDFLAGS += format dos option eliminate option map option stack=16k &
 !endif
 	set include=$(%WATCOM)/h
 	set lib=$(%WATCOM)/lib286;$(%WATCOM)/lib286/dos
-	set WCC_DEFS=-dSTDC_HEADERS=1 -dHAVE_STDIO_H -dHAVE_CTYPE_H -dHAVE_ERRNO_H &
-	             -dHAVE_STRING_H -dHAVE_STRINGS_H -dHAVE_FCNTL_H -dHAVE_IO_H &
-	             -dHAVE_SYS_STAT_H -dHAVE_SIGNAL_H -dHAVE_STDLIB_H -dHAVE_UNISTD_H &
-	             -dHAVE_STDINT_H -dHAVE_DIRECT_H -dHAVE_I86_H -dHAVE_PROCESS_H -dHAVE_CONIO_H &
-	             -dHAVE_MALLOC_H &
-	             -dHAVE_SBRK -dHAVE_STRCHR -dTERMCAP -d__WATCOM_LFN__
 
 all : teco.exe .SYMBOLIC
 
