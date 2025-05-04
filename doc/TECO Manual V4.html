@@ -1,0 +1,4840 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- This document was created from RTF source by rtftohtml version
+2.7.5 --><title>TECO Manual V4</title></head><body><b></b><p>
+<b>Video TECO User's Guide</b></p><p>
+<b>First Edition August 1986</b></p><p>
+<b>Revision 2.0 May 1987</b></p><p>
+<b>Revision 2.1 March 1988</b></p><p>
+<b>Revision 2.2 September 1988</b></p><p>
+<b>Revision 2.3 February 1989</b></p><p>
+<b>Revision 2.4 October 1993</b></p><p>
+<b>COPYRIGHT (c) 1985 - 1993 BY</b></p><p>
+<b>PAUL CANTRELL &amp; J. M. NISHINAGA</b></p><p>
+<b>SUDBURY, MA 01776</b></p><p>
+<b>ALL RIGHTS RESERVED</b></p><p>
+<b></b>Information in this document is subject to change without notice and
+does not represent a commitment on the part of the authors. The software
+described in this document is furnished under a license agreement or
+nondisclosure agreement. The software may be used or copied only in accordance
+with the terms of the agreement. This software or any other copies thereof, may
+not be provided or otherwise made available to anyone other than the licensee.
+Title to and ownership of this software  remains  with the author.</p><p>
+</p><p>
+</p><h1>Table of Contents</h1><p>
+
+</p><ul>
+
+	<li>	<a href="#RTFToC1">1.
+		INTRODUCTION
+		</a>
+
+	<ul>
+		<li>	<a href="#RTFToC2">1.1.
+			Conventions Used In This Manual
+			</a>
+
+		</li><li>	<a href="#RTFToC3">1.2.
+			Input Control Codes
+			</a>
+
+		<ul>
+			<li>	<a href="#RTFToC4">1.2.1.
+				The Rubout Character Code
+				</a>
+
+			</li><li>	<a href="#RTFToC5">1.2.2.
+				The Rubout Word Code
+				</a>
+
+			</li><li>	<a href="#RTFToC6">1.2.3.
+				The Rubout Line Code
+				</a>
+
+			</li><li>	<a href="#RTFToC7">1.2.4.
+				The Interrupt Code
+				</a>
+
+			</li><li>	<a href="#RTFToC8">1.2.5.
+				The Suspend Code
+				</a>
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC9">1.3.
+			Starting up TECO
+			</a>
+
+		</li><li>	<a href="#RTFToC10">1.4.
+			Screen Layout
+			</a>
+
+		<ul>
+			<li>	<a href="#RTFToC11">1.4.1.
+				Echo Line
+				</a>
+
+			</li><li>	<a href="#RTFToC12">1.4.2.
+				Message Line
+				</a>
+
+			</li><li>	<a href="#RTFToC13">1.4.3.
+				Status Line
+				</a>
+
+			</li><li>	<a href="#RTFToC14">1.4.4.
+				Buffer Area
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC15">1.5.
+			Format of TECO commands
+			</a>
+
+		</li><li>	<a href="#RTFToC16">1.6.
+			Exiting TECO
+			</a>
+
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC17">2.
+		Simple Editing
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC18">2.1.
+			The Edit Buffer
+			</a>
+		<ul>
+
+			<li>	<a href="#RTFToC19">2.1.1.
+				The Current Edit Buffer Position
+				</a>
+
+			</li><li>	<a href="#RTFToC20">2.1.2.
+				The End Of Buffer Position
+				</a>
+
+			</li><li>	<a href="#RTFToC21">2.1.3.
+				The Entire Buffer Range
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC22">2.2.
+			Changing The Current Edit Position
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC23">2.2.1.
+				Moving DOT with the C Command
+				</a>
+
+			</li><li>	<a href="#RTFToC24">2.2.2.
+				Moving DOT with the R Command
+				</a>
+
+			</li><li>	<a href="#RTFToC25">2.2.3.
+				Moving DOT with the W Command
+				</a>
+
+			</li><li>	<a href="#RTFToC26">2.2.4.
+				Moving DOT with the L Command
+				</a>
+
+			</li><li>	<a href="#RTFToC27">2.2.5.
+				Moving DOT with the J Command
+				</a>
+
+			</li><li>	<a href="#RTFToC28">2.2.6.
+				Moving DOT by Searching
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC29">2.3.
+			Deleting Text
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC30">2.3.1.
+				Deleting Text with the D command
+				</a>
+
+			</li><li>	<a href="#RTFToC31">2.3.2.
+				Deleting Text with the K command
+				</a>
+
+			</li><li>	<a href="#RTFToC32">2.3.3.
+				Deleting Text with the FD command
+				</a>
+
+			</li><li>	<a href="#RTFToC33">2.3.4.
+				Deleting Text with the FK Command
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC34">2.4.
+			Inserting Text
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC35">2.4.1.
+				Changing Text with Find / Substitute
+				</a>
+
+			</li><li>	<a href="#RTFToC36">2.4.2.
+				Changing Text with the FS Command
+				</a>
+
+			</li><li>	<a href="#RTFToC37">2.4.3.
+				Changing Text with the FR Command
+				</a>
+
+		</li></ul>
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC38">3.
+		Buffer Management
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC39">3.1.
+			Multiple Buffer Editing
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC40">3.1.1.
+				Creating Edit Buffers with the EB Command
+				</a>
+
+			</li><li>	<a href="#RTFToC41">3.1.2.
+				Listing Active Edit Buffers
+				</a>
+
+			</li><li>	<a href="#RTFToC42">3.1.3.
+				Creating a Readonly Edit Buffer
+				</a>
+
+			</li><li>	<a href="#RTFToC43">3.1.4.
+				Writing Buffers to Disk with EW
+				</a>
+
+			</li><li>	<a href="#RTFToC44">3.1.5.
+				Deleting Edit Buffers with EF
+				</a>
+
+		</li></ul>
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC45">4.
+		Advanced Editing Techniques
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC46">4.1.
+			Command Modifiers
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC47">4.1.1.
+				AT-SIGN Modifier
+				</a>
+
+			</li><li>	<a href="#RTFToC48">4.1.2.
+				Colon Modifier
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC49">4.2.
+			Q-registers
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC50">4.2.1.
+				Loading Text into Q-registers with the X command
+				</a>
+
+			</li><li>	<a href="#RTFToC51">4.2.2.
+				Retrieving Text from Q-registers with the G command
+				</a>
+
+			</li><li>	<a href="#RTFToC52">4.2.3.
+				Loading Numeric Values into Q-registers with the U command
+				</a>
+
+			</li><li>	<a href="#RTFToC53">4.2.4.
+				Retrieving Numeric Values from Q-registers with the Q command
+				</a>
+
+			</li><li>	<a href="#RTFToC54">4.2.5.
+				Using a Q-register as an Edit Buffer
+				</a>
+
+			</li><li>	<a href="#RTFToC55">4.2.6.
+				Q-registers that have special meaning
+				</a>
+
+			<ul>
+
+				<li>	<a href="#RTFToC56">1,
+					Underscore Q-register
+					</a>
+
+				</li><li>	<a href="#RTFToC57">2,
+					Minus-Sign Q-register
+					</a>
+
+				</li><li>	<a href="#RTFToC58">3,
+					Asterisk Q-register
+					</a>
+
+			</li></ul>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC59">4.3.
+			Arithmetic Expressions
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC60">4.3.1.
+				Rules for Expression Evaluation
+				</a>
+
+			</li><li>	<a href="#RTFToC61">4.3.2.
+				Checking Expression Evaluation with the = Command
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC62">4.4.
+			Iterations
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC63">4.4.2.
+				Breaking out of Iterations with the Semi-Colon Command
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC64">4.5.
+			MACROS
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC65">4.5.1.
+				Loading Default Macros with TECO INI
+				</a>
+
+			</li><li>	<a href="#RTFToC66">4.5.2.
+				Saving the Last Command with *
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC67">4.6.
+			Conditional Operators
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC68">4.6.1.
+				The Double Quote 'IF' command
+				</a>
+
+			</li><li>	<a href="#RTFToC69">4.6.2.
+				The Vertical Bar 'Else' command
+				</a>
+
+			</li><li>	<a href="#RTFToC70">4.6.3.
+				Conditional Operators
+				</a>
+
+		</li></ul>
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC71">5.
+		Advanced Searching
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC72">5.1.
+			Default Search Rules
+			</a>
+
+		</li><li>	<a href="#RTFToC73">5.2.
+			Wildcard Searching
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC74">5.2.1.
+				The ^X Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC75">5.2.2.
+				The ^N Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC76">5.2.3.
+				The ^ED Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC77">5.2.4.
+				The ^ES Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC78">5.2.5.
+				The ^E^E Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC79">5.2.6.
+				The ^EA Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC80">5.2.7.
+				The ^EB Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC81">5.2.8.
+				The ^EC Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC82">5.2.9.
+				The ^EG Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC83">5.2.10.
+				The ^EL Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC84">5.2.11.
+				The ^EM Wildcard 
+				</a>
+
+			</li><li>	<a href="#RTFToC85">5.2.12.
+				The ^ER Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC86">5.2.13.
+				The ^EU Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC87">5.2.14.
+				The ^EV Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC88">5.2.15.
+				The ^EW Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC89">5.2.16.
+				The ^E[] Wildcard
+				</a>
+
+			</li><li>	<a href="#RTFToC90">5.2.17.
+				The ^E&lt;&gt; Wildcard
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC91">5.3.
+			Search Modifiers
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC92">5.3.1.
+				The Colon Modifier
+				</a>
+
+			</li><li>	<a href="#RTFToC93">5.3.2.
+				The AT-SIGN Modifier
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC94">5.4.
+			Default Search String
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC95">5.4.1.
+				Preserving the Default Search String across Macro Executions
+				</a>
+
+			</li><li>	<a href="#RTFToC96">5.4.2.
+				Examining the Default Search String
+				</a>
+
+			</li><li>	<a href="#RTFToC97">5.4.3.
+				Setting the Search String Directly
+				</a>
+
+		</li></ul>
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC98">6.
+		Programming TECO
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC99">6.1.
+			Other Features
+			</a>
+
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC100">7.
+		TECO REFERENCE
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC101">7.1.
+			'A' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC102">7.1.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC103">7.1.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC104">7.1.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC105">7.2.
+			'B" Command
+			</a>
+
+		</li><li>	<a href="#RTFToC106">7.3.
+			'C' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC107">7.3.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC108">7.3.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC109">7.3.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC110">7.4.
+			'D' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC111">7.4.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC112">7.4.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC113">7.4.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC114">7.5.
+			'E' Command
+			</a>
+
+		</li><li>	<a href="#RTFToC115">7.6.
+			'EB' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC116">7.6.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC117">7.6.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC118">7.6.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC119">7.7.
+			'EC' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC120">7.7.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC121">7.7.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC122">7.7.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC123">7.8.
+			'EF' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC124">7.8.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC125">7.8.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC126">7.8.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC127">7.9.
+			'EJ' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC128">7.9.1.
+				First Argument as 1
+				</a>
+
+			</li><li>	<a href="#RTFToC129">7.9.2.
+				First Argument as 2
+				</a>
+
+			</li><li>	<a href="#RTFToC130">7.9.3.
+				First Argument as 3
+				</a>
+
+			</li><li>	<a href="#RTFToC131">7.9.4.
+				First Argument as 4
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC132">7.10.
+			'EP' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC133">7.10.1.
+				With Two Numeric Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC134">7.10.2.
+				With No Numeric Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC135">7.10.3.
+				With One Numeric Argument
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC136">7.11.
+			'EQ' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC137">7.11.1.
+				With Trailing String Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC138">7.11.2.
+				With No Trailing String Argument
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC139">7.12.
+			'ER' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC140">7.12.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC141">7.12.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC142">7.12.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC143">7.13.
+			'ES' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC144">7.13.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC145">7.13.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC146">7.13.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC147">7.14.
+			'ET' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC148">7.14.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC149">7.14.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC150">7.14.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC151">7.15.
+			'EV' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC152">7.15.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC153">7.15.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC154">7.15.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC155">7.16.
+			'EW' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC156">7.16.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC157">7.16.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC158">7.16.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC159">7.17.
+			'EX' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC160">7.17.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC161">7.17.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC162">7.17.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC163">7.18.
+			'FD' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC164">7.18.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC165">7.18.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC166">7.18.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC167">7.19.
+			'FK' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC168">7.19.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC169">7.19.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC170">7.19.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC171">7.20.
+			'FR' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC172">7.20.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC173">7.20.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC174">7.20.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC175">7.21.
+			'FS' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC176">7.21.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC177">7.21.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC178">7.21.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC179">7.22.
+			'G' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC180">7.22.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC181">7.22.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC182">7.22.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC183">7.23.
+			'H' Command
+			</a>
+
+		</li><li>	<a href="#RTFToC184">7.24.
+			'I' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC185">7.24.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC186">7.24.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC187">7.24.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC188">7.25.
+			'J' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC189">7.25.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC190">7.25.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC191">7.25.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC192">7.26.
+			'K' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC193">7.26.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC194">7.26.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC195">7.26.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC196">7.27.
+			'L' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC197">7.27.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC198">7.27.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC199">7.27.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC200">7.28.
+			'M' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC201">7.28.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC202">7.28.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC203">7.28.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC204">7.29.
+			'N' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC205">7.29.1.
+				With No Numeric Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC206">7.29.2.
+				With One Numeric Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC207">7.29.3.
+				With Two Numeric Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC208">7.30.
+			'O' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC209">7.30.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC210">7.30.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC211">7.30.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC212">7.31.
+			'P' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC213">7.31.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC214">7.31.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC215">7.31.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC216">7.32.
+			'Q' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC217">7.32.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC218">7.32.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC219">7.32.3.
+				With Two Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC220">7.32.4.
+				Special Case
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC221">7.33.
+			'R' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC222">7.33.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC223">7.33.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC224">7.33.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC225">7.34.
+			'S' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC226">7.34.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC227">7.34.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC228">7.34.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC229">7.35.
+			'T' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC230">7.35.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC231">7.35.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC232">7.35.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC233">7.36.
+			'U' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC234">7.36.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC235">7.36.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC236">7.36.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC237">7.37.
+			'V' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC238">7.37.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC239">7.37.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC240">7.37.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC241">7.38.
+			'W' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC242">7.38.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC243">7.38.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC244">7.38.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC245">7.39.
+			'X' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC246">7.39.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC247">7.39.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC248">7.39.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC249">7.40.
+			'Y' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC250">7.40.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC251">7.40.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC252">7.40.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC253">7.41.
+			'Z' Command
+			</a>
+
+		</li><li>	<a href="#RTFToC254">7.42.
+			'!' Command
+			</a>
+
+		</li><li>	<a href="#RTFToC255">7.43.
+			'%' Operator
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC256">7.43.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC257">7.43.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC258">7.43.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC259">7.44.
+			Double Quote " Command
+			</a>
+
+		</li><li>	<a href="#RTFToC260">7.45.
+			Vertical Bar | Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC261">7.45.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC262">7.45.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC263">7.45.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC264">7.46.
+			Single Quote ' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC265">7.46.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC266">7.46.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC267">7.46.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC268">7.47.
+			'()' Parenthesis Operators
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC269">7.47.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC270">7.47.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC271">7.47.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC272">7.48.
+			'&lt;&gt;' Iteration Operators
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC273">7.48.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC274">7.48.2.
+				With One Argument
+				</a>
+
+			</li><li>	<a href="#RTFToC275">7.48.3.
+				With Two Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC276">7.49.
+			'[ and ]' Commands
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC277">7.49.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC278">7.49.2.
+				With Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC279">7.49.3.
+				0EB display
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC280">7.50.
+			'{ and }' Commands
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC281">7.50.1.
+				With No Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC283">7.51.
+			'\' Command
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC284">7.51.1.
+				With No Arguments
+				</a>
+
+			</li><li>	<a href="#RTFToC285">7.51.2.
+				With Arguments
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC286">7.52.
+			Space and Newline Commands
+			</a>
+
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC287">8.
+		Differences between Video TECO and classic TECO
+		</a>
+
+	<ul>
+
+		<li>	<a href="#RTFToC288">8.1.
+			Single character ends lines
+			</a>
+
+		</li><li>	<a href="#RTFToC289">8.2.
+			Multiple Edit Buffers
+			</a>
+
+		</li><li>	<a href="#RTFToC290">8.3.
+			Q-registers Can Be Edit Buffers
+			</a>
+
+		</li><li>	<a href="#RTFToC291">8.4.
+			Edit Buffer Contents
+			</a>
+
+		</li><li>	<a href="#RTFToC292">8.5.
+			Arithmetic Expression Parsing
+			</a>
+
+		</li><li>	<a href="#RTFToC293">8.6.
+			Missing Commands
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC294">8.6.1.
+				B Command
+				</a>
+
+			</li><li>	<a href="#RTFToC295">8.6.2.
+				V Command
+				</a>
+
+			</li><li>	<a href="#RTFToC296">8.6.3.
+				Y Command
+				</a>
+
+			</li><li>	<a href="#RTFToC297">8.6.4.
+				Underscore Command
+				</a>
+
+			</li><li>	<a href="#RTFToC298">8.6.5.
+				# Command
+				</a>
+
+			</li><li>	<a href="#RTFToC299">8.6.6.
+				&amp; Command
+				</a>
+
+			</li><li>	<a href="#RTFToC300">8.6.7.
+				? Command
+				</a>
+
+			</li><li>	<a href="#RTFToC301">8.6.8.
+				F&gt; and F&lt; Commands
+				</a>
+
+			</li><li>	<a href="#RTFToC302">8.6.9.
+				^ Command
+				</a>
+
+		</li></ul>
+
+		</li><li>	<a href="#RTFToC303">8.7.
+			Commands which have slightly different behavior
+			</a>
+
+		<ul>
+
+			<li>	<a href="#RTFToC304">8.7.1.
+				A Command
+				</a>
+
+			</li><li>	<a href="#RTFToC305">8.7.2.
+				EB Command
+				</a>
+
+			</li><li>	<a href="#RTFToC306">8.7.3.
+				EC Command
+				</a>
+
+			</li><li>	<a href="#RTFToC307">8.7.4.
+				EF Command
+				</a>
+
+			</li><li>	<a href="#RTFToC308">8.7.5.
+				EI Command
+				</a>
+
+			</li><li>	<a href="#RTFToC309">8.7.6.
+				EP Command
+				</a>
+
+			</li><li>	<a href="#RTFToC310">8.7.7.
+				ES Command
+				</a>
+
+			</li><li>	<a href="#RTFToC311">8.7.8.
+				ET Command
+				</a>
+
+			</li><li>	<a href="#RTFToC312">8.7.9.
+				EV Command
+				</a>
+
+			</li><li>	<a href="#RTFToC313">8.7.10.
+				EX Command
+				</a>
+
+			</li><li>	<a href="#RTFToC314">8.7.11.
+				FK Command
+				</a>
+
+			</li><li>	<a href="#RTFToC315">8.7.12.
+				FR Command
+				</a>
+
+			</li><li>	<a href="#RTFToC316">8.7.13.
+				FS Command
+				</a>
+
+			</li><li>	<a href="#RTFToC317">8.7.14.
+				N Command
+				</a>
+
+			</li><li>	<a href="#RTFToC318">8.7.15.
+				P Command
+				</a>
+
+			</li><li>	<a href="#RTFToC319">8.7.16.
+				S Command
+				</a>
+
+			</li><li>	<a href="#RTFToC320">8.7.17.
+				T Command
+				</a>
+
+			</li><li>	<a href="#RTFToC321">8.7.18.
+				W Command
+				</a>
+
+		</li></ul>
+
+	</li></ul>
+
+	</li><li>	<a href="#RTFToC322">9.
+		Features which are not yet supported, but are planned
+		</a>
+
+	</li><li>	<a href="#RTFToC323">10.
+		Bug List
+		</a>
+
+</li></ul>
+Chapter 1
+<h1>
+<a name="RTFToC1">1.
+INTRODUCTION
+</a></h1>
+TECO is a text editing program that runs on most Digital Equipment Corporation
+operating systems. Versions currently exist for the PDP-8, PDP-11, PDP-10, and
+VAX<a href="https://www.copters.com/TECO_V4_fn.html#fn0">[1]</a> computers systems. While there are
+some differences between various versions of TECO, they are, in general, quite
+compatible with each other.<p>
+TECO has been a popular text editor not only because its command set is elegant
+and powerful, but because TECO commands provide for an extension language that
+allows the user to accomplish very complex editing tasks in the same commands
+that he uses for normal editing.</p><p>
+Several TECO editors in the past have had extensions made so that TECO
+<i>macros  </i>could control the terminal screen. The resulting screen editors
+did not have TECO syntax while in the screen edit mode. Typically they had one
+syntax for interactive editing with immediate feedback on the screen, and then
+a sub-mode which allowed access to TECO commands.</p><p>
+Video TECO is an attempt to create a much better screen based version of TECO.
+It was designed to be an interactive screen based version of TECO from the
+start, and therefore can provide immediate interactive execution of TECO
+commands unlike previous screen based TECO editors.</p><p>
+Another difference between Video TECO and other versions of TECO is the way it
+buffers files. The original TECO editors were created when computer systems
+were very memory limited, and were therefore optimized to run in small memory
+configurations. One way that this was accomplished was that TECO was a
+<i>pipeline editor</i>.  Text was read from the input file into an edit buffer,
+and then written out to the output buffer. The only part of the file which was
+resident was the edit buffer, and this was typically kept quite small. Once
+text was paged out to the output file, it could not be called up again without
+writing out the entire contents of the files, and then re-reading to the point
+in question. </p><p>
+Because modern computer systems are not normally memory limited, Video TECO has
+adopted the more current approach of keeping the entire file in memory at once.
+This allows much more flexibility in the way the user can edit his file.
+Indeed, unlike other TECO editors, Video TECO allows you to have multiple files
+loaded for editing simultaneously, and these are all kept in memory while the
+editor is active.</p><p>
+This manual is intended to provide both a reference and tutorial for the
+inexperienced user, and also to provide a guide for the experienced TECO user
+who wishes to determine the differences between Video TECO and classic TECO
+editors.</p><p>
+Video TECO is currently ported to the following computer systems:</p><p>
+	* UNIX (MASSCOMP RTU(TM))</p><p>
+	* UNIX (Integrated Solutions 4.2 BSD)</p><p>
+	* UNIX (Sun Microsystems)</p><p>
+	* UNIX (Alliant Computer Systems' CONCENTRIX(TM))</p><p>
+	* UNIX (Apple Computer's AUX(TM))</p><p>
+	* UNIX (Digital Equipment Corporation ULTRIX)</p><p>
+	* UNIX (System V.3, V.4)</p><p>
+	* UNIX (HPUX)</p><p>
+	* UNIX (OSF)</p><p>
+	* MAC OS (Apple Computer's native MacIntosh(TM) Operating System)</p><p>
+	* VAX/VMS (Digital Equipment Corporation)
+</p><h2>
+<a name="RTFToC2">1.1.
+Conventions Used In This Manual
+</a></h2>
+There are several conventions used in this manual that the user should be aware
+of. Some of the characters used in TECO are not normally printable characters,
+and are often printed in some equivalent form. For instance, TECO commands are
+terminated with the ESCAPE character, ASCII code 27(decimal). Since the ESCAPE
+character does not have a printable representation, historically it has always
+been echoed in TECO as a dollar sign. Therefore, when you see a dollar sign in
+this manual, it should be interpreted as an escape character, not a dollar
+sign.<p>
+Control characters are another example of characters which do not have
+printable representations. The standard practice for printable representation
+of control codes is to print them as a caret followed by the printable
+character code. Thus Control-A is printed as ^A, Control-B as ^B, etc. In some
+cases the reader will have to detect this by the context of the paragraph,
+however every attempt will be made to explicitly mention when this is the case.
+</p><h2>
+<a name="RTFToC3">1.2.
+Input Control Codes
+</a></h2>
+Video TECO responds to certain control codes in an immediate fashion outside of
+the command parser. These are necessarily operating system dependent. However,
+at this time Video TECO is ported to both VMS and Unix, and the behavior is
+identical on both of them.
+<h3>
+<a name="RTFToC4">1.2.1.
+The Rubout Character Code
+</a></h3>
+The rubout code (ASCII 127) causes the previous character to be deleted, as if
+it had never been typed.
+<h3>
+<a name="RTFToC5">1.2.2.
+The Rubout Word Code
+</a></h3>
+The rubout word code (^W) deletes a word of input, where <i>word</i> is
+typically delineated by some white space such as a space, tab, or newline.
+However, when rubbing out TECO commands, the ^W also stops at TECO command
+boundaries.
+<h3>
+<a name="RTFToC6">1.2.3.
+The Rubout Line Code
+</a></h3>
+The rubout line code (^U) deletes the last line of input.
+<h3>
+<a name="RTFToC7">1.2.4.
+The Interrupt Code
+</a></h3>
+The interrupt code (^C) causes complex operations such as iterations, searches,
+and macro executions to terminate at the end of the current command, and return
+Video TECO to command input mode. If Video TECO should become hung for some
+reason, four of these characters typed in a row will exit the editor (but all
+editing will be lost).
+<h3>
+<a name="RTFToC8">1.2.5.
+The Suspend Code
+</a></h3>
+The suspend code (^Z) is used to put Video TECO in the background and return
+the user to operating system command level. This command is operating system
+specific, and currently only works under Unix and VMS.<p>
+To use this feature with VMS, the user must start Video TECO up using the
+/SPAWN modifier. This causes Video TECO to spawn another process to run the
+editor. When ^Z is typed, the user is reattached to the original process. After
+^Z, the user may return to the Video TECO process by using the DCL
+<i>attach</i> command.
+</p><h2>
+<a name="RTFToC9">1.3.
+Starting up TECO
+</a></h2>
+To edit a file or multiple files with the Video TECO editor, the user must
+specify a command line to his operating system. While this may vary from
+operating system to operating system, the basic form is:<p>
+<tt>% vteco file1 file2 ... file<i>n</i></tt></p><p>
+<tt><i></i></tt>Video TECO will load each file into a successive edit buffer,
+and then start with the first edit buffer showing.
+</p><h2>
+<a name="RTFToC10">1.4.
+Screen Layout
+</a></h2>
+The Video TECO screen has four distinct areas. These are (from bottom to top),
+the<i> echo line</i>, the <i>message line</i>, the <i>status line</i>, and the
+<i>buffer area</i>. Here is an example Video TECO screen:<p>
+</p><p>
+<img align="bottom" src="TECO%20Manual%20V4_files/teco_layout.gif" width="421" height="490">
+</p><p>
+</p><h3>
+<a name="RTFToC11">1.4.1.
+Echo Line
+</a></h3>
+The line on the very bottom is the <i>echo line</i>.  The echo line
+automatically wraps when you exceed the right hand margin, so it will always
+hold the most recent user input. The current echo position is indicated by a
+non-flashing cursor. On terminals below 2400 baud this may not appear, since
+the overhead in maintaining two cursors may make the editor too slow. Although
+most characters are echoed in their normal representation, there are a few
+which are treated specially:<p>
+The <i>escape</i>  character is echoed as a dollar sign, since escape itself is
+interpreted as a non printing control character with special meaning by
+terminals. </p><p>
+The <i>tab</i>  character is normally echoed in Video TECO as a position to the
+next tab stop. This means that the amount of white space inserted is dependent
+on the horizontal position of the tab character. Since the echo line wraps to
+arbitrary positions, Video TECO displays the tab character as a sequence of
+four  spaces.</p><p>
+The <i>carriage return</i>  character normally causes a new line to begin.
+However, since we want to display as much input as possible on the echo line,
+carriage returns are echoed as the sequence<b> &lt;CR&gt;. </b>
+</p><h3>
+<a name="RTFToC12">1.4.2.
+Message Line
+</a></h3>
+The <i>message line</i>  is used when Video TECO wants to inform the user of an
+error or unusual condition. In the example above, the message line contains the
+string:<p>
+<tt>?Cannot find 'something useful'</tt></p><p>
+<tt></tt>because the search operation has failed.  There are also several
+commands which the user can use to place output into the message area. 
+</p><h3>
+<a name="RTFToC13">1.4.3.
+Status Line
+</a></h3>
+The <i>status line</i>  is a reverse video line which contains several fields,
+each displaying information of use to the user.<p>
+The first field always contains the string <b>TECO</b>, to identify this as the
+Video TECO editor. </p><p>
+The second field identifies which number edit buffer is currently selected. It
+has the form: &lt;<b>BUFFER</b> <i>n </i>&gt; , where <i>n</i>  is the number
+of the current buffer. </p><p>
+The third field displays the name of the edit buffer. In Video TECO, the name
+of the buffer is the same as the name of the file.</p><p>
+The fourth field is not always displayed.  If the current edit buffer has been
+modified, the word (<b>modified</b>) appears in this field. If the current edit
+buffer is a readonly version of a file, the word (<b>READONLY</b>) appears in
+this field. For more information on readonly buffers, see the <b>EV</b> command.
+</p><h3>
+<a name="RTFToC14">1.4.4.
+Buffer Area
+</a></h3>
+The <i>buffer area</i>  is the area of the screen where the file being edited
+is displayed. Its size will always be the size of the terminal or window minus
+the three lines required for the echo, message, and status lines. The
+terminal's flashing cursor will be in this area to indicated the current edit
+position (<i>dot</i>  ).
+<h2>
+<a name="RTFToC15">1.5.
+Format of TECO commands
+</a></h2>
+TECO commands consist of three parts: one or two optional numeric arguments,
+the command name, and one or more trailing string arguments. An example of a
+TECO command which has all of these present would be a constrained
+find/substitute command:<p>
+<tt>* QB,ZFSsome text$other text$$</tt></p><p>
+<tt></tt>In this example, the string "<b>QB,Z</b>" is a double numeric
+argument, the string "<b>FS</b>" is the command name, the string "<b>some
+text</b>" is the first string argument and the string "<b>other text</b>" is
+the final string argument.</p><p>
+At the other side of the spectrum is the <i>move line</i>  command:</p><p>
+<tt>* L$$</tt></p><p>
+<tt></tt>In this example, there are no numeric arguments at all, and so the
+command will default to moving by <i>one</i>  line. There are also no string
+arguments because the <i>move line  </i>command does not accept string
+arguments.</p><p>
+If no leading numeric argument is specified, then TECO defaults the argument to
+the number <i>one</i>.  If two arguments are to be specified, they are
+separated by a comma. </p><p>
+Only some commands allow the trailing string argument. If the trailing string
+argument is specified, it is normally terminated by an escape. An exception to
+this is if the user uses the @ modifier, in which case the string is surrounded
+by delimiters.</p><p>
+In a classic TECO editor, the user would specify many commands in a row, and
+the TECO editor would not execute any of them until two escapes in a row were
+typed. Video TECO executes most commands immediately. These commands can be
+erased if an error occurs. When a double escape is detected by Video TECO, the
+commands are determined to be completed, and they can no longer be undone by
+rubbing them out.</p><p>
+Some commands are either so complex, or so final, that Video TECO does not
+perform them until a double escape is seen. An example of this would be the
+exit command. Since there is no way that it can be undone (because at the
+completion of the command, the editor is no longer running), Video TECO does
+not execute it immediately. Rather, it waits for the user to type the double
+escape before the exit command is processed.
+</p><h2>
+<a name="RTFToC16">1.6.
+Exiting TECO
+</a></h2>
+To exit the Video TECO editor, you use the <b>EX</b>, or <i>exit</i>  command.
+This will return you to the operating system prompt.  If you have modified
+buffers and you have not written them out, this command may fail with the error
+message <i>"modified files exist"</i>. In this event, you can either write out
+the file using the <b>EW</b> command, if that is what you intended, or you can
+supply a minus one argument to the <b>EX</b> command (<i>-1ex</i>  ) to exit
+without writing modified buffers.<p>
+</p><p>
+Chapter 2
+</p><h1>
+<a name="RTFToC17">2.
+Simple Editing
+</a></h1>
+<h3>
+<a name="RTFToC18">2.1.
+The Edit Buffer
+</a></h3>
+Every TECO editor has the concept of the <i>edit buffer</i> . The edit buffer
+is that area of memory which holds the text which is currently being edited. In
+a classic TECO editor, the edit buffer might contain only a portion of the file
+at any one time because these editors were typically designed to run on a
+memory limited machine.<p>
+The edit buffer in Video TECO always contains the entire file being edited.
+Although this uses more memory than a classic TECO editor, it is a more
+accepted method of operation for recently developed editors.</p><p>
+Since TECO is a character-oriented editor, it is important for the novice user
+to understand the concept of the buffer pointer. The buffer pointer is a
+pointer to the character position in the buffer that the next editing command
+will affect. The buffer pointer in TECO does not point directly to a single
+character, but actually points <i>between</i> character positions. Depending on
+the command issued by the user, the characters which are affected may be to the
+left or to the right of the buffer pointer.</p><p>
+The idea that the pointer actually points between characters is especially
+confusing in Video TECO since on the screen display the flashing cursor
+<i>does</i> appear over a character. This is a side effect of the way that
+terminals operate. In most cases, the user won't really need to make this
+distinction in his mind, but there are cases when remembering that this is how
+TECO numbers buffer positions will make a seemingly ambiguous case
+non-ambiguous.</p><p>
+An easy way to remember how buffer positions work in TECO is that a buffer
+position refers to the number of characters to the left of the pointer. If
+there are a total of ten characters in the buffer, there are eleven legal
+buffer positions. Position <i>zero</i> is the position at the top of the
+buffer, i.e., there are no characters to the left of this position. Position
+<i>ten </i>in this case would be the final position in the buffer. If you
+wanted to append text to the buffer, you would want to insert text at position
+ten. An example of an edit buffer with ten characters, with the positions
+labeled follows:</p><p>
+<tt>0V1I2D3E4O5 6T7E8C9010</tt></p><p>
+<tt></tt>Some TECO commands allow you to specify a range or block of buffer
+positions. The way that this is done is by supplying two numeric arguments to
+the command, separated by a comma. For example, the range <i>0,10</i> would
+specify all the characters from position zero through position ten. In the
+above example, this would refer to all the characters in the buffer. If you
+wanted to refer only to the positions associated with the word <i>TECO</i>, you
+would specify <i>6,10</i>.  Finally, if you wanted to refer to all the
+positions associated with the word <i>VIDEO</i>, you would specify <i>0,5</i>
+(or <i>5,0</i> for that matter). This would rapidly get very tedious, so TECO
+provides some easy ways for you to refer to some common buffer positions.
+</p><h3>
+<a name="RTFToC19">2.1.1.
+The Current Edit Buffer Position
+</a></h3>
+The current edit position changes as you execute TECO commands which move it.
+Since it would be very difficult for a human to remember what edit position he
+was now at, TECO syntax supplies the <i>dot</i>  operand. This operand is
+actually typed as a <i>period</i> character ('.'). The dot operand evaluates to
+the number of the current edit position. To specify a range of characters which
+included all the characters <i>preceding</i> the current edit position, you
+would type <i>0,.</i> . Likewise, to specify all the characters <i>following
+</i> the current edit position, you would type <i>.,xx</i> where xx was the
+number of the final buffer position.
+<h3>
+<a name="RTFToC20">2.1.2.
+The End Of Buffer Position
+</a></h3>
+The final legal position in the edit buffer at any given time depends on how
+many characters are in the edit buffer. In fact, because the buffer position is
+zero based, the number of the position following the final character in the
+buffer is the same as the count of characters in the buffer. Therefore, this
+number is doubly useful as a <i>position</i> and as a <i>count</i> of
+characters.<p>
+TECO provides a shortcut character similar to <i>dot</i>, except that instead
+of specifying the current edit position, it specifies the final buffer
+position. This character is <i>Z</i>, and it can be used in expressions
+whenever you want to refer to the end of the buffer or to the number of
+characters in the buffer. For example, the expression <i>0,Z</i> would specify
+all of the characters in the buffer, and <i>.,Z</i> would specify all the
+characters from the current edit position to the end of the buffer.
+</p><h3>
+<a name="RTFToC21">2.1.3.
+The Entire Buffer Range
+</a></h3>
+The final shortcut operand is the <i>H</i> operand. This is actually just a
+compound of <i>0,Z</i>, so H is just a way of specifying the entire buffer to a
+TECO command. For example, probably the most common usage for H is in the <i>HK
+</i>command. This has the effect of deleting all the characters in the buffer.
+It is the fastest way to clear the edit buffer back to an empty state.
+<h2>
+<a name="RTFToC22">2.2.
+Changing The Current Edit Position
+</a></h2>
+In order to perform any editing other than simply inserting sequential
+characters, the user needs to be able to move the current edit position
+(<i>dot</i>) around. TECO provides many different ways to do this in order to
+provide a flexible convenient way under different editing conditions.
+<h3>
+<a name="RTFToC23">2.2.1.
+Moving DOT with the C Command
+</a></h3>
+The <i>C</i> command moves the current edit position by the specified number of
+characters relative to the current position. For example, the command <i>1C</i>
+moves the current edit position one position forward, while the command
+<i>10C</i> would move the current edit position 10 positions forward.<p>
+If you specify a negative argument to the C command, it moves dot
+<i>backward</i> the specified number of positions. Therefore, the command
+<i>-10C</i> would move the current edit position backward by ten positions.</p><p>
+If you don't specify an argument to the C command, it defaults to <i>1C</i>, so
+typing repeated C commands in a row has the effect of moving the edit position
+forward one character each time you type C.
+</p><h3>
+<a name="RTFToC24">2.2.2.
+Moving DOT with the R Command
+</a></h3>
+The R command works exactly like the C command, except in the opposite
+direction. The commands <i>1R</i> and <i>R</i> both have the effect of moving
+the edit position backward exactly one position. The command 10R would move the
+edit position backward 10 characters, and the command -10R would move the edit
+position 10 characters <i>forward</i> (because a negative argument to R
+actually means forward).
+<h3>
+<a name="RTFToC25">2.2.3.
+Moving DOT with the W Command
+</a></h3>
+The <i>W</i> command is a Video TECO unique command which moves the edit
+position by <i>words</i>. Words, in this case, are defined as collections of
+characters surrounded by whitespace such as spaces, tabs, and newlines.<p>
+Depending on whether you are moving forward or backward with the W command,
+<i>dot</i> will be left at a different location within the word. While moving
+forward, the edit position gets left immediately before the first character of
+the word. While moving backward, the edit position gets left immediately after
+the last character of the word.</p><p>
+As with the other positioning commands, the W command with no arguments implies
+moving by one word, while specifying an argument tells how many words to move
+by.
+</p><h3>
+<a name="RTFToC26">2.2.4.
+Moving DOT with the L Command
+</a></h3>
+The L command allows you to move the edit position by <i>lines</i>. The
+<i>L</i> command always leaves you at the beginning of a line. The argument
+specifies how many lines it should move over. If you specify <i>1L</i> or just
+<i>L</i>, dot will be left at the beginning of the next line.<p>
+Negative arguments move dot backward, so the command <i>-1L</i> or just
+<i>-L</i> will leave dot at the beginning of the line which precedes the line
+dot is currently on.</p><p>
+An argument of zero will leave dot at the beginning of the current line.
+</p><h3>
+<a name="RTFToC27">2.2.5.
+Moving DOT with the J Command
+</a></h3>
+While the C, R, W, and L commands have all been relative positioning commands,
+i.e. they move relative to dot, the J command allows you to set the edit
+position absolutely. The command takes one argument, which is the edit buffer
+position to which dot should be set. <p>
+To move the edit position to the top of the buffer, you could perform the
+command <i>0J</i>. This would set dot to edit buffer position zero, which is
+the top of the file. The command <i>ZJ</i> would set dot to the end of the file
+since position <i>Z</i> always follows the final character in the edit
+buffer.</p><p>
+The J command with no arguments is the same as 0J, i.e., it sets dot to the top
+of the file.
+</p><h3>
+<a name="RTFToC28">2.2.6.
+Moving DOT by Searching
+</a></h3>
+During editing, a user often wants to position dot by searching for an
+occurrence of a string within the file. The <i>S</i> command allows him to do
+this. The S command has several forms. The most basic is:<p>
+<tt>Stext$</tt></p><p>
+<tt></tt>This will cause Video TECO to search forward from the current edit
+position for the specified text string. If the text string is found, dot is
+left at the position following the text string. Also, the default search string
+is updated to be <i>text</i>. If the user then issues another search command
+with no text argument (i.e. the escape character immediately follows the S
+character), the search command will search for the default search string.</p><p>
+If you specify a single argument to the search string, that argument tells the
+search command how many occurrences of the text string should be searched for.
+By default, the S command with no arguments means search for one occurrence of
+the string. However, if the user were to issue the command:</p><p>
+<tt>2Stext$</tt></p><p>
+<tt></tt>the search command would search for the second occurrence of
+<i>text</i> after the current edit position. If the argument is negative, this
+tells the search command to search <i>backward</i> from the current buffer
+position. The search command with <i>two</i> arguments is a constrained search,
+and will not be covered in this chapter.</p><p>
+The behavior of Video TECO when the string cannot be found is different from
+that of classic TECO editors. Classic TECO editors would leave dot at the end
+of the edit buffer. This behavior is not desirable in a screen editor, so Video
+TECO leaves dot unchanged in this case, and simply issues an error message.
+</p><h2>
+<a name="RTFToC29">2.3.
+Deleting Text
+</a></h2>
+There are two commands for deleting text from the TECO edit buffer. These are
+the <i>D</i> and <i>K</i> commands. There are an additional two commands which
+use searching to specify the characters to be deleted: the <i>FD</i> and
+<i>FK</i> commands.
+<h3>
+<a name="RTFToC30">2.3.1.
+Deleting Text with the D command
+</a></h3>
+The <i>D</i> command is very similar to the <i>C</i> command in operation,
+except that instead of moving over buffer positions, it deletes them. The
+command <i>1D</i> or just <i>D</i> causes the character following dot to be
+deleted. The command <i>-1D</i> or simply <i>-D</i> causes the single character
+<i>preceding</i> dot to be deleted.
+<h3>
+<a name="RTFToC31">2.3.2.
+Deleting Text with the K command
+</a></h3>
+The <i>K</i> (for <i>kill</i>) command deletes lines of text, and has two basic
+forms. The first form takes one argument, which is the number of lines of text
+to be deleted. This works exactly like the <i>L</i> command except that instead
+of moving over the lines, the lines are deleted. Thus, the <i>1K</i> or simply
+<i>K</i> command will delete from the current editing position up to and
+including the next carriage return. The <i>0K</i> command causes the text from
+the beginning of the line to the current edit position to be deleted. Thus the
+command sequence <i>0KK</i> will always delete the entire contents of the
+current line, regardless of where dot is positioned on the line.<p>
+If the argument to the K command is negative, it causes the K command to delete
+the specified number of lines which <i>precede</i> the current edit position.
+Thus -1K or simply -K will delete from the current edit position back to and
+including the line which precedes the current line.</p><p>
+The second form of the K command takes two numeric arguments: <i>n,mK. </i>This
+form will delete all the characters between edit buffer position <i>n</i> and
+edit buffer position <i>m</i>. One example of this command would be deleting
+all the characters from the beginning of the file to the current edit
+position:</p><p>
+<tt>1,.K</tt></p><p>
+<tt></tt>Another example would be to delete all the characters in the buffer.
+There are two ways to do this, with the second being the shortcut way:</p><p>
+<tt>0,ZK</tt> or simply <tt>HK</tt>
+</p><h3>
+<a name="RTFToC32">2.3.3.
+Deleting Text with the FD command
+</a></h3>
+The <i>FD</i> command words exactly like the <i>S</i> (search) command, except
+that when it finds the specified occurrence of the text, it deletes it. Thus
+the command:<p>
+<tt>FDtext$</tt></p><p>
+<tt></tt>searches for the string <i>text</i> and then removes it from the edit
+buffer. If an argument is supplied to the FD command, it specifies which
+occurrence of the string should be deleted. The FD command updates the default
+search string just as the S command does, and an FD command with no string
+argument will search for and delete the default search string.
+</p><h3>
+<a name="RTFToC33">2.3.4.
+Deleting Text with the FK Command
+</a></h3>
+The <i>FK</i> command is another <i>search-and-then-delete</i> command, but it
+works slightly differently from the FD command. The FK command remembers the
+current edit position (<i>dot</i>), searches for the specified occurrence of
+the specified string (or the default if no string is specified). It then
+deletes all the text from the remembered dot, up to <i>but not including</i>
+the specified text string. The reason that the deletion is not inclusive is
+that firstly there are many cases where this is the action you would prefer,
+and secondly, if you also wanted the searched for text to be deleted the
+default search string is properly set up so that you simply issue an FD command
+with no string argument and this will remove that text.
+<h2>
+<a name="RTFToC34">2.4.
+Inserting Text
+</a></h2>
+So far we have only been dealing with making changes to an existing file.
+However, in reality, the most common operation is the <i>insert</i> operation.
+This is where you want to type characters and have them appear within the file.
+The insert command in TECO is the <i>I</i> command. It has the form:<p>
+<tt>Ithe text to be inserted$</tt></p><p>
+<tt></tt>A minor variation of the insert command is that you can initiate it by
+simply typing the <i>tab</i> character. In this form, the tab itself is
+inserted and the command then proceeds normally until you type the terminating
+escape character. This is a very minor shortcut, but it does exist in all
+classic TECO editors.</p><p>
+Another form of the insert command is when you specify a single argument to the
+I command. In this form, the character whose ASCII code was supplied as the
+argument is inserted. In this form, the command does not take a string
+argument, so the character which follows the <i>I</i> will be taken as the
+beginning of the next command. The following command string:</p><p>
+<tt>65I66I67I68I</tt></p><p>
+<tt></tt>would insert the string ABCD into the edit buffer at the current
+position (because 65 is the ASCII code for 'A', etc.).
+</p><h3>
+<a name="RTFToC35">2.4.1.
+Changing Text with Find / Substitute
+</a></h3>
+Video TECO has two commands to search for a given string and change it to a
+different string. These are the FS and FR commands.
+<h3>
+<a name="RTFToC36">2.4.2.
+Changing Text with the FS Command
+</a></h3>
+The <i>FS</i> command searches for the specified occurrence of the specified
+string, and replaces it with the second string. For the searching aspect, FS
+behaves just like the other searching commands, with the argument specifying
+which occurrence should be searched for, a negative argument meaning search
+backward, and a null string argument meaning search for the default search
+argument. An example of the FS command is:<p>
+<tt>nFSfirst-string$second-string$</tt></p><p>
+<tt></tt>where n is the numeric argument, first-string is the string to be
+searched for, and second-string is the string which will replace the first. If
+the second string is null, then the effect of the FS command is identical to
+that of the FD command.
+</p><h3>
+<a name="RTFToC37">2.4.3.
+Changing Text with the FR Command
+</a></h3>
+The <i>FR</i> command is identical to the FS command except in its actions if
+the second string argument is null. Rather than replace the search string with
+a null string as FS would do, FR replaces it with the last (default) replace
+string. Thus the sequence:<p>
+<tt>FRstring_one$string_two$FR$$</tt></p><p>
+<tt></tt>actually will replace string_one with string_two <i>twice</i>, because
+in the second FR command both the search string and the replace string will
+default to the previous settings from the earlier command.</p><p>
+Chapter 3
+</p><h1>
+<a name="RTFToC38">3.
+Buffer Management
+</a></h1>
+<h2>
+<a name="RTFToC39">3.1.
+Multiple Buffer Editing
+</a></h2>
+Classic TECO editors only allowed the user to edit one file at a time. This
+made moving text between files, or making changes to multiple files very
+difficult. Video TECO maintains multiple edit buffers which the user can switch
+between to edit multiple files simultaneously.
+<h3>
+<a name="RTFToC40">3.1.1.
+Creating Edit Buffers with the EB Command
+</a></h3>
+The <i>EB</i> command is used to create edit buffers and to switch between
+them. The command has two basic forms. However, only one of them can be used to
+create new edit buffers. The command:<p>
+<tt>EBfilename.ext$</tt></p><p>
+<tt></tt>will cause an edit buffer named <i>filename.ext </i> to be created,
+and loaded with the contents of <i>filename.ext</i>. If the edit buffer of that
+name had already existed, the result would have been to simply make that edit
+buffer be the current edit buffer. Wildcards are supported by the EB command.</p><p>
+The other form of the EB command can only be used to switch between edit
+buffers that already exist. If you try to switch to a buffer which does not
+exist, an error will occur. This form of the command takes a single numeric
+argument, which is the number of the edit buffer to switch to. Each edit buffer
+in Video TECO has a number associated with it strictly for this purpose. To
+switch to the second edit buffer, the command of this form would look like:</p><p>
+<tt>2EB</tt></p><p>
+<tt></tt>Notice that there is no terminating escape. In this form, the command
+completes immediately after the EB has been typed. Both forms of the command
+can be undone. If you rub out the EB command, Video TECO will switch back to
+the previous edit buffer.</p><p>
+Video TECO numbers the edit buffers that you create with the EB command
+sequentially from one. Video TECO also creates edit buffers for internal use,
+such as q-registers. These are numbered sequentially with negative numbers
+starting with minus one. Finally, edit buffer zero is a special edit buffer
+which contains a list of the current edit buffers.
+</p><h3>
+<a name="RTFToC41">3.1.2.
+Listing Active Edit Buffers
+</a></h3>
+The 0EB command causes Video TECO to switch to edit buffer zero. Edit buffer
+zero is special in that each time you switch to it, Video TECO creates a list
+of all active edit buffers, and inserts it in this edit buffer. An example of
+such a list follows:<p>
+<img align="bottom" src="TECO%20Manual%20V4_files/teco_0EB.gif" width="432" height="792">
+</p><p>
+</p><h3>
+<a name="RTFToC42">
+                                                                   3.1.3.
+Creating a Readonly Edit Buffer
+</a></h3>
+The EV command is identical to the EB command except in one respect. If it is
+used to create a buffer, that buffer will be set <i>readonly</i>. The effect of
+a readonly buffer is that you can modify its contents, but you cannot write it
+out. If the buffer already exists, the EV command simply switches to it, and
+<i>does not</i> <i>change its readonly status</i>.
+<h3>
+<a name="RTFToC43">3.1.4.
+Writing Buffers to Disk with EW
+</a></h3>
+The <i>EW</i> command is used to write the contents of the current edit buffer
+to the disk. It takes one string argument. Normally, this argument should be
+specified as null by immediately following the EW with an escape character.
+This will cause the current edit buffer to be written to a disk file with the
+same name as the edit buffer. If you specify a string to the EW command such
+as:<p>
+<tt>EWfilename.ext$$</tt></p><p>
+<tt></tt>then Video TECO will write the contents of the current edit buffer to
+the file specified in the EW command. In any case, the <i>modified</i> flag for
+the buffer will be cleared, and this will be indicated on the status line.</p><p>
+Note that in the example above, the command was terminated with two escape
+characters. This is because the EW command cannot be undone (once a file is
+written to the disk, we can't unwrite it). In cases like this, Video TECO
+forces you to use the double escape to complete the command.
+</p><h3>
+<a name="RTFToC44">3.1.5.
+Deleting Edit Buffers with EF
+</a></h3>
+The <i>EF</i> command is used to remove the current edit buffer. All storage
+associated with the edit buffer is freed. If the edit buffer has been modified,
+the EF command will fail. This can be overridden by specifying an argument of
+-1 to the EF command. The <i>EF</i> command cannot currently be undone.<p>
+Chapter 4
+</p><h1>
+<a name="RTFToC45">4.
+Advanced Editing Techniques
+</a></h1>
+<h2>
+<a name="RTFToC46">4.1.
+Command Modifiers
+</a></h2>
+There are two characters which can be used to modify the behavior of TECO
+commands. The at-sign ('@') and colon (':') commands are put in front of any
+arguments to a command, and change the way the commands work.
+<h3>
+<a name="RTFToC47">4.1.1.
+AT-SIGN Modifier
+</a></h3>
+The @ modifier typically allows the user to specify text strings to Video TECO
+in a different manner. Instead of being an escape terminated string, the @
+command causes the string to be surrounded by two delimiters. The character
+which follows the TECO command byte is the opening delimiter, and the text
+string continues until a second delimiter character is seen.<p>
+As an example, assume that the user wants to input text including escape
+characters, probably because he is typing in a TECO macro. If he used the
+normal form of the insert command, he would have to quote every escape with the
+quote (^V) command. Instead, he could use the @I command like this:</p><p>
+<tt>@I/this$has$escapes$in$it/</tt></p><p>
+<tt></tt>Notice a couple of things. The character which follows the @I is a
+slash ('/') character. This could actually be any character the user wanted to
+specify as a delimiter. The text string then continues until another slash (or
+whatever the user decides to use) is typed. This terminates the insert command
+just as the escape character would normally.
+</p><h3>
+<a name="RTFToC48">4.1.2.
+Colon Modifier
+</a></h3>
+The colon modifier is more dependent on the command it is found with than the
+AT-SIGN modifier. In general, it means execute the TECO command in an alternate
+way, where <i>alternate way</i> depends on the command being executed.<p>
+All searching commands use the colon modifier to mean that the command should
+return a value which indicates whether the search was successful or not. This
+can then be used as an argument to another TECO command, typically a
+conditional operator. An example would be:</p><p>
+<tt>:Sfred$"S0KK'</tt></p><p>
+<tt></tt>This command would search for the string 'fred', and delete the entire
+line if it was found.</p><p>
+<i>Here there should be a discussion about another command affected by the :
+command, yet it should be one we have already described...</i>
+</p><h2>
+<a name="RTFToC49">4.2.
+Q-registers
+</a></h2>
+Q-registers are data storage registers available to the TECO user. There are 36
+Q-registers in TECO corresponding to the 36 characters 0-9 and A-Z. Each
+Q-register can hold a block of text and a single integer simultaneously.
+Whether the user is referring to the text contents or the integer contents if
+resolved by the command he used to access the data.<p>
+Video TECO implements Q-registers as internal edit buffers, so that in addition
+to the Q-register commands that most TECO editors provide, Video TECO also
+allows you to make a Q-register be the current edit buffer. 
+</p><h3>
+<a name="RTFToC50">4.2.1.
+Loading Text into Q-registers with the X command
+</a></h3>
+Text is stored in a Q-register using the <i>X</i> command. The X command
+consists one or two arguments, the X character, and the single letter
+Q-register name. Since the Q-register name is only a single character, and not
+a full string, a terminating escape is not required.<p>
+If the X command is issued with no argument, or with one argument, the argument
+refers to the number of lines of text from 'dot' which should be saved in the
+Q-register. No argument defaults to saving one line. A negative argument saves
+<i>n</i> lines <i>before</i> the edit buffer pointer. An argument of zero means
+save all the text from the beginning of the line up to 'dot' in the specified
+Q-register.</p><p>
+The X command with two arguments operates on a range of edit buffer positions
+in a similar manner to the K command. In the following example:</p><p>
+<tt>n,mX1</tt></p><p>
+<tt></tt>all the characters from edit buffer position <i>n</i> through <i>m</i>
+are copied into Q-register 1.</p><p>
+In all cases, the X command is non-destructive to the data in the edit buffer.
+The text that is copied into the Q-register remains in the edit buffer. If the
+user wishes to <i>cut</i> the text such that it is moved into the Q-register,
+and removed from the edit buffer, he must follow the X command with a matching
+K command. The X command <i>is</i> destructive in the sense that it deletes any
+previous contents of the Q-register before the specified text is loaded into
+it.</p><p>
+An alternate version of the X command is :X (modified by the colon argument).
+This version of the X command works identically, except that the text in the
+Q-register is not deleted, but rather appended to.
+</p><h3>
+<a name="RTFToC51">4.2.2.
+Retrieving Text from Q-registers with the G command
+</a></h3>
+The <i>G</i> command causes the text contents of the specified Q-register to be
+copied into the current edit buffer at 'dot'. 'dot' is left pointing just past
+the inserted text. The Q-register remains unaffected by the command.<p>
+ This command takes no leading arguments, and is simply followed by the single
+character Q-register name, as in:</p><p>
+<tt>G1</tt></p><p>
+<tt></tt>which would copy the text contents of Q-register 1 into the edit
+buffer.
+</p><h3>
+<a name="RTFToC52">4.2.3.
+Loading Numeric Values into Q-registers with the U command
+</a></h3>
+Q-registers hold signed numeric data as well as textual data. The U command
+must be proceeded by a single numeric value which is then loaded into the
+number store area of the Q-register whose single letter name immediately
+follows the U command.. Any text contents of the Q-register are unaffected. The
+previous value which was stored in the Q-register is lost.
+<h3>
+<a name="RTFToC53">4.2.4.
+Retrieving Numeric Values from Q-registers with the Q command
+</a></h3>
+The <i>Q</i> command allows you to retrieve the single number stored in the
+number area of the Q-register. The Q command returns a value which can be used
+as part of an arithmetic expression, possibly as part of an argument to another
+TECO command. Thus the Q command allows you to use Q-registers as temporary
+variables in complex TECO command strings. The format of the Q command is
+simply 'Q' followed by the single letter name of the Q-register:<p>
+<tt>Q1</tt></p><p>
+<tt></tt>returns as its value the numeric contents of Q-register '1'.
+</p><h3>
+<a name="RTFToC54">4.2.5.
+Using a Q-register as an Edit Buffer
+</a></h3>
+There are two ways you can switch into a Q-register for editing. One would be
+to use the EB command and either specify the name of the Q-register
+(Q-registers have names like TECO-A and TECO-1), or by specifying the edit
+buffer number for the Q-register (Q-registers have negative buffer numbers). To
+find out the name or buffer number, you should use the 0EB command.<p>
+A second, preferable method is to use the eq command with no string argument.
+This is an enhancement to Video TECO which does not exist in classic TECO
+editors. Thus:</p><p>
+<tt>EQ1$</tt></p><p>
+<tt></tt>causes the editor to make Q-register 1 be the current edit buffer.</p><p>
+There are some restrictions to what you can do when using a Q-register as the
+main edit buffer:</p><p>
+*	You can't use the Q-register you are in as the target of an X command (i.e.
+XA is illegal if you are editing in Q-register A).</p><p>
+*	You can't use the Q-register you are in as the target of a G command (i.e. GA
+is illegal if you are editing in Q-register A).</p><p>
+*	You can't use the Q-register you are in as the target of a POP command (i.e.
+]A is illegal if you are editing in Q-register A).</p><p>
+*	You can't use the Q-register you are in as the target of an asterisk command
+to save the last command in the Q-register (i.e. *A is illegal when editing in
+Q-register A).</p><p>
+*	You can't use the EQqfilename$ command with the target being the Q-register
+you are editing in.</p><p>
+Most of these are common sense, as they would obliterate the Q-register you are
+in, and the Q-register would be in some undefined state during the command.
+Using a Q-register this way would be very unusual, and so you probably won't
+encounter it in any normal editing session.
+</p><h3>
+<a name="RTFToC55">4.2.6.
+Q-registers that have special meaning
+</a></h3>
+There are several Q-registers which have special meanings. This is typically
+done to allow you access to internal Video TECO data as part of a macro.
+<h4>
+<a name="RTFToC56">1,
+Underscore Q-register
+</a></h4>
+The '_' Q-register text buffer holds the current default search string. The
+main advantage to doing this is that a TECO macro can save and restore the
+default search string so that searches within the macro do not change what the
+user had as a default search string. The typical way to do this would be to
+include a<p>
+<tt>[_ </tt>and<tt> ]_</tt></p><p>
+<tt></tt>command at the beginning and end of each macro which contains search
+commands. The numeric side of the underscore Q-register is reserved for future
+use.
+</p><h4>
+<a name="RTFToC57">2,
+Minus-Sign Q-register
+</a></h4>
+The '-' Q-register text buffer holds the current search replace string. This
+allows all the same sorts of macro handling as is possible with the search
+string. The numeric side of the underscore Q-register is reserved for future
+use.
+<h4>
+<a name="RTFToC58">3,
+Asterisk Q-register
+</a></h4>
+The numeric side of the Asterisk Q-register (*) contains the number of the
+current edit buffer. This allows macros which must switch edit buffers to save
+the current buffer number so that they can switch back to it when finished.<p>
+The text side of the Asterisk Q-register contains the pathname of the current
+edit buffer. If you are editing /usr/teco/file.1, the G* command would insert
+'/usr/teco/file.1' into the buffer at the current edit position.</p><p>
+Loading the text side of Q-register * renames the current edit buffer. If you
+are editing /usr/teco/file.1 and you use the X command to load text into the
+asterisk Q-register, the pathname of the edit buffer will be changed.
+</p><h2>
+<a name="RTFToC59">4.3.
+Arithmetic Expressions
+</a></h2>
+As a first step in taking full advantage of the power of TECO, the user should
+realize that arguments to TECO commands are arithmetic expressions. Besides
+simple statements like:<p>
+<tt>4K</tt></p><p>
+<tt></tt>you can specify complex statements such as:</p><p>
+<tt>(Q1*2)+(Q2/7)-(Z-./2)K</tt></p><p>
+<tt></tt>are possible. Note that the 'Q', 'Z', and '.' commands are all being
+used here to return values which are part of the expression. By using
+Q-registers as integer variables, it is simple to write quite complex programs
+with TECO.
+</p><h3>
+<a name="RTFToC60">4.3.1.
+Rules for Expression Evaluation
+</a></h3>
+Classic TECO editors do not support the normal operator precedence rules that
+are common in most languages. This is because of the simplicity of their
+parsers. These versions simply evaluated expressions left to right unless
+modified by explicit parenthesis.<p>
+Video TECO, on the other hand, supports operator precedence just as you would
+expect from a normal language. While this may cause compatibility problems with
+existing TECO macros, it does show that the authors really have their act
+together in the parser department...</p><p>
+In any case, unary operators have the highest precedence, followed by multiply
+and divide (* and /), followed by addition and subtraction (+ and -). This can
+be overridden by the use of parenthesis where needed.
+</p><h3>
+<a name="RTFToC61">4.3.2.
+Checking Expression Evaluation with the = Command
+</a></h3>
+One very useful command when performing complex expression is the <i>equals</i>
+command ('='). This command will print the decimal equivalent of the expression
+in the message area of the screen. Thus the command:<p>
+<tt>2+3*4=</tt></p><p>
+<tt></tt>would print the value '14' in the message line. This is also useful
+for determining the current numeric contents of a Q-registers.</p><p>
+Two <i>equals</i> commands in a row will print the results in octal, while
+three equals commands in a row will print the results in hexadecimal. Thus:</p><p>
+<tt>1,==</tt></p><p>
+<tt></tt>would print the value 0xF, i.e. 15 in base 16.
+</p><h2>
+<a name="RTFToC62">4.4.
+Iterations
+</a></h2>
+Iterations are one of the first advanced editing skills the average user should
+learn. The most common usage for an iteration is to implement a global
+find/substitute. By enclosing an <i>FS</i> command in an iteration, it will
+change all occurrences of the string following 'dot'.<p>
+Iterations are enclosed in angle brackets '&lt;&gt;'. They may be nested up to
+255 levels deep in Video TECO. If an argument is supplied to the open angle
+bracket, this specifies how many times the iteration is to execute. Thus:</p><p>
+<tt>4.4.1.</tt></p><p>
+<tt></tt>is a somewhat inefficient way of achieving</p><p>
+<tt>5L</tt></p><p>
+<tt></tt>because the body of the iteration (the 'L' command) will be executed 5
+separate times. If an iteration has no argument supplied, it will loop forever,
+unless jumped out of on some condition. The semi-colon command provides that
+capability.
+</p><h3>
+<a name="RTFToC63">4.4.2.
+Breaking out of Iterations with the Semi-Colon Command
+</a></h3>
+The semi-colon command provides the user with an easy way to break out of an
+iteration under certain conditions. The semi-colon command can only be used
+within an iteration. Attempts to use it otherwise will result in an error
+message being generated. If an argument is supplied to the semi-colon command,
+it will break out of the current iteration if the argument is TBS. The more
+normal use of the semi-colon command, however, is with no arguments supplied.
+In this case, the semi-colon command bases it's decision to break out of the
+iteration on whether or not the last search command found an occurrence of the
+search string. If the string was not found, the semi-colon command causes the
+rest of the instructions in the iteration to be skipped, and the iteration
+exited. The following example finds all occurrences of 'foo' and appends the
+string 'bar' to it:<p>
+<tt>&lt;SFOO$;IBAR$&gt;</tt></p><p>
+<tt></tt>An easier way to do the same&nbsp;thing would be:</p><p>
+<tt>&lt;FSFOO$FOOBAR$;&gt;</tt></p><p>
+<tt></tt>In the first case, the insert command to insert the string 'BAR' is
+executed each time the search command successfully finds 'FOO'. The final time
+when 'FOO' cannot be found, the semi-colon command causes the insert command to
+be skipped, and the iteration to be cleanly exited.</p><p>
+Likewise, the second example executes the FS command repeatedly changing all
+occurrences of 'FOO' to 'FOOBAR'. Then, when the FS command cannot find another
+occurrence of 'FOO', the semi-colon command causes the iteration to terminate.
+</p><h2>
+<a name="RTFToC64">4.5.
+MACROS
+</a></h2>
+TECO provides a <i>macro</i> capability by allowing the text contents of a
+Q-register to be interpreted as a string of TECO commands. The <i>M</i> command
+causes TECO to execute a Q-register in this fashion. The execution proceeds as
+if the commands had been typed at the keyboard. Thus a macro is very similar to
+a subroutine call in other languages. The advantage of macros is that complex
+strings of TECO commands can be loaded into the Q-register, and then executed
+by simply typing:<p>
+<tt>M<i>q</i></tt></p><p>
+<tt></tt>where <i>q</i> is the single letter name of the Q-register. Arguments
+can be passed to macros. If you typed the command:</p><p>
+<tt>5M<i>q</i></tt></p><p>
+<tt></tt>and the Q-register <i>q</i> had as the first command:</p><p>
+<tt>UA</tt></p><p>
+<tt></tt>then the  numeric side of Q-register A would contain the argument
+value 5, and this could be used throughout the macro.
+</p><h3>
+<a name="RTFToC65">4.5.1.
+Loading Default Macros with TECO INI
+</a></h3>
+When Video TECO is first started up, it looks for an initialization file
+containing default contents for Q-registers. The name is operating system
+dependent. On UNIX systems the name is '<i>.teco_ini</i>'. On VMS it is
+'<i>TECO.INI</i>'. Each entry in this file has a single letter Q-register name
+followed by a delimiter character, an arbitrary text string followed by a
+second occurrence of the delimiter character.<p>
+Video TECO loads the Q-registers with the initial text strings specified in the
+TECO init file. After they have all been loaded, if Q-register '0' has been
+loaded it is automatically executed before any user commands are input. This
+allows the user to customize Video TECO and to set up the initial conditions of
+the editor. 
+</p><h3>
+<a name="RTFToC66">4.5.2.
+Saving the Last Command with *
+</a></h3>
+A simple way to create a macro is by simply typing it in as a command. TECO
+provides a way to store the previous command string into Q-register after it
+has been completed. The asterisk command should be typed only after a
+double-escape sequence has completed the previous command. The format of the
+command is:<p>
+<tt>*<i>q</i></tt></p><p>
+<tt></tt>where <i>q</i> is the single letter name of the Q-register where the
+text will be stored. The previous contents of the Q-register are lost.</p><p>
+Classic TECO editors typically require the <i>*q</i> command to be the first
+command typed after a double escape. Video TECO allows *q anywhere within a
+command line, and the result is that the previous command string gets saved to
+the specified Q-register.
+</p><h2>
+<a name="RTFToC67">4.6.
+Conditional Operators
+</a></h2>
+Conditional operators in TECO work exactly as conditional operators in many
+high level programming languages. They allow you to test a value or expression
+and conditionally execute commands based on the outcome of the test.
+<h3>
+<a name="RTFToC68">4.6.1.
+The Double Quote 'IF' command
+</a></h3>
+In TECO, the <i>double quote</i> character is the conditional <i>IF</i>
+operator. The double quote is followed by a single letter which determines the
+actual test to be applied. The argument to the conditional operator is the
+single argument which precedes the double quote character.<p>
+If the condition specified is true, the commands which follow the conditional
+operator are executed normally. However, if the condition specified is false,
+TECO skips over all the following commands until it encounters an <i>else</i>
+clause, or the close of the conditional code which is marked by a single quote.
+An example of a conditional expression follows:</p><p>
+<tt>!LOOP!Q1-1U1Q1"GOLOOP$'</tt></p><p>
+<tt></tt>This command loops decrementing the value in Q-register 1 as long as
+it contains a value <i>greater</i> than zero (<i>"G</i>). When the value is no
+longer greater than zero, the <i>OLOOP</i> command is not executed, and the
+conditional falls through the single quote command to the next command which is
+typed.
+</p><h3>
+<a name="RTFToC69">4.6.2.
+The Vertical Bar 'Else' command
+</a></h3>
+If the Vertical Bar character ('|') is encountered within a conditional
+expression, it represents the beginning of the <i>else</i> clause of the
+conditional. The else clause is optional in TECO conditionals. An example of an
+else clause follows:<p>
+<tt>:SFRED$"SIFound Fred$|ICan't find Fred$'</tt></p><p>
+<tt></tt>If <i>fred</i> is found, the command inserts 'Found Fred', <i>ELSE</i>
+it inserts 'Can't find Fred'.
+</p><h3>
+<a name="RTFToC70">4.6.3.
+Conditional Operators
+</a></h3>
+The following is a table of the available conditional operators:<p>
+	Operator	Meaning	"C" equivalent</p><p>
+	G	Greater Than Zero	&gt; 0</p><p>
+	L	Less Than Zero	&lt; 0</p><p>
+	T	True	&lt; 0</p><p>
+	S	Successful	&lt; 0</p><p>
+	E	Equal To Zero	== 0</p><p>
+	F	TBS	== 0</p><p>
+	U	TBS	== 0</p><p>
+	N	Not Equal To Zero	!= 0</p><p>
+	C	Symbol Constituent	TBS</p><p>
+	D	Digit	isdigit(x)</p><p>
+	A	Alphanumeric	isalpha(x)</p><p>
+	V	Lower Case	islower(x)</p><p>
+	W	Upper Case	isupper(x)</p><p>
+Note that you can only test arithmetic values against zero. Thus if you wanted
+to test for a specific value such as 1234, you have to do it like this:</p><p>
+<tt>Q1-1234"E</tt></p><p>
+<tt></tt>such that the equal to zero test only works when the original value
+(Q1 in this example) is equal to 1234.</p><p>
+Chapter 5
+</p><h1>
+<a name="RTFToC71">5.
+Advanced Searching
+</a></h1>
+<h2>
+<a name="RTFToC72">5.1.
+Default Search Rules
+</a></h2>
+Searching is used extensively in TECO to position the edit cursor. Normally,
+the string that the user specifies to the search command contains a list of
+normal characters. Each character specified in the search string must be
+matched by a similar character in the edit buffer.<p>
+Video TECO searches default to <i>case insensitive</i> searches. This means
+that characters in the edit buffer are considered to match characters in the
+search string even if one is upper case and the other is lower case.
+</p><h2>
+<a name="RTFToC73">5.2.
+Wildcard Searching
+</a></h2>
+Wildcard searches allow the user to embed special character sequences within
+the search string which match a <i>class</i> of character or string rather than
+a single character. This allows you to create very complex search operations
+without having to resort to conditional expressions to test for different
+occurrences.<p>
+Perhaps the simplest wildcard to use as an example is the ^X wildcard. This is
+actually the ASCII code 24, Control-X. It tells Video TECO to match any
+character in this position. The user should understand that ^X requires
+<i>some</i> character to be there, it just doesn't matter what code it is. Thus
+the command:</p><p>
+<tt>SA^XB$</tt></p><p>
+<tt></tt>Would match the strings A+B, A-B, A*B, A/B, as well as many other
+strings. While this is only moderately useful during normal editing, it becomes
+invaluable when writing macros to accomplish complex editing tasks.
+</p><h3>
+<a name="RTFToC74">5.2.1.
+The ^X Wildcard
+</a></h3>
+As already described, the ^X wildcard will match any single character, with the
+requirement that the character must exist. For instance, if the last three
+characters in the edit buffer were the letters '<i>foo</i>', the search
+string<p>
+<tt>Sfoo^X$</tt></p><p>
+<tt></tt>would not find them because it would require that some character
+follow the second '<i>o</i>' character. However, if the last four characters in
+the buffer were the letters '<i>foot</i>', then the search command would have
+found this occurrence.
+</p><h3>
+<a name="RTFToC75">5.2.2.
+The ^N Wildcard
+</a></h3>
+The Control-N wildcard matches any character <i>except</i> the one which
+follows the ^N in the search string. Thus the search command:<p>
+<tt>Sfoo^Nt$</tt></p><p>
+<tt></tt>would find strings such as <i>food</i>, or <i>fool</i>, but not
+<i>foot</i>..
+</p><h3>
+<a name="RTFToC76">5.2.3.
+The ^ED Wildcard
+</a></h3>
+The ^ED wildcard matches numeric digits. Thus the search string will skip over
+any number of characters from the set {0,1,2,3,4,5,6,7,8,9}. There must,
+however, be at <i>least</i> <i>one</i> numeric character for the search to
+succeed. Note that commands like:<p>
+<tt>S^ED1$</tt></p><p>
+<tt></tt>will always fail, since the ^ED eats up all the numeric digits
+insuring that there is never a '<i>1</i>' to match the '<i>1</i>' in the search
+string.
+</p><h3>
+<a name="RTFToC77">5.2.4.
+The ^ES Wildcard
+</a></h3>
+The ^ES wildcard matches any number of spaces and tabs. 
+<h3>
+<a name="RTFToC78">5.2.5.
+The ^E^E Wildcard
+</a></h3>
+The ^E^E string is not actually a wildcard, but instead a modifier or mode
+setting string. It causes the search operator which is normally case
+insensitive to become case sensitive. Thus:<p>
+<tt>Snow is the ^E^ETIME$</tt></p><p>
+<tt></tt>would match the strings 'NOW IS THE TIME', 'Now Is The TIME', but not
+'now is the time', because the final four characters are all required to match
+case exactly.
+</p><h3>
+<a name="RTFToC79">5.2.6.
+The ^EA Wildcard
+</a></h3>
+The ^EA wildcard matches any alphabetic character, i.e. any upper or lower case
+letter from A-Z. 
+<h3>
+<a name="RTFToC80">5.2.7.
+The ^EB Wildcard
+</a></h3>
+The ^EB wildcard matches any separator character, where separator is defined as
+any non-alphanumeric character. 
+<h3>
+<a name="RTFToC81">5.2.8.
+The ^EC Wildcard
+</a></h3>
+The ^EC wildcard matches any symbol constituent. Although symbols vary from
+computer to computer, this is currently defined to be alphanumeric plus period
+(.), Dollar sign ($) and underscore (_), regardless of platform.
+<h3>
+<a name="RTFToC82">5.2.9.
+The ^EG Wildcard
+</a></h3>
+The ^EG<i>q</i> wildcard matches any character currently in the text side of
+Q-register <i>q</i>. Note that this is a fairly slow operation, since the
+evaluation must be done at run time, rather than parse time. In an iteration,
+for instance, the search table cannot be specified at parse time, but rather
+must be built each time through the iteration in case the contents of the
+Q-register have been changed. The ^E[ construct is generally a more efficient
+mechanism. 
+<h3>
+<a name="RTFToC83">5.2.10.
+The ^EL Wildcard
+</a></h3>
+The ^EL wildcard matches any line terminator character. This is defined as
+newline, carriage return, or form feed. 
+<h3>
+<a name="RTFToC84">5.2.11.
+The ^EM Wildcard 
+</a></h3>
+The ^EM wildcard causes any number of the following token to be matched. For
+instance, ^EMA would match A, AA, or AAA. ^EM^EC would cause any number of
+symbol constituents to match, thus ^EM^EC could match "long_symbol_name_9".
+<h3>
+<a name="RTFToC85">5.2.12.
+The ^ER Wildcard
+</a></h3>
+The ^ER wildcard matches any alphanumeric character. 
+<h3>
+<a name="RTFToC86">5.2.13.
+The ^EU Wildcard
+</a></h3>
+The ^EU<i>q</i> wildcard matches the ASCII code contained in Q-register
+<i>q</i>.  Thus the sequence <tt>32UA S^EUA$</tt> would be a rather roundabout
+way to search for a space.
+<h3>
+<a name="RTFToC87">5.2.14.
+The ^EV Wildcard
+</a></h3>
+The ^EV wildcard matches any single lowercase letter. 
+<h3>
+<a name="RTFToC88">5.2.15.
+The ^EW Wildcard
+</a></h3>
+The ^EW wildcard matches any single upper case letter. 
+<h3>
+<a name="RTFToC89">5.2.16.
+The ^E[] Wildcard
+</a></h3>
+The ^E[a,b,c] wildcard matches any of the tokens <i>a,b,c</i>. Note that the
+tokens can generally include wildcards, so a sequence such as
+S^E[a,b,c,^ES,^EL] would search for any of the characters <i>a,b,c,</i> any
+number of whitespace characters (^ES) or any line terminator character (^EL). 
+<h3>
+<a name="RTFToC90">5.2.17.
+The ^E&lt;&gt; Wildcard
+</a></h3>
+The ^E&lt;<i>nnn</i>&gt; wildcard matches the numeric code <i>nnn</i>.  Unlike
+classic TECO which just assumes the code is octal radix, Video TECO assumes
+that a leading zero means octal (i.e. 010 is octal 10), a leading 0x means hex, 
+<h2>
+<a name="RTFToC91">5.3.
+Search Modifiers
+</a></h2>
+Both the AT-SIGN and COLON modifiers work with all forms of the search command.
+<h3>
+<a name="RTFToC92">5.3.1.
+The Colon Modifier
+</a></h3>
+The colon modifier affects all searching commands the same way. It causes them
+to return a value, depending on whether or not the specified string was
+found.<p>
+In the presence of the colon modifier, search strings will return zero if the
+string was not found, or minus one if the string was found. Thus, the
+command:</p><p>
+<tt>:Sfred$=</tt></p><p>
+<tt></tt>would either print 0 or -1 on the message line, depending on whether
+or not the string 'fred' was found.
+</p><h3>
+<a name="RTFToC93">5.3.2.
+The AT-SIGN Modifier
+</a></h3>
+The AT-SIGN ('@') modifier affects how strings are specified to the search
+strings. Instead of being escape terminated strings, the strings are specified
+by the user by surrounding them with delimiter characters. This allows escape
+to be included in the string. An example of the search command using this
+modifier is:<p>
+<tt>@S?string?</tt></p><p>
+<tt></tt>where the question mark character ('?') is the delimiter. Note that if
+the delimiters have no intervening characters such as:</p><p>
+<tt>1,?</tt></p><p>
+<tt></tt>Then the specified string is null, which means to use the default
+search string.</p><p>
+In the case of commands which take multiple strings, such as FS, the format
+is:</p><p>
+<tt>@FS/string1/string2/</tt></p><p>
+<tt></tt>Note that there are not two sets of strings with separate delimiters.
+This means that the delimiter for the replace string cannot be different from
+the delimiter for the search string.
+</p><h2>
+<a name="RTFToC94">5.4.
+Default Search String
+</a></h2>
+When a user types a search command such as <i>s, n, fs, fd, fr</i>, etc., if he
+types the search string, TECO searches for the specified search string.
+However, if he does not supply a search string, TECO uses the last search
+string he specified.<p>
+Video TECO remembers the default search string by storing it in Q-register '_'
+(underscore). This is an enhancement which does not exist in regular TECO. This
+allows the advanced Video TECO user to do some useful things.
+</p><h3>
+<a name="RTFToC95">5.4.1.
+Preserving the Default Search String across Macro Executions
+</a></h3>
+By pushing the '_' (underscore) Q-register onto the Q-register pushdown list at
+the beginning of a macro, and popping it back at the end of the macro, a macro
+can use searching within the body of the TECO macro without changing the user's
+default search string.
+<h3>
+<a name="RTFToC96">5.4.2.
+Examining the Default Search String
+</a></h3>
+A user can examine the current search string by either switching to Q-register
+'_' (for instance, he could type EQ_$), or he can insert it into his current
+buffer with the G command,  as well as several other ways.
+<h3>
+<a name="RTFToC97">5.4.3.
+Setting the Search String Directly
+</a></h3>
+Instead of affecting the default search string by using a searching command,
+the user can set it by simply loading Q-register '_'. This has the effect of
+loading the search string, but not actually performing any search. The user
+needs to keep in mind the limitation that search strings cannot exceed 256
+characters. Although it is possible to switch into the '_' Q-register and edit
+the search string using regular TECO commands, the user will get rather strange
+results if he tries to use search commands within the search Q-register. The
+better method is to switch to some other buffer, get the contents of the search
+string using the G command, edit the text, and then copy it back using the X_
+command.<p>
+</p><p>
+Chapter 6
+</p><h1>
+<a name="RTFToC98">6.
+Programming TECO
+</a></h1>
+<h2>
+<a name="RTFToC99">6.1.
+Other Features
+</a></h2>
+Chapter 7
+<h1>
+<a name="RTFToC100">7.
+TECO REFERENCE
+</a></h1>
+The following section lists each TECO command.
+<h2>
+<a name="RTFToC101">7.1.
+'A' Command
+</a></h2>
+<h3>
+<a name="RTFToC102">7.1.1.
+With No Arguments
+</a></h3>
+In classic TECO editors, the A command without an argument meant <i>append</i>.
+The action performed was to append more data from the file into the edit
+buffer. Since Video TECO always reads the entire file in, this function has no
+meaning, and is reserved for future use. An error occurs if an attempt to use
+the command in this format is made.
+<h3>
+<a name="RTFToC103">7.1.2.
+With One Argument
+</a></h3>
+This command returns the ASCII code of the character in the buffer offset
+<i>argument</i> from the current edit position. Thus, this command with an
+argument of zero will return the code of the character following <i>dot</i>,
+while -1A would return the code of the character immediately preceding dot.
+<h3>
+<a name="RTFToC104">7.1.3.
+With Two Arguments
+</a></h3>
+This command does not take two arguments, and an error will occur if it is
+attempted.
+<h2>
+<a name="RTFToC105">7.2.
+'B" Command
+</a></h2>
+In classic TECO editors, this was a shorthand for the beginning of the buffer.
+It actually meant zero, since zero always is the character position of the
+beginning of the buffer. Thus B,Z meant all characters in the buffer. Given
+that almost every single letter command is already assigned in TECO, and since
+B saves no keystrokes over typing '0', Video TECO does not recognize this
+command as classic TECO editors, and instead has reserved it as a future
+command. An error will occur if the user attempt to execute it.<p>
+Currently, the B command is equivalent to -L, i.e. it moves backward over lines
+the same way that the L command moves forward over them.
+</p><h2>
+<a name="RTFToC106">7.3.
+'C' Command
+</a></h2>
+The 'C' command moves the current edit position (<i>dot</i>) a relative number
+of positions. If the command would result in the edit position being moved
+outside of the edit buffer, an error results, and the current position is left
+unaffected.
+<h3>
+<a name="RTFToC107">7.3.1.
+With No Arguments
+</a></h3>
+With no arguments, the C command defaults to moving the edit position forward
+one. Thus, "C" is equivalent to "1C".
+<h3>
+<a name="RTFToC108">7.3.2.
+With One Argument
+</a></h3>
+The single argument specifies the number of character positions to move
+<i>dot</i> by. If the argument is positive, dot gets moved forward. If the
+argument is negative, dot is moved backward.
+<h3>
+<a name="RTFToC109">7.3.3.
+With Two Arguments
+</a></h3>
+This command does not take two arguments, and an error will occur if it is
+attempted.
+<h2>
+<a name="RTFToC110">7.4.
+'D' Command
+</a></h2>
+The 'D' command deletes the specified number of characters, relative to the
+current edit position.
+<h3>
+<a name="RTFToC111">7.4.1.
+With No Arguments
+</a></h3>
+With no arguments, the D command deletes the single character following the
+current edit position. If the edit position is currently set to the end of the
+buffer, and error occurs.
+<h3>
+<a name="RTFToC112">7.4.2.
+With One Argument
+</a></h3>
+A single argument to the D command specifies how many characters relative to
+the current edit position should be deleted. If the argument is greater than
+zero, characters following the current edit position are deleted. If the
+argument is negative, characters before the current edit position are deleted.
+<h3>
+<a name="RTFToC113">7.4.3.
+With Two Arguments
+</a></h3>
+This command does not take two arguments, and an error will occur if it is
+attempted.
+<h2>
+<a name="RTFToC114">7.5.
+'E' Command
+</a></h2>
+The E character leads into a two character command sequence:
+<h2>
+<a name="RTFToC115">7.6.
+'EB' Command
+</a></h2>
+The <i>EB</i> command is used to select an edit buffer for editing. There are
+two forms of the command:
+<h3>
+<a name="RTFToC116">7.6.1.
+With No Arguments
+</a></h3>
+This form of the command takes one string argument which is the name of the
+disk file to be edited. An edit buffer is created with the same name as the
+disk file, and this edit buffer becomes the current edit buffer. If the edit
+buffer already exists when the command is issued, Video TECO simply makes it
+the current edit buffer.<p>
+<tt>EBfilename.ext$</tt></p><p>
+<tt></tt>Edit buffers created in this manner are numbered with sequential
+positive integers.
+</p><h3>
+<a name="RTFToC117">7.6.2.
+With One Argument
+</a></h3>
+If the EB command is specified with one argument, it is an immediate execute
+command to switch to a <i>pre-existing</i> edit buffer. An error occurs if the
+argument specifies a non-existent edit buffer.<p>
+Edit buffers with positive numbers contains user files. Edit buffers with
+negative numbers are TECO Q-registers. Edit buffer zero is a special buffer
+which lists all the current edit buffers.
+</p><h3>
+<a name="RTFToC118">7.6.3.
+With Two Arguments
+</a></h3>
+<tt>Illegal</tt>
+<h2>
+<a name="RTFToC119">7.7.
+'EC' Command
+</a></h2>
+The EC command allows you to execute non-interactive operating system commands.
+<h3>
+<a name="RTFToC120">7.7.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command. It takes a trailing string argument
+which is the entire operating system command to be executed:<p>
+<tt>ECgrep -l enum *.c$</tt></p><p>
+<tt></tt>The output of the command is inserted into the edit buffer at the
+current edit position. Although the command can be undone, only the insertion
+of output into the buffer can actually be undone. Obviously, the effect the
+command has had on the computer system cannot be undone by Video TECO.
+</p><h3>
+<a name="RTFToC121">7.7.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC122">7.7.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC123">7.8.
+'EF' Command
+</a></h2>
+The EF command closes an edit buffer. An error occurs if the buffer is modified.
+<h3>
+<a name="RTFToC124">7.8.1.
+With No Arguments
+</a></h3>
+ With no numeric arguments, the EF command expects a trailing string argument.
+If the string argument is null, the current edit buffer is deleted. Otherwise,
+the string specifies which existing edit buffer is to be deleted. An error
+occurs if no buffer of that name currently exists, or if the specified buffer
+has been modified.
+<h3>
+<a name="RTFToC125">7.8.2.
+With One Argument
+</a></h3>
+In this form, the single numeric argument specifies which edit buffer is to be
+deleted. No string argument is expected. An error occurs if no buffer of that
+number exists, or if the buffer is modified.<p>
+If an argument of -1 is specified, the command will complete even if the buffer
+has been modified. This also means that it is impossible to delete internal
+buffer -1 with this form of the command.
+</p><h3>
+<a name="RTFToC126">7.8.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC127">7.9.
+'EJ' Command
+</a></h2>
+The EF command allows the user to set certain values in the editor. The EJ
+command takes two numeric arguments. The first selects what is being set, and
+the second argument is what it should be set to.
+<h3>
+<a name="RTFToC128">7.9.1.
+First Argument as 1
+</a></h3>
+When the first argument is one, the second argument is set to be an alternate
+escape character. This is provided mostly for keyboards which either don't have
+an ESCape key, or for those that have it in a cumbersome position. The
+command:<p>
+<tt>1,126EJ</tt></p><p>
+<tt></tt>would set Tilde (ASCII code 126) to act as an ESCape character. Note
+that the substitution takes place early in the character processing of the
+editor.
+</p><h3>
+<a name="RTFToC129">7.9.2.
+First Argument as 2
+</a></h3>
+When the first argument is two, the second argument is taken to be the number
+of lines (i.e. the height) of the screen. This is useful if you have resized
+the window since startup, but window resize is not working. (At startup you can
+specify -y &lt;n&gt; or -h &lt;n&gt;). If 2,&lt;n&gt;EJ works but seems to go
+away again after certain operations, automatic window resizing may be
+interfering.
+<h3>
+<a name="RTFToC130">7.9.3.
+First Argument as 3
+</a></h3>
+When the first argument is three, the second argument is taken to be the number
+of columns (i.e. the width) of the screen. This is useful if you have resized
+the window since startup, but window resize is not working. (At startup you can
+specify -x &lt;n&gt; or -w &lt;n&gt;). If 2,&lt;n&gt;EJ works but seems to go
+away again after certain operations, automatic window resizing may be
+interfering. 
+<h3>
+<a name="RTFToC131">7.9.4.
+First Argument as 4
+</a></h3>
+When the first argument is four, the second argument is the ASCII value of an
+alternate delete character. This allows you to set two different characters to
+act as a rubout. Commonly the delete and Control-h codes might be both useful
+as rubout.
+<h2>
+<a name="RTFToC132">7.10.
+'EP' Command
+</a></h2>
+<img align="bottom" src="TECO%20Manual%20V4_files/teco_EP.gif" width="394" height="288">
+<p>
+The EP command allows you to split the current window into two windows, each
+containing a different edit buffer, or to collapse two windows back down into
+one.
+</p><h3>
+<a name="RTFToC133">7.10.1.
+With Two Numeric Arguments
+</a></h3>
+This form of the command splits the current window into two windows. The
+command:<p>
+<tt>m,nEP</tt></p><p>
+<tt></tt>Splits the current window, such that a new window of <i>m</i> lines is
+created, and edit buffer <i>n</i> is displayed in it. The current window must
+be large enough to have <i>m</i> lines removed from it, and still be a viable
+edit window.</p><p>
+Currently, Video TECO's screen optimizer breaks if any two windows are
+displaying the same edit buffer. Therefore, you should be careful never to let
+this situation occur.
+</p><h3>
+<a name="RTFToC134">7.10.2.
+With No Numeric Argument
+</a></h3>
+If the EP command is specified with no numeric argument, the current window is
+collapsed, and the screen space is given to one of the other visible windows.
+You cannot issue this command if there is only one window showing.
+<h3>
+<a name="RTFToC135">7.10.3.
+With One Numeric Argument
+</a></h3>
+Illegal
+<h2>
+<a name="RTFToC136">7.11.
+'EQ' Command
+</a></h2>
+The EQ command either switches the current edit buffer to a Q-register, or
+fills  a Q-register with a file, depending on how it is executed. The EQ
+command never takes a numeric argument.
+<h3>
+<a name="RTFToC137">7.11.1.
+With Trailing String Argument
+</a></h3>
+This form of the command reads the file specified by the trailing string
+argument into the specified Q-register:<p>
+<tt>EQ<i>q</i>filename.ext$</tt></p><p>
+<tt></tt>Reads the file <i>filename.ext</i> and places it in Q-register
+<i>q</i>. The current edit buffer is left unchanged.
+</p><h3>
+<a name="RTFToC138">7.11.2.
+With No Trailing String Argument
+</a></h3>
+If the EQ command is specified as:<p>
+<tt>EQ<i>q</i>$</tt></p><p>
+<tt></tt>it has the effect of making Q-register <i>q</i> become the current
+edit buffer.
+</p><h2>
+<a name="RTFToC139">7.12.
+'ER' Command
+</a></h2>
+The ER command reads the specified file into the edit buffer at the current
+edit point. The current edit position is left immediately following the
+inserted file. The previous contents of the edit buffer are not disturbed
+during the insertion.
+<h3>
+<a name="RTFToC140">7.12.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command. The command expects a trailing
+string argument which is the name of the file to be read into the current edit
+buffer. The contents of the file are inserted into the edit buffer as if a
+single I (insert) command had been issued, i.e., the rest of the buffer is left
+intact, and the current edit position is left following the inserted file.<p>
+<tt>ERfilename.ext$</tt>
+</p><h3>
+<a name="RTFToC141">7.12.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC142">7.12.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC143">7.13.
+'ES' Command
+</a></h2>
+The ES command allows you to scroll the screen up or down a specified number of
+lines. This is useful for fine positioning text to be viewed.
+<h3>
+<a name="RTFToC144">7.13.1.
+With No Arguments
+</a></h3>
+This is equivalent to 1ES.
+<h3>
+<a name="RTFToC145">7.13.2.
+With One Argument
+</a></h3>
+This form of the command scrolls the screen by the specified number of lines.
+There is a restriction that when the scroll is complete, the current edit
+position (<i>dot</i>) must still be visible. If the scroll operation causes dot
+to move off of the screen, the scroll operation will not have the intended
+result, and instead either will not function, or the screen will be refreshed
+with dot at the center of the screen.<p>
+The screen is scrolled up when positive numbers are supplied, and down when
+negative numbers are supplied. This is consistent with the way the screen moves
+when L commands cause the screen to scroll. For example, the following command
+would cause five more lines following those already displayed to become
+visible:</p><p>
+<tt>5ES</tt>
+</p><h3>
+<a name="RTFToC146">7.13.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC147">7.14.
+'ET' Command
+</a></h2>
+This command causes the screen to be refreshed.
+<h3>
+<a name="RTFToC148">7.14.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command. This command is not normally
+required during most interactive editing, since the screen is automatically
+refreshed at the end of each keystroke anyway. However, during iterations and
+macro executions, many commands are executed, but the screen is only refreshed
+after all the commands are complete. By inserting the ET command into an
+iteration or macro, the user can see the state of the file as the commands
+execute.<p>
+For example, if the user typed the following command:</p><p>
+<tt>&lt;FSstring1$string2$;&gt;$$</tt></p><p>
+<tt></tt>all occurrences of <i>string1</i> would be replaced with
+<i>string2</i>. However, the user would normally see only the first replacement
+occur. Then, as he closed the iteration and typed two escapes, the iteration
+would run to completion before the screen would be updated. This is often the
+desirable behavior. The user gets to see the first time through the iteration,
+giving him a chance to be sure that things are working the way he wants, then
+the editor continues the iteration as fast as possible, until it is complete.
+Suppose, however, that the user is worried that some unintended strings might
+get mistakenly replaced by this command. Rather than have to issue one FS
+command after another, he could just issue:</p><p>
+	&lt;FSstring1$string2$;ET&gt;$$</p><p>
+This would cause the screen to be repainted each time a string is replaced,
+giving him a chance to see each string replacement occur.
+</p><h3>
+<a name="RTFToC149">7.14.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC150">7.14.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC151">7.15.
+'EV' Command
+</a></h2>
+The <i>EV</i> command is used to select an edit buffer for editing. It is
+identical to the EB command, except that if a new edit buffer is created, it is
+created <i>readonly</i>. Readonly edit buffers are flagged by the word
+<b>READONLY</b> on the status line. Edit buffers created this way cannot be
+written out. There are two forms of the command:
+<h3>
+<a name="RTFToC152">7.15.1.
+With No Arguments
+</a></h3>
+This form of the command takes one string argument which is the name of the
+disk file to be viewed. A readonly edit buffer is created with the same name as
+the disk file, and this edit buffer becomes the current edit buffer. If the
+edit buffer already exists when the command is issued, Video TECO simply makes
+it the current edit buffer <i>without having any effect on it's readonly
+status</i>.<p>
+<tt>EVfilename.ext$</tt></p><p>
+<tt></tt>Edit buffers created in this manner are numbered with sequential
+positive integers.
+</p><h3>
+<a name="RTFToC153">7.15.2.
+With One Argument
+</a></h3>
+If the EV command is specified with one argument, it is an immediate execute
+command to switch to a <i>pre-existing</i> edit buffer. An error occurs if the
+argument specifies a non-existent edit buffer.<p>
+Edit buffers with positive numbers contains user files. Edit buffers with
+negative numbers are TECO Q-registers. Edit buffer zero is a special buffer
+which lists all the current edit buffers.</p><p>
+Since this form of the command requires that the buffer already exist, it will
+not create a readonly buffer. Thus this form of the command is identical to
+this form of the EB command in every respect.
+</p><h3>
+<a name="RTFToC154">7.15.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC155">7.16.
+'EW' Command
+</a></h2>
+This command is used to the write the current contents of an edit buffer to the
+disk. The command is not immediate execute, so it requires two escapes to be
+issued before it will execute.
+<h3>
+<a name="RTFToC156">7.16.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command. The command expects a trailing
+string argument to be specified. If the string is null, the file which is
+written is written to the same name as that of the edit buffer. Otherwise, the
+string specifies the name of the file to be written:<p>
+<tt>EWfilename.ext$$</tt></p><p>
+<tt></tt>This command clears the <i>modified</i> status of an edit buffer.
+</p><h3>
+<a name="RTFToC157">7.16.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC158">7.16.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC159">7.17.
+'EX' Command
+</a></h2>
+The EX command causes Video TECO to exit, returning the user to the operating
+system command interpreter. Since exiting cannot be undone, the command
+requires a double escape before it will be executed.
+<h3>
+<a name="RTFToC160">7.17.1.
+With No Arguments
+</a></h3>
+In this form, the EX command will cause the editor to exit as long as none of
+the positively numbered (non-internal) edit buffers are modified. If any
+<i>are</i> modified, Video TECO will issue an error message and refuse to exit.
+This is to prevent you from editing by mistake without writing out all files
+which you have made changes to.
+<h3>
+<a name="RTFToC161">7.17.2.
+With One Argument
+</a></h3>
+If the EX command is supplied with a single numeric argument of minus one:<p>
+<tt>-1EX</tt></p><p>
+<tt></tt>the editor will exit regardless of whether or not any of the edit
+buffers are modified. This form of the command should be used carefully, for
+the obvious reasons. A good rule of thumb would be to always execute a 0EB
+command first to identify which edit buffers are modified, and that you indeed
+do not want those written to the disk.
+</p><h3>
+<a name="RTFToC162">7.17.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC163">7.18.
+'FD' Command
+</a></h2>
+This command searches for the specified string, and then deletes it. It follows
+all the rules of the searching commands regarding arguments, wildcards, etc.
+<h3>
+<a name="RTFToC164">7.18.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, the FD command expects a trailing string argument
+which specifies the search string. The first occurrence of the search string is
+found and deleted. If no occurrences of the string can be found, an error
+message is generated to that effect. If the search string specified is zero
+length, the default search string is searched for.<p>
+<tt>FDstring$</tt>
+</p><h3>
+<a name="RTFToC165">7.18.2.
+With One Argument
+</a></h3>
+Specifying a single numeric argument to the FD command sets <i>which</i>
+occurrence of the search string should be deleted. If the argument is negative,
+it indicates that the search should proceed in a reverse direction. The command
+still expects a trailing string argument to specify the search string:<p>
+<tt>2FDstring$</tt></p><p>
+<tt></tt>would delete the second occurrence of <i>string</i>.
+</p><h3>
+<a name="RTFToC166">7.18.3.
+With Two Arguments
+</a></h3>
+With two numeric arguments, the search for the string is constrained between
+the two buffer locations specified by the two arguments.<p>
+If the first argument is smaller than the second, it indicates that the search
+should proceed forward from the buffer position as specified by the first
+argument to the buffer position as specified by the second argument.</p><p>
+If the first argument is larger than the second, it indicates that the search
+should proceed backward from the buffer position as specified by the second
+argument to the buffer position as specified by the first argument.</p><p>
+One use of this command would be to find occurrences of a string <i>only</i>
+within a single subroutine in a source file. If the beginning and end of the
+subroutine were loaded into Q-registers one and two respectively, the following
+command would find string only within the subroutine:</p><p>
+<tt>Q1,Q2FDstring$</tt></p><p>
+<tt></tt>Care would have to be taken in the case of an iteration to delete
+<i>all</i> occurrences of <i>string</i> from the subroutine, since the end of
+the subroutine moves up by the length of <i>string</i> each time an occurrence
+is deleted. The following iteration would work properly for that case (assuming
+Q1 and Q2 already set up):</p><p>
+<tt>&lt;ZU3Q1,Q2FDstring$;Q2-(Q3-Z)U2&gt;$$</tt></p><p>
+<tt></tt>because it decrements Q2 by the length of <i>string</i> each time it
+is found by recording Z and then computing how many characters were deleted.
+</p><h2>
+<a name="RTFToC167">7.19.
+'FK' Command
+</a></h2>
+This command deletes all the characters from the current edit position up to
+but <i>not including</i> the search string.
+<h3>
+<a name="RTFToC168">7.19.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, the FK command expects a trailing string argument
+which specifies the search string. The first occurrence of the search string is
+found and deleted. If no occurrences of the string can be found, an error
+message is generated to that effect. If the search string specified is zero
+length, the default search string is searched for.<p>
+<tt>FKstring$</tt>
+</p><h3>
+<a name="RTFToC169">7.19.2.
+With One Argument
+</a></h3>
+Specifying a single numeric argument to the FK command sets <i>which</i>
+occurrence of the search string should be found. If the argument is negative,
+it indicates that the search should proceed in a reverse direction. The command
+still expects a trailing string argument to specify the search string:<p>
+<tt>2FKstring$</tt></p><p>
+<tt></tt>would delete all the text up to be not including the second occurrence
+of <i>string</i>.
+</p><h3>
+<a name="RTFToC170">7.19.3.
+With Two Arguments
+</a></h3>
+With two numeric arguments, the search for the string is constrained between
+the two buffer locations specified by the two arguments.<p>
+If the first argument is smaller than the second, it indicates that the search
+should proceed forward from the buffer position as specified by the first
+argument to the buffer position as specified by the second argument.</p><p>
+If the first argument is larger than the second, it indicates that the search
+should proceed backward from the buffer position as specified by the second
+argument to the buffer position as specified by the first argument.
+</p><h2>
+<a name="RTFToC171">7.20.
+'FR' Command
+</a></h2>
+This command searches for the specified string, and then replaces it with the
+second string. It is identical to the FS command except for its behavior when
+the replacement string is specified as null. It follows all the rules of the
+searching commands regarding arguments, wildcards, etc.
+<h3>
+<a name="RTFToC172">7.20.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, the FR command expects two trailing string arguments
+which specifies the search string and replacement string respectively. The
+first occurrence of the search string is found and replaced with the replace
+string. If no occurrences of the string can be found, an error message is
+generated to that effect. If the search string specified is zero length, the
+default search string is searched for. If the replacement string is specified
+as zero length, the default replace string is used. The command:<p>
+<tt>FRstring1$string2$FR$$</tt></p><p>
+<tt></tt>would have the effect of replacing string1 with string2 <i>twice</i>,
+because the second FR command will default both the search and replace strings
+to those as specified in the first FR command.
+</p><h3>
+<a name="RTFToC173">7.20.2.
+With One Argument
+</a></h3>
+Specifying a single numeric argument to the FR command sets <i>which</i>
+occurrence of the search string should be replaced. If the argument is
+negative, it indicates that the search should proceed in a reverse direction.
+The command still expects two trailing string arguments to be supplied:<p>
+<tt>2FR$$</tt></p><p>
+<tt></tt>would delete the second occurrence of the default search string with
+the default replace string.
+</p><h3>
+<a name="RTFToC174">7.20.3.
+With Two Arguments
+</a></h3>
+With two numeric arguments, the search for the string is constrained between
+the two buffer locations specified by the two arguments.<p>
+If the first argument is smaller than the second, it indicates that the search
+should proceed forward from the buffer position as specified by the first
+argument to the buffer position as specified by the second argument.</p><p>
+If the first argument is larger than the second, it indicates that the search
+should proceed backward from the buffer position as specified by the second
+argument to the buffer position as specified by the first argument.
+</p><h2>
+<a name="RTFToC175">7.21.
+'FS' Command
+</a></h2>
+This command searches for the specified string, and then replaces it. It
+follows all the rules of the searching commands regarding arguments, wildcards,
+etc.
+<h3>
+<a name="RTFToC176">7.21.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, the FS command expects two trailing string arguments
+which specify the search and replacement strings. The first occurrence of the
+search string is found and replaced with the second argument. If no occurrences
+of the string can be found, an error message is generated to that effect. If
+the search string specified is zero length, the default search string is
+searched for. If the replacement string is specified as zero length, the effect
+of the command is similar to that of the FD command. The following command
+changes the first occurrence of string1 to string2:<p>
+<tt>FSstring1$string2$</tt>
+</p><h3>
+<a name="RTFToC177">7.21.2.
+With One Argument
+</a></h3>
+Specifying a single numeric argument to the FS command sets <i>which</i>
+occurrence of the search string should be replaced. If the argument is
+negative, it indicates that the search should proceed in a reverse direction.
+The command still expects two trailing string arguments to specify the search
+and replace strings:<p>
+<tt>2FSstring1$string2$</tt></p><p>
+<tt></tt>would replace the second occurrence of <i>string1 </i>with
+<i>string2</i>.
+</p><h3>
+<a name="RTFToC178">7.21.3.
+With Two Arguments
+</a></h3>
+With two numeric arguments, the search for the string is constrained between
+the two buffer locations specified by the two arguments.<p>
+If the first argument is smaller than the second, it indicates that the search
+should proceed forward from the buffer position as specified by the first
+argument to the buffer position as specified by the second argument.</p><p>
+If the first argument is larger than the second, it indicates that the search
+should proceed backward from the buffer position as specified by the second
+argument to the buffer position as specified by the first argument.</p><p>
+One use of this command would be to replace occurrences of a string <i>only</i>
+within a single subroutine in a source file. If the beginning and end of the
+subroutine were loaded into Q-registers one and two respectively, the following
+command would replace <i>string</i> only within the subroutine:</p><p>
+<tt>Q1,Q2FSstring$new-string$</tt></p><p>
+<tt></tt>Care would have to be taken in the case of an iteration to delete
+<i>all</i> occurrences of <i>string</i> from the subroutine, since the end of
+the subroutine moves each time a replacement happens, since the two strings are
+of different length. The following iteration would work properly for that case
+(assuming Q1 and Q2 already set up):</p><p>
+<tt>&lt;ZU3Q1,Q2FSstring$;Q2+(Z-Q3)U2&gt;$$</tt></p><p>
+<tt></tt>because it modifies Q2 by the number of characters being added or
+deleted to the buffer each time a replacement operation happens by recording Z
+and then computing how many characters were added or deleted to the subroutine.
+</p><h2>
+<a name="RTFToC179">7.22.
+'G' Command
+</a></h2>
+The G command retrieves text from a Q-register and inserts it at the current
+edit position.
+<h3>
+<a name="RTFToC180">7.22.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command. The command takes a single trailing
+character argument which is the name of the Q-register to be accessed. For
+example, to retrieve the contents of Q-register A, one could issue the
+following command:<p>
+<tt>GA</tt></p><p>
+<tt></tt>No trailing ESCape is required since the trailing argument is always a
+single character, not a string. An error occurs if the character either
+specifies a Q-register which is not legal in Video TECO, or a Q-register which
+has not be loaded yet.
+</p><h3>
+<a name="RTFToC181">7.22.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC182">7.22.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC183">7.23.
+'H' Command
+</a></h2>
+This is not actually a command, but rather a shorthand argument. It is
+identical to typing 0,Z as the two numeric arguments to a command. It is useful
+for commands which take a range of buffer positions when you want to specify
+the entire buffer. For example, the normal way to delete the entire contents of
+a buffer would be:<p>
+<tt>HK</tt></p><p>
+<tt></tt>since this tells the K (<i>kill</i>) command to delete all the
+characters from the first buffer position to the last. Another common use would
+be to load the entire edit buffer into a Q-register. For example, the
+command:</p><p>
+<tt>HXA</tt></p><p>
+<tt></tt>would load the entire contents of the buffer into Q-register A.
+</p><h2>
+<a name="RTFToC184">7.24.
+'I' Command
+</a></h2>
+The I command is used to insert characters into the current edit buffer. There
+are two different forms of the insert command:
+<h3>
+<a name="RTFToC185">7.24.1.
+With No Arguments
+</a></h3>
+This is the normal insert command which is almost always used. The command
+takes a trailing string argument which is the text to be inserted:<p>
+<tt>Inew-text-to-be-inserted$</tt></p><p>
+<tt></tt>The insert command can be modified using the atsign modifier so that
+the trailing string argument is delineated by characters specified by the user,
+rather than being terminated by an escape. This can be handy when text with
+escapes is going to be inserted. The following example is a different way of
+accomplishing the previous example:</p><p>
+<tt>@I/new-text-to-be-inserted/</tt></p><p>
+<tt></tt>Note that there is no trailing escape required to complete the
+command, the command terminates when the matching delimiter is seen.</p><p>
+Another way to insert escapes is to use the quote character (^V) before each
+escape which is to be inserted.
+</p><h3>
+<a name="RTFToC186">7.24.2.
+With One Argument
+</a></h3>
+This form of the command is used to insert the character whose ASCII code is
+specified in the numeric argument. No trailing string argument is accepted in
+this form of the command. The following example would insert the letters ABCD
+into the edit buffer:<p>
+<tt>65I66I67I68I</tt>
+</p><h3>
+<a name="RTFToC187">7.24.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC188">7.25.
+'J' Command
+</a></h2>
+The J command allows you to absolutely position (<i>jump</i>) the current edit
+position anywhere within the edit buffer. An error occurs if the specified
+position does not exist.
+<h3>
+<a name="RTFToC189">7.25.1.
+With No Arguments
+</a></h3>
+In this case, the command defaults to 0J, which positions to the top of the
+edit buffer.
+<h3>
+<a name="RTFToC190">7.25.2.
+With One Argument
+</a></h3>
+This form of the command lets you specify a buffer position to jump to. It
+would be extremely unlikely that during normal editing you would actually type
+an absolute buffer position to the J command, since buffer positions would be
+very difficult to keep track of. However, by storing buffer positions in
+Q-registers, it is then easy to refer to the buffer positions using the
+Q-register. For example, if Q-register A had previously been loaded the
+location of an interesting piece of text, you could return to it by issuing the
+command:<p>
+<tt>QAJ</tt></p><p>
+<tt></tt>Another very command use of this command is to get to the end of the
+edit buffer. Since the Z argument always contains the number of characters in
+the edit buffer, the command:</p><p>
+<tt>ZJ</tt></p><p>
+<tt></tt>is the normal way of positioning at the end of the buffer.
+</p><h3>
+<a name="RTFToC191">7.25.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC192">7.26.
+'K' Command
+</a></h2>
+The K command deletes lines of text relative to the current edit position.
+<h3>
+<a name="RTFToC193">7.26.1.
+With No Arguments
+</a></h3>
+With no arguments, the K commands defaults to 1K, deleting text from the
+current edit position through the following carriage return character.
+<h3>
+<a name="RTFToC194">7.26.2.
+With One Argument
+</a></h3>
+This form of the command allows you to specify <i>how many</i> lines of text to
+delete. The command deletes text from the current edit position through the
+<i>n</i>th carriage return character as specified in the single numeric
+argument.<p>
+If the argument is negative, the command deletes text back through the
+<i>preceding</i> <i>n</i>th carriage return.</p><p>
+If the argument is zero, text from the current edit position back to the
+beginning of the line is deleted.
+</p><h3>
+<a name="RTFToC195">7.26.3.
+With Two Arguments
+</a></h3>
+In this form, the two arguments specify beginning and ending buffer positions.
+The entire range of buffer positions is deleted.
+<h2>
+<a name="RTFToC196">7.27.
+'L' Command
+</a></h2>
+The L command allows you to move the current edit position by lines, relative
+to its current position. In all cases, the L command leaves the current edit
+position at the beginning of a line.
+<h3>
+<a name="RTFToC197">7.27.1.
+With No Arguments
+</a></h3>
+With no arguments, the L command defaults to 1L, moving the current edit
+position forward to the next beginning of a line.
+<h3>
+<a name="RTFToC198">7.27.2.
+With One Argument
+</a></h3>
+The single argument specifies how many lines to move the current edit position
+by. It is moved forward over <i>n</i> carriage return characters, where n is
+the single numeric argument to the command.<p>
+If the argument is zero, the current edit position is moved to the beginning of
+the current line.</p><p>
+If the argument is negative, the current edit position is moved backward over
+the specified number of carriage returns.
+</p><h3>
+<a name="RTFToC199">7.27.3.
+With Two Arguments
+</a></h3>
+Illegal
+<h2>
+<a name="RTFToC200">7.28.
+'M' Command
+</a></h2>
+The M command allows you to execute TECO macros. You may pass a numeric
+argument to a macro, if the first command in the macro expects an argument, it
+will get the argument passed to the macro.<p>
+There is currently no way for a macro to determine <i>how many</i> arguments
+have been passed, so it is impossible to write macros which have optional
+arguments.
+</p><h3>
+<a name="RTFToC201">7.28.1.
+With No Arguments
+</a></h3>
+The M command takes a single trailing character argument which specifies which
+Q-register is to be executed as a macro. The text within the Q-register is
+interpreted as TECO commands. The following command would execute the contents
+of Q-register A as a macro:<p>
+<tt>MA</tt></p><p>
+<tt></tt>Video TECO executes macros in immediate mode, even if the command
+contained in the Q-register would normally not execute immediately during
+interactive execution. For example, although iterations normally require a
+double escape, making it impossible to undo by rubbing out, a macro executes
+immediately even if it contains iterations. The resulting changes can be undone
+by rubbing out the macro command.
+</p><h3>
+<a name="RTFToC202">7.28.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC203">7.28.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC204">7.29.
+'N' Command
+</a></h2>
+The N command is a modified version of the search command. Although there was
+an N command in classic TECO editors, Video TECO's N command is a little
+different.<p>
+In classic TECO editors, the N command would automatically page in and out
+portions of the file being edited. Thus, if the entire file did not fit into
+the edit buffer, N would still search the entire file.</p><p>
+Since Video TECO always reads the entire file into the edit buffer, there is no
+need for an N search such as classic TECO editors had. However, since Video
+TECO supports multiple edit buffers, the N command was defined to search across
+buffer (file) boundaries. The N command only searches through the normal edit
+buffers, not through the Q-register edit buffers.</p><p>
+Although the numeric arguments to the N command are different from those of the
+normal search command, the trailing string arguments work exactly the same way
+as the normal search command. If a null trailing string argument is supplied,
+the N command will use the same default search string as the other search
+commands.
+</p><h3>
+<a name="RTFToC205">7.29.1.
+With No Numeric Arguments
+</a></h3>
+With no numeric arguments, the N command searches for the first occurrence of
+the search string, starting at the current position in the current edit buffer,
+and searches to the end of the edit buffer. If it hasn't found the string by
+the end of the buffer, it automatically switches to the next edit buffer. It
+then searches the entire new buffer. It keeps on switching to the next buffer
+and searching until it reaches the highest numbered edit buffer. It then
+switches to the lowest positive numbered edit buffer, and continues searching
+through the edit buffers until it returns to the original edit buffer where the
+command started. When it reaches the original edit buffer again, it searches
+from the top of that edit buffer down until it gets to the original buffer
+position that the command started at. If after all that, it still hasn't found
+the string, a normal search failure message is displayed.<p>
+A string will <i>not</i> be found if it crosses an edit buffer boundary. The
+string must reside entirely within one of the edit buffers.
+</p><h3>
+<a name="RTFToC206">7.29.2.
+With One Numeric Argument
+</a></h3>
+With a single numeric argument, the N command attempts to find the <i>Nth</i>
+occurrence of the string within the set of all edit buffers. If it does not
+find all <i>N</i> occurrences, it fails and the current position is not changed.
+<h3>
+<a name="RTFToC207">7.29.3.
+With Two Numeric Arguments
+</a></h3>
+With two numeric arguments the N command starts searching from the edit buffer
+specified by the first argument, up to and including the edit buffer specified
+by second argument.<p>
+Thus if the user types the command:</p><p>
+<tt>5,9Nstring$</tt></p><p>
+<tt></tt>the editor will search edit buffers 5, 6, 7, 8, and 9 looking for the
+string. If there were 12 edit buffers, and the user typed the command:</p><p>
+<tt>9,5Nstring$</tt></p><p>
+<tt></tt>the editor would search edit buffers 9, 10, 11, 12, 1, 2, 3, 4, 5, in
+that order. Note that with two arguments, the editor always stops at the first
+occurrence of the search string.</p><p>
+Normally, the editor starts searching from the top of the edit buffer specified
+in the first argument. However, if the first argument specifies the number of
+the edit buffer which happens to be the current edit buffer, the search will
+start from the current position, instead of from the top. This is intended to
+make it easier for a macro to operate on all occurrences within a set of
+buffers (otherwise it would keep finding the first occurrence in the buffer).</p><p>
+To write an iteration which finds all occurrences of a string in all the
+buffers, and appends 'string' to it, the following would work assuming there
+are 15 buffers in all:</p><p>
+<tt>1EBJ	&lt;Q*,15Nsearch-string$;Istring$&gt;</tt></p><p>
+<tt></tt>because Q* always evaluates to the current edit buffer, so it always
+continues searching from the present position towards the end of the final edit
+buffer.
+</p><h2>
+<a name="RTFToC208">7.30.
+'O' Command
+</a></h2>
+The O command allows you to execute GOTO commands within a sequence of TECO
+commands. Video TECO currently only supports one form of the command:
+<h3>
+<a name="RTFToC209">7.30.1.
+With No Arguments
+</a></h3>
+In this form, the O command takes a trailing string argument which is the name
+of the label to go to. For examples a simple loop can be constructed as
+follows:<p>
+<tt>!tag!Otag$</tt></p><p>
+<tt></tt>where <i>!tag!</i> is a TECO label. Note that TECO labels must be
+delineated by exclamation marks. An error occurs if the GOTO command is
+executed, but the label as specified does not exist.</p><p>
+In the case of a macro execution, the destination label must be within the same
+Q-register that the macro is being executed out of.
+</p><h3>
+<a name="RTFToC210">7.30.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC211">7.30.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC212">7.31.
+'P' Command
+</a></h2>
+The P command changes from the current display window to the next one. Thus
+typing repeated P commands steps through all the windows displayed on the
+screen.
+<h3>
+<a name="RTFToC213">7.31.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command.
+<h3>
+<a name="RTFToC214">7.31.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC215">7.31.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC216">7.32.
+'Q' Command
+</a></h2>
+The Q command retrieves the numeric contents of a Q-register. The value can
+then be applied as an argument to a TECO command.
+<h3>
+<a name="RTFToC217">7.32.1.
+With No Arguments
+</a></h3>
+The Q command takes a single trailing character argument, where that character
+specifies which Q-register is to be accessed. An error occurs if an illegal
+Q-register is specified, or if the Q-register specified does not currently
+exist.
+<h3>
+<a name="RTFToC218">7.32.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC219">7.32.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC220">7.32.4.
+Special Case
+</a></h3>
+If the Q-register specified is the asterisk character ('*'), the command
+returns the number of the current edit buffer. This is a Video TECO enhancement
+and is not compatible with other TECO editors.
+<h2>
+<a name="RTFToC221">7.33.
+'R' Command
+</a></h2>
+The R command works exactly like the C command, except in <i>reverse</i>. It
+allows the user to move the current edit position by character positions
+relative to its current location.
+<h3>
+<a name="RTFToC222">7.33.1.
+With No Arguments
+</a></h3>
+With no arguments, the R command defaults to 1R, moving <i>dot</i> backward by
+one character position.
+<h3>
+<a name="RTFToC223">7.33.2.
+With One Argument
+</a></h3>
+The argument to this command tells it how many buffer positions to move the
+current edit position by. If the argument is positive, the current edit
+position is moved forward. If the argument is negative, the current edit
+position is moved backward.
+<h3>
+<a name="RTFToC224">7.33.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC225">7.34.
+'S' Command
+</a></h2>
+This command is used to position the current edit position (<i>dot</i>) by
+searching for strings.
+<h3>
+<a name="RTFToC226">7.34.1.
+With No Arguments
+</a></h3>
+The S command takes a single trailing string argument which specifies the
+string to be searched for. The string is normally terminated by an escape,
+although using the ATSIGN ('@') modifier allows you instead to enclose the
+search string with delimiters of your choice.<p>
+Certain character sequences within the search string are reserved as wildcard
+specifiers so that complex string expressions may be found easily.</p><p>
+With no numeric arguments, the S command searches forward for the next
+occurrence of the string, and leaves dot immediately following the string which
+was found. Format of the command is:</p><p>
+<tt>Sstring1$</tt>
+</p><h3>
+<a name="RTFToC227">7.34.2.
+With One Argument
+</a></h3>
+Specifying a single numeric argument to the S command sets <i>how many</i>
+occurrences of the search string should be searched for. If the argument is
+negative, it indicates that the search should proceed in a reverse direction.<p>
+<tt>2Sstring1$</tt></p><p>
+<tt></tt>would search for the second occurrence of <i>string1</i> following the
+current edit position.
+</p><h3>
+<a name="RTFToC228">7.34.3.
+With Two Arguments
+</a></h3>
+With two numeric arguments, the search for the string is constrained between
+the two buffer locations specified by the two arguments.<p>
+If the first argument is smaller than the second, it indicates that the search
+should proceed forward from the buffer position as specified by the first
+argument to the buffer position as specified by the second argument.</p><p>
+If the first argument is larger than the second, it indicates that the search
+should proceed backward from the buffer position as specified by the second
+argument to the buffer position as specified by the first argument.
+</p><h2>
+<a name="RTFToC229">7.35.
+'T' Command
+</a></h2>
+Currently, Video TECO uses this command to cause a screen repaint after the
+screen has become corrupted, perhaps by an operator broadcast. It is expected
+to change in the near future. Screen repaints can be done by using the
+CONTROL-L (^L) command.
+<h3>
+<a name="RTFToC230">7.35.1.
+With No Arguments
+</a></h3>
+This is the only form of the command. The screen is cleared, and then refreshed.
+<h3>
+<a name="RTFToC231">7.35.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC232">7.35.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC233">7.36.
+'U' Command
+</a></h2>
+The U command allows you to load a single integer into the numeric storage of a
+Q-register. The text portion of the Q-register remains unaffected.
+<h3>
+<a name="RTFToC234">7.36.1.
+With No Arguments
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC235">7.36.2.
+With One Argument
+</a></h3>
+The U command takes a single character trailing argument which specifies which
+Q-register is to be loaded. The single numeric argument is loaded into the
+Q-register.
+<h3>
+<a name="RTFToC236">7.36.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC237">7.37.
+'V' Command
+</a></h2>
+The V command is experimentally set to be a delete-word-forward command. It
+affects the current edit position the same way the W command does, but instead
+of simply moving over the data it deletes it.
+<h3>
+<a name="RTFToC238">7.37.1.
+With No Arguments
+</a></h3>
+With no argument, the V command deletes a single word.
+<h3>
+<a name="RTFToC239">7.37.2.
+With One Argument
+</a></h3>
+With one argument, the V command deletes the specified number of words.
+<h3>
+<a name="RTFToC240">7.37.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC241">7.38.
+'W' Command
+</a></h2>
+The W command allows you to move the edit position by words relative to its
+current location. Words in this case are defined as collections of characters
+surrounded by whitespace or vertical motion characters.
+<h3>
+<a name="RTFToC242">7.38.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, the W command defaults to 1W, moving <i>dot</i>
+forward by one word.
+<h3>
+<a name="RTFToC243">7.38.2.
+With One Argument
+</a></h3>
+In this form, the single numeric argument specifies how many word positions to
+move by. If the argument is positive, movement is forward, otherwise if the
+argument is negative, movement is backward.
+<h3>
+<a name="RTFToC244">7.38.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC245">7.39.
+'X' Command
+</a></h2>
+The X command allows you to load text into a Q-register. The command takes a
+single trailing character argument which specifies which Q-register is to be
+loaded. The contents of the edit buffer are unaffected. Normally the previous
+contents of the Q-register are deleted before the new text is inserted.
+However, if the command is used with the colon modifier, the new text is
+appended to the previous contents of the Q-register.
+<h3>
+<a name="RTFToC246">7.39.1.
+With No Arguments
+</a></h3>
+In this case, the command defaults to 1X<i>q </i>where <i>q</i> is the name of
+the Q-register to be loaded, and the 1 indicates that one line of text will be
+loaded. A more accurate way of stating that is that all the text from the
+current edit position up through one carriage return character will be loaded
+into the specified Q-register.
+<h3>
+<a name="RTFToC247">7.39.2.
+With One Argument
+</a></h3>
+In this case, the single argument specifies how many lines of text to load into
+the Q-register. If the number is negative, it indicates that the text
+<i>preceding</i> the current edit position should be loaded into the specified
+Q-register.
+<h3>
+<a name="RTFToC248">7.39.3.
+With Two Arguments
+</a></h3>
+In this form, the two arguments specify a <i>range</i> of buffer positions to
+be loaded into the destination Q-register. Some examples of this would be
+HX<i>q</i> which loads the entire current edit buffer into Q-register <i>q</i>,
+or .,.+100X<i>q</i> which loads the 100 characters following <i>dot</i> into
+the specified Q-register.
+<h2>
+<a name="RTFToC249">7.40.
+'Y' Command
+</a></h2>
+The Y command is experimentally set to be a delete-word-backward command. It
+affects the current edit position the same way the -W command does, but instead
+of simply moving over the data it deletes it.
+<h3>
+<a name="RTFToC250">7.40.1.
+With No Arguments
+</a></h3>
+With no arguments, the Y command deletes the single word preceding the current
+edit position.
+<h3>
+<a name="RTFToC251">7.40.2.
+With One Argument
+</a></h3>
+With a single numeric argument, the Y command deletes the specified number of
+words preceding the current edit position.
+<h3>
+<a name="RTFToC252">7.40.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC253">7.41.
+'Z' Command
+</a></h2>
+This is not actually a command, but rather a shorthand argument.  The Z command
+always returns a value equal to the number of characters in the edit buffer.
+This also happens to correspond to the buffer position of the end of the
+buffer. Thus the command:<p>
+<tt>ZJ</tt></p><p>
+<tt></tt>is always a good way to position at the end of the edit buffer.
+</p><h2>
+<a name="RTFToC254">7.42.
+'!' Command
+</a></h2>
+The exclamation character is used to enclose labels which can be the target of
+the goto command. It can also be used to place comments inside of macros.
+Examples:<p>
+<tt>!label!istuff$Olabel$</tt></p><p>
+<tt></tt>loops inserting the string 'stuff' into the buffer. Since it is an
+infinite loop, this will soon do bad things. An example of using the command to
+insert comments:</p><p>
+<tt>!Labels can be used as comments as well!</tt>
+</p><h2>
+<a name="RTFToC255">7.43.
+'%' Operator
+</a></h2>
+The % operator adds a value to a Q-register numeric register, and returns the
+new numeric value as the value of the expression.
+<h3>
+<a name="RTFToC256">7.43.1.
+With No Arguments
+</a></h3>
+With no arguments, the % operator increments the specified Q-register by one,
+and then returns the new contents. Thus if Q-register A has the value 5, the
+expression:<p>
+<tt>%AUB</tt></p><p>
+<tt></tt>changes the contents of Q-register A to be 6, and returns the value 6.
+This is then passed to the U command, which stores the value 6 into the numeric
+register of Q-register B.
+</p><h3>
+<a name="RTFToC257">7.43.2.
+With One Argument
+</a></h3>
+In this case, the single argument tells the % operator <i>how</i> <i>much</i>
+to add to the specified Q-register. Thus:<p>
+<tt>10%A+17UB</tt></p><p>
+<tt></tt>adds 10 to Q-register A, and returns the new value (15 using the
+example above) to the rest of the expression. So 17 is then added to the 15,
+and this is placed in Q-register B by the U command.
+</p><h3>
+<a name="RTFToC258">7.43.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC259">7.44.
+Double Quote " Command
+</a></h2>
+The double quote character starts a conditional expression. The double quote
+character is immediately followed by a character which specifies the
+conditional test to be performed. The character must be one of the following:<p>
+	Operator	Meaning	"C" equivalent</p><p>
+	G	Greater Than Zero	&gt; 0</p><p>
+	L	Less Than Zero	&lt; 0</p><p>
+	T	True	&lt; 0</p><p>
+	S	Successful	&lt; 0</p><p>
+	E	Equal To Zero	== 0</p><p>
+	F	TBS	== 0</p><p>
+	U	TBS	== 0</p><p>
+	N	Not Equal To Zero	!= 0</p><p>
+	C	Symbol Constituent	TBS</p><p>
+	D	Digit	isdigit(x)</p><p>
+	A	Alphanumeric	isalpha(x)</p><p>
+	V	Lower Case	islower(x)</p><p>
+	W	Upper Case	isupper(x)
+</p><h2>
+<a name="RTFToC260">7.45.
+Vertical Bar | Command
+</a></h2>
+The vertical bar character begins the <i>else</i> clause of the current
+conditional command. The commands which follow will only be executed if the
+conditional test failed.
+<h3>
+<a name="RTFToC261">7.45.1.
+With No Arguments
+</a></h3>
+This is the only legal form of the command.
+<h3>
+<a name="RTFToC262">7.45.2.
+With One Argument
+</a></h3>
+Illegal
+<h3>
+<a name="RTFToC263">7.45.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC264">7.46.
+Single Quote ' Command
+</a></h2>
+The single quote character terminates a conditional expression. It is required
+that every conditional expression be terminated.
+<h3>
+<a name="RTFToC265">7.46.1.
+With No Arguments
+</a></h3>
+This character takes no arguments.
+<h3>
+<a name="RTFToC266">7.46.2.
+With One Argument
+</a></h3>
+Illegal
+<h3>
+<a name="RTFToC267">7.46.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC268">7.47.
+'()' Parenthesis Operators
+</a></h2>
+The open and close parenthesis characters are used to change the default
+precedence of an arithmetic expression.
+<h3>
+<a name="RTFToC269">7.47.1.
+With No Arguments
+</a></h3>
+This is the only legal form, the () operators do not take arguments. Since
+Video TECO supports operator precedence, the following expression:<p>
+<tt>3+4*5</tt></p><p>
+<tt></tt>would evaluate as 23, since it is calculated as 3+ (4*5). The user can
+change these default precedence rules by explicit use of the parenthesis. Thus,
+the previous example could be changed to:</p><p>
+<tt>(3+4)*5</tt></p><p>
+<tt></tt>which would result in a value of 35.</p><p>
+Parenthesis can be nested up to a maximum depth of 255.
+</p><h3>
+<a name="RTFToC270">7.47.2.
+With One Argument
+</a></h3>
+Illegal.
+<h3>
+<a name="RTFToC271">7.47.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC272">7.48.
+'&lt;&gt;' Iteration Operators
+</a></h2>
+TECO iterations are enclosed in angle brackets. The TECO commands enclosed
+within the brackets are repeatedly executed.
+<h3>
+<a name="RTFToC273">7.48.1.
+With No Arguments
+</a></h3>
+This form of iteration continues to loop until something inside the iteration
+causes it to halt (see the semi-colon command). The command:<p>
+<tt>&lt;FSstring1$string2$;&gt;</tt></p><p>
+<tt></tt>loops changing all occurrences of <i>string1</i> to <i>string2</i>.
+The command would loop forever, given an unlimited supply of <i>string1</i>'s.
+</p><h3>
+<a name="RTFToC274">7.48.2.
+With One Argument
+</a></h3>
+In this case, the argument tells how many times the iteration should loop.
+Thus:<p>
+<tt>5&lt;FSstring1$string2$;&gt;</tt></p><p>
+<tt></tt>will replace the first 5 occurrences of <i>string1</i> it can find.
+</p><h3>
+<a name="RTFToC275">7.48.3.
+With Two Arguments
+</a></h3>
+Illegal.
+<h2>
+<a name="RTFToC276">7.49.
+'[ and ]' Commands
+</a></h2>
+The push ('[') and pop (']') commands push and pop Q-registers onto the
+Q-register pushdown list. When a Q-register is pushed, both the text and
+numeric portions are saved. When the contents of the Q-register pushdown list
+are popped, the previous contents of both the numeric and text parts of the
+target Q-register are lost.
+<h3>
+<a name="RTFToC277">7.49.1.
+With No Arguments
+</a></h3>
+The push command looks like this:<p>
+<tt>[A</tt></p><p>
+<tt></tt>pushes the current contents of Q-register A onto the pushdown list.
+Q-register A is left intact: only a copy is placed on the pushdown list.</p><p>
+After the previous push Q-register command, if the user issued the following
+pop command:</p><p>
+<tt>]B</tt></p><p>
+<tt></tt>the previous contents of Q-register B are lost, and are replaced with
+the contents from the pushdown list (in this case, the pushed contents of
+Q-register A).</p><p>
+These commands are very useful when you wish to use a Q-register for temporary
+storage, but do not want to lose the current contents. This often happens in
+macros which need Q-registers for temporary variable, but do not want to alter
+the contents outside the scope of the macro.
+</p><h3>
+<a name="RTFToC278">7.49.2.
+With Arguments
+</a></h3>
+The push and pop commands pass any arguments through to the following command.
+This is so that at the beginning of a macro, the macro can push the Q-registers
+it is going to modify, but still be able to get access to the argument passed
+to the macro. The following macro:<p>
+<tt>[A[B[CUA.UBZUC (commands) ]C]B]A</tt></p><p>
+<tt></tt>saves Q-registers A, B, and C. It then loads Q-register A with the
+argument to the macro, Q-register B with the current buffer location (dot), and
+Q-register C with the number of bytes in the edit buffer. Assuming
+<i>(commands)</i> implements some useful function, when it completes the
+contents of Q-registers C, B, and A are restored to the contents they had
+before the macro was executed.
+</p><h3>
+<a name="RTFToC279">7.49.3.
+0EB display
+</a></h3>
+The 0EB buffer map display tells you how many Q-registers are currently on the
+pushdown list. Following the list of buffers, if there are any Q-registers on
+the pushdown list you will see a message to the effect:<p>
+<tt>Q register push down list contains 3 registers, 195 bytes</tt>
+</p><h2>
+<a name="RTFToC280">7.50.
+'{ and }' Commands
+</a></h2>
+The push-command-line ({) and pop-command-line (}) commands are experimental
+commands which allow you to use Teco commands to edit the current command
+string. For example, suppose you are typing an involved command, and as you
+reach the end you realize that you should have first saved the original edit
+position in a numeric Q-register so that you could hop back there after the
+command is complete. Normally you would have to rub the entire command out, and
+then re-type it. By using the push-command-line and pop-command-line commands
+you can place the entire command line in a special edit buffer, do a JI.UX$ to
+insert a command at the beginning to save the current edit position in
+Q-register X, and then you can re-execute the command in its new form.<p>
+These commands are still in their experimental form, and can still cause Video
+TECO to exit with an exception.
+</p><h3>
+<a name="RTFToC281">7.50.1.
+With No Arguments
+</a><br>
+<a name="RTFToC282">7.50.2.
+With Arguments
+</a></h3>
+<h2>
+<a name="RTFToC283">7.51.
+'\' Command
+</a></h2>
+The backslash command allows radix representations of numbers to be inserted
+into or read out of the edit buffer.
+<h3>
+<a name="RTFToC284">7.51.1.
+With No Arguments
+</a></h3>
+With no numeric arguments, backslash converts the numeric characters following
+the current edit position into a numeric representation, typically decimal. For
+instance, if the current edit position is in front of the four characters
+"1234" and the backslash command is issued, the current edit position is moved
+forward over the four characters, and the numeric result of the backslash
+command would be decimal 1234. The command "\U1" would move the edit position
+over those four characters, and load decimal 1234 into Q-register 1.<p>
+You can cause backslash to use octal or hexidecimal by issuing ^o\ or ^x\
+respectively.
+</p><h3>
+<a name="RTFToC285">7.51.2.
+With Arguments
+</a></h3>
+If backslash is issued with a single numeric argument, a decimal (base 10)
+representation is inserted into the current edit buffer at the current edit
+position. The edit position is left pointing after the inserted characters.<p>
+If two arguments are supplied, the first is the number to be inserted, and the
+second is the arbitrary radix to insert the number as.  For instance, 5,2\
+would insert 101 because 101 is the binary (Base 2) representation of decimal
+5. Radix should be 2-36 inclusive.
+</p><h2>
+<a name="RTFToC286">7.52.
+Space and Newline Commands
+</a></h2>
+The space and newline characters are noops to allow macros to be prettied up a
+bit. Remember not to use <i>tab</i> because that acts as an <i>insert</i>
+command in TECO.<p>
+Appendix A
+</p><h1>
+<a name="RTFToC287">8.
+Differences between Video TECO and classic TECO
+</a></h1>
+This section assumes that you are familiar with a classic TECO editor from
+Digital Equipment Corporation. It attempts to quickly tell you what you need to
+know to begin editing with Video TECO. It is not intended to be exhaustive, but
+to tell you just enough to get going. The reference section describes each
+command in detail.<p>
+This section also does not go into great detail describing features which are
+better than classic TECO but do not affect the way the user issues commands.
+For instance, Video TECO parses everything first, so syntax errors are
+immediately reported, rather than when that command gets executed. Since this
+does not seem necessary for the user to understand this different behavior,
+items like this won't be discussed in this section. Only differences which must
+be understood to properly use the editor will be covered.
+</p><h2>
+<a name="RTFToC288">8.1.
+Single character ends lines
+</a></h2>
+This is probably the most controversial issue in the authors' minds. The editor
+was originally written under Unix, where it is typical to have a single
+character, LINEFEED, terminate lines. Video Teco uses this convention even
+though classic Teco editors ended lines with a two character sequence,
+CARRIAGE-RETURN LINEFEED. Because compatibility is important, we have thought
+about changing the behavior. Unfortunately, the single terminating character is
+easier to deal with in normal editing, because the common command to get to the
+end of the line is a character shorter in Video TECO (LR instead of L2R).
+<h2>
+<a name="RTFToC289">8.2.
+Multiple Edit Buffers
+</a></h2>
+Video TECO allows you to have multiple edit buffers simultaneously. Multiple
+files can thus be edited, either by specifying all the filenames on the initial
+command line, using the EB command to load more files, or both.
+<h2>
+<a name="RTFToC290">8.3.
+Q-registers Can Be Edit Buffers
+</a></h2>
+Video TECO treats edit buffers and Q-registers identically. This allows a user
+to switch into a Q-register and use normal TECO commands to edit the contents.
+The TECO syntax does not allow normal edit buffers to be the target of a
+Q-register command (such as X and G), but the internal representation is
+identical.
+<h2>
+<a name="RTFToC291">8.4.
+Edit Buffer Contents
+</a></h2>
+There are two major differences to a Video TECO edit buffer compared to that in
+a classic TECO.<p>
+The first is that the entire file is always read into the edit buffer. The
+upper bound on the number of bytes which Video TECO can handle is driven by the
+wordsize of the machine. Thus, on a typical 32 bit machine Video TECO allows up
+to 2 Gigabytes per edit buffer. Each line is limited by the size of an int on
+the machine, so the typical 32 bit machine has a limit of 2 Gigabytes bytes per
+line.</p><p>
+There is no limit on the number of edit buffers Video TECO can support at any
+given time.</p><p>
+The second major difference to buffer contents in Video TECO is that lines are
+terminated with a single line feed, Unix style. All classic TECO editors
+terminate each line with two characters; the CRLF sequence. The author has
+considered changing Video TECO to be compatible with the rest of the TECOs many
+times, but so far has wimped out on each occasion.
+</p><h2>
+<a name="RTFToC292">8.5.
+Arithmetic Expression Parsing
+</a></h2>
+The classic TECO editors did simple left to right evaluation of arithmetic
+expressions, with no regard to operator precedence. The parser was the first
+module of Video TECO written, and at the time the author wanted to outdo
+classic TECOs in every way, so the parser was written to correctly perform
+operator precedence. In retrospect, this was probably not wise, since
+compatibility is quite important. With enough feedback, the author could be
+convinced that the behavior should revert to that of classic TECO.
+<h2>
+<a name="RTFToC293">8.6.
+Missing Commands
+</a></h2>
+Several commands are missing from Video TECO, either because they don't make
+sense given some of the differences, or the author just hasn't gotten around to
+them yet.
+<h3>
+<a name="RTFToC294">8.6.1.
+B Command
+</a></h3>
+In a classic TECO editor, the B command returns the beginning of the buffer. In
+all DEC TECOs that the author is aware of, the B command always returns 0. In
+MIT TECO, when using buffer narrowing, the B command might return something
+else. Since Video TECO doesn't support buffer narrowing, the B command is
+currently unused, although it may be used for an enhanced command in the near
+future.
+<h3>
+<a name="RTFToC295">8.6.2.
+V Command
+</a></h3>
+In some of the classic TECO editors, the V command was equivalent to 0TT, i.e.
+it printed out the current line. This is not particularly useful in a video
+editor, and this command will be used for a enhanced command in the near future.
+<h3>
+<a name="RTFToC296">8.6.3.
+Y Command
+</a></h3>
+The Y command was used in classic TECO editors as the <i>yank</i> command. It
+was used to read in the next buffer worth of data from the file being edited.
+Since Video TECO always reads the entire file into the edit buffer, this
+command is not required and will be used for an enhanced command in the near
+future.
+<h3>
+<a name="RTFToC297">8.6.4.
+Underscore Command
+</a></h3>
+The underscore command was a form of the search command which would perform
+yanks as required to bring in portions  of the file. Since Video TECO always
+reads the entire file into the edit buffer, this command is not required and
+will be used for an enhanced command in the near future.
+<h3>
+<a name="RTFToC298">8.6.5.
+# Command
+</a></h3>
+This arithmetic operator is used in classic TECO to perform bitwise operations.
+Video TECO does not currently support it, but plans to in the near future.
+<h3>
+<a name="RTFToC299">8.6.6.
+&amp; Command
+</a></h3>
+This arithmetic operator is used in classic TECO to perform bitwise operations.
+Video TECO does not currently support it, but plans to in the near future.
+<h3>
+<a name="RTFToC300">8.6.7.
+? Command
+</a></h3>
+The question mark command in classic TECO is a debugging aid which causes macro
+commands to be printed out as the command executes. Video TECO plans to support
+this feature in the future.
+<h3>
+<a name="RTFToC301">8.6.8.
+F&gt; and F&lt; Commands
+</a></h3>
+The flow commands are used in some classic TECO editors to jump to the
+beginning or end of the current iteration. Video TECO plans to implement these
+commands in the future.
+<h3>
+<a name="RTFToC302">8.6.9.
+^ Command
+</a></h3>
+The caret command causes the next character to be interpreted as a control
+code, i.e. typing caret X would be the same as typing the CONTROL-X code.
+<h2>
+<a name="RTFToC303">8.7.
+Commands which have slightly different behavior
+</a></h2>
+The following section lists the commands which are different in some way from
+the corresponding command in a classic TECO editor.
+<h3>
+<a name="RTFToC304">8.7.1.
+A Command
+</a></h3>
+In Video TECO, the behavior of the A command with no numeric arguments is
+different from the <i>append</i> feature found in classic TECO editors. In
+those editors, the A command would cause the next section of the file to be
+appended to the edit buffer. Since Video TECO always reads the entire buffer
+into memory, this feature is not required.
+<h3>
+<a name="RTFToC305">8.7.2.
+EB Command
+</a></h3>
+The EB command is enhanced in several ways in order to deal with the multiple
+buffer edit capability of Video TECO. <i>n</i>EB switches you to buffer number
+<i>n.</i> <i>EBfilespec$</i> switches you to existing file <i>filespec</i>, or
+creates a new edit buffer and loads that file. 0EB prints a list of all the
+buffers currently in the editor. Refer to the reference page for a complete
+description.
+<h3>
+<a name="RTFToC306">8.7.3.
+EC Command
+</a></h3>
+The EC command is a completely different enhancement which takes a following
+string argument, and executes this in a subprocess. The output from the command
+is inserted into the edit buffer at the current location. Refer to the
+reference page for a complete description.
+<h3>
+<a name="RTFToC307">8.7.4.
+EF Command
+</a></h3>
+The EF command is enhanced to a have a different meaning than that normally
+found in a classic TECO editor. In Video TECO, the EF command causes the
+current edit buffer to be deleted. The memory is reclaimed, and the user is
+left in a different edit buffer.
+<h3>
+<a name="RTFToC308">8.7.5.
+EI Command
+</a></h3>
+In Video TECO, the EI command can be used to turn off immediate execution of
+commands. It is intended as a debugging aid and might be removed at any time.
+<h3>
+<a name="RTFToC309">8.7.6.
+EP Command
+</a></h3>
+In Video TECO, the EP command is used to create and delete windows, thus
+allowing the available screen space to be divided among different edit buffers.
+<h3>
+<a name="RTFToC310">8.7.7.
+ES Command
+</a></h3>
+In Video TECO, the ES command is used to scroll the edit buffer up and down in
+order to position the buffer for optimal viewing by the user. There is a
+restriction that the current edit position must always be on the screen, thus
+the command has limited authority.
+<h3>
+<a name="RTFToC311">8.7.8.
+ET Command
+</a></h3>
+In Video TECO, the ET command is used to cause the screen to be refreshed when
+it might not normally be done. An example would be in an iteration, usually
+only the final state is seen, i.e. the screen isn't updated until the iteration
+is complete. This is often what is desired, since displaying each iteration
+slows down the speed of the editor. However, the user may want to see the state
+of the edit buffer during different portions of the iteration. He can do this
+by inserting ET commands within the iteration at the points he wishes the
+screen to be refreshed.
+<h3>
+<a name="RTFToC312">8.7.9.
+EV Command
+</a></h3>
+In Video TECO, the EV command is identical to the EB command in every way
+except that if a new edit buffer is created, it is created as readonly. The
+resulting buffer cannot be written out.
+<h3>
+<a name="RTFToC313">8.7.10.
+EX Command
+</a></h3>
+In Video TECO, the EX command may fail if there are modified buffers. Since
+classic TECO editors only have one buffer, this is not typically a problem.
+Video TECO acts this way to alert you that information may be lost. This
+behavior may be overridden by supplying a -1 argument to the EX command in
+which case Video TECO will unconditionally exit.
+<h3>
+<a name="RTFToC314">8.7.11.
+FK Command
+</a></h3>
+In some classic TECO editors, the FK command deletes from the current position,
+up to and <i>including</i> the string which was found. The author thought that
+this was not optimal behavior. A common use is to specify the string you want
+preserved, and have everything <i>before</i> it deleted. Since the search
+string is now set up, a simple FD$ command will clobber the string which was
+found. Thus it is felt that the Video TECO behavior is more flexible and useful.
+<h3>
+<a name="RTFToC315">8.7.12.
+FR Command
+</a></h3>
+This is a Video TECO enhancement. The FS command if supplied a null first
+string searches for the default search string. If the second string is null,
+the result is the same as an FD command, i.e. the searched string is replaced
+with the null string. There is no way in classic TECO to default the replace
+string, even though this is a highly desirable feature. Thus if a null replace
+string is specified to the Video TECO FR command, the searched for string is
+replaced with the last string specified in a FS or FR command.
+<h3>
+<a name="RTFToC316">8.7.13.
+FS Command
+</a></h3>
+When two numeric arguments are specified to the Video TECO FS command, it is
+used to constrain the search between the buffer positions specified by the
+first and second argument. Also, to be found, the <i>entire</i> string must
+reside within those two positions, not just the beginning of the string as in
+some TECO editors. If the argument is negative, or in the case of two numeric
+arguments if the first argument is less than the second, the command searches
+backward.
+<h3>
+<a name="RTFToC317">8.7.14.
+N Command
+</a></h3>
+In a classic TECO editor, the N command would automatically page the file
+through the edit buffer while searching for the string, thus insuring that the
+entire file was searched. Since the entire file is always resident in Video
+TECO, this behavior is not required. The command was enhanced to search across
+edit buffers. Refer to the reference section for a complete description.
+<h3>
+<a name="RTFToC318">8.7.15.
+P Command
+</a></h3>
+In a classic TECO editor, the P command caused the current contents of the edit
+buffer to be written out to the output file, and the next section of the file
+to be read into the edit buffer. Since the entire file is always resident in
+Video TECO, this behavior is not required. The command was enhanced to switch
+between screen windows.
+<h3>
+<a name="RTFToC319">8.7.16.
+S Command
+</a></h3>
+When two numeric arguments are specified to the Video TECO S command, it is
+used to constrain the search between the buffer positions specified by the
+first and second argument. Also, to be found, the <i>entire</i> string must
+reside within those two positions, not just the beginning of the string as in
+some TECO editors. If the argument is negative, or in the case of two numeric
+arguments if the first argument is less than the second, the command searches
+backward.
+<h3>
+<a name="RTFToC320">8.7.17.
+T Command
+</a></h3>
+In a classic TECO editor, the T command is used to type out contents of the
+edit buffer. Since a screen editor doesn't require this, Video TECO reserves
+this command for future use. Currently, the T command causes the screen to be
+redrawn incase of corruption. However, this has been replaced by the ^L command
+(which is used by most Unix programs for this purpose).
+<h3>
+<a name="RTFToC321">8.7.18.
+W Command
+</a></h3>
+In Video TECO, the W command is used to move among words. A positive argument
+tells the editor to move forward by that many words, while a negative argument
+tells it to move backwards by that many words.<p>
+Appendix B
+</p><h1>
+<a name="RTFToC322">9.
+Features which are not yet supported, but are planned
+</a></h1>
+*	A way to tell how many arguments are passed to a macro.<p>
+*	The EU command to undo stuff after a $$ has already been issued.</p><p>
+*	Command line edit which takes the current command line, opens a buffer to
+edit it, and when the buffer is closed, the command is executed. Just for those
+times when you have lots of good stuff, but realize that you messed up one of
+the early parts of the command.</p><p>
+<i>Done - see { and }</i></p><p>
+<i></i>*	Full implementation of TECO search strings, including combinations
+like ^N^ES would would match anything EXCEPT whitespace.</p><p>
+<i>Done </i></p><p>
+<i></i>*	Flow commands ala TECO-11 (F&gt; goes to end of iteration, F&lt; goes
+to beginning).</p><p>
+*	Long Q-register names, .ie. x(astring) references Q-register 'astring'.</p><p>
+*	Multiple simultaneous windows. (in, but problems exist)</p><p>
+<i>Done  - problems mostly fixed. Only remaining problem is that there is only
+a single "dot" for an edit buffer, thus moving dot in one window moves it in
+the other windows. This is usually not what you want.</i></p><p>
+<i></i>*	The ? command for debugging macros</p><p>
+*	Input ^T command so macros can request input.</p><p>
+*	Support for input radix so we can type in hex, octal, etc.</p><p>
+<i>Done  - octal ^o and hexadecimal ^h are supported</i></p><p>
+<i></i>*	Interactive Shell buffers.</p><p>
+*	Port to the mac. (done, but a better implementation needs to be done)</p><p>
+*	More extensive termcap for VMS</p><p>
+*	Add the rest of the operators like # and &amp;</p><p>
+*	Buffer marks (that move as insertion / deletion happens)</p><p>
+*	proper erase character operation for unix (not wired to delete as it is
+now).</p><p>
+*	Backward Line command (B)</p><p>
+<i>Done </i></p><p>
+<i></i>*	Delete Word command (Y and V)</p><p>
+<i>Done </i></p><p>
+<i></i>*	G* return the filespec of the buffer</p><p>
+<i>Done </i></p><p>
+<i></i>*	Support for ~ and other wildcards in filespecs</p><p>
+<i>Done </i></p><p>
+<i></i>*	Bitwise operators # and &amp;</p><p>
+*	Immediate execution iterations</p><p>
+<i>Done </i></p><p>
+<i></i>*	search/replace command which takes no arguments</p><p>
+<i>Done </i></p><p>
+<i></i>*	insert/delete character support in screen optimizer</p><p>
+*	filespec completion</p><p>
+Appendix C
+</p><h1>
+<a name="RTFToC323">10.
+Bug List
+</a></h1>
+*	^V in insert strings does not seem to be working. The escape terminates the
+insert, rather than being inserted itself.<p>
+<i>Fixed </i></p><p>
+<i></i>*	EF does not work as advertised. The only form that seems to work
+properly is EF$ to delete the current edit buffer. EFbuffername$ and 2EF both
+do the wrong thing. Also EF seems to leave some dangling info.</p><p>
+*	FR gets confused in several cases</p><p>
+*	Multiple windows messes up if several copies of the same file are displayed.
+But this is a very useful capability.</p><p>
+<i>Fixed </i></p><p>
+<i></i>Appendix D
+</p><h1>
+<a name="RTFToC324">11.
+Error messages
+</a><br>
+</h1>
+</body><style data-source="base" class="dblt-ykjmwcnxmi"><br>:root {<br>  --dark-background-light-text-add-on-foreground-color: #ffffff !important;<br>  --dark-background-light-text-add-on-background-color: #000000 !important;<br>  --dark-background-light-text-add-on-link-color: #7fd7ff !important;<br>  --dark-background-light-text-add-on-visited-color: #ffafff !important;<br>  --dark-background-light-text-add-on-active-color: #ff0000 !important;<br>  --dark-background-light-text-add-on-selection-color: #8080ff !important;<br>}<br><br>html {<br>  background-color: #000000;<br>  color: #ffffff;<br>}<br><br>*:link,<br>*:link * {<br>  color: #7fd7ff !important;<br>}<br><br>*:visited,<br>*:visited * {<br>  color: #ffafff !important;<br>}<br><br>input[type="range"] {<br>  -moz-appearance: none;<br>}<br><br>button,<br>input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),<br>textarea,<br>select,<br>[contenteditable="true"] {<br>  -moz-appearance: none !important;<br>  color: #ffffff !important;<br>  background-color: #000000;<br>  border-radius: 4px;<br>  border-width: 1px;<br>  border-color: #ffffff;<br>  border-style: solid;<br>  transition-duration: 0.3s;<br>  transition-property: border-color, box-shadow;<br>}<br><br>input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="color"]):not([type="image"]):not([type="reset"]):not([type="submit"]),<br>textarea,<br>[contenteditable="true"] {<br>  background-image: none !important;<br>}<br><br>input:focus:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="color"]):not([type="image"]):not([type="reset"]):not([type="submit"]),<br>textarea:focus,<br>[contenteditable="true"]:focus {<br>  box-shadow: inset 0 0 0.15em 0.15em #8080ff !important;<br>  border-color: #8080ff !important;<br>}<br><br>button,<br>input[type="button"],<br>input[type="color"],<br>input[type="image"],<br>input[type="reset"],<br>input[type="submit"],<br>select {<br>  box-shadow: 0 0 0.15em 0.15em transparent !important;<br>}<br><br>button:focus,<br>input[type="button"]:focus,<br>input[type="color"]:focus,<br>input[type="image"]:focus,<br>input[type="reset"]:focus,<br>input[type="submit"]:focus,<br>select:focus {<br>  box-shadow: 0 0 0.15em 0.15em #8080ff !important;<br>  border-color: #8080ff !important;<br>}<br><br>select {<br>  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><path stroke="%23ffffff" fill="transparent" stroke-width="40" d="M 100 175 L 250 350 L 400 175"/></svg>') !important;<br>  background-position: right center !important;<br>  background-repeat: no-repeat !important;<br>  padding-right: 1em !important;<br>  background-size: 1em !important;<br>}<br><br>*::-moz-selection {<br>  color: #ffffff !important;<br>  background: #8080ff !important;<br>  text-shadow:<br>    #000000 0 0 1pt,<br>    #000000 0 0 2pt,<br>    #000000 0 0 3pt,<br>    #000000 0 0 4pt,<br>    #000000 0 0 5pt,<br>    #000000 0 0 5pt,<br>    #000000 0 0 5pt !important;<br>}<br><br>img[alt="inline_formula"],<br>.mwe-math-fallback-image-inline,<br>.highcharts-container {<br>  filter: invert(1) hue-rotate(180deg) !important;<br>}<br>.catalog-content .i-checkbox__faux::before {<br>  filter: invert(1);<br>}<br>#gs_bdy .gsc_g_a[style*="height"] {<br>  background-color: rgb(119, 119, 119) !important;<br>}<br><br>.awradio label::after {<br>  background-color: #ffffff !important;<br>}<br>.jfk-button-img {<br>  filter: invert(1);<br>}<br><br>#kix-current-user-cursor-caret[style*="border-color: rgb(0, 0, 0)"] {<br>  border-color: #ffffff !important;<br>}<br></style><style data-source="stylesheet-processor" class="dblt-ykjmwcnxmi"><br>html {<br>  background-color: #000000 !important;<br>  color: #ffffff !important;<br>}<br><br>[bgcolor] {<br>  background-color: #000000 !important;<br>}<br>[text],<br>[color] {<br>  color: #ffffff !important;<br>}<br><br>[alink]:link:active {<br>  color: #ff0000 !important;<br>}<br>[vlink]:visited {<br>  color: #ffafff !important;<br>}<br>[link]:link {<br>  color: #7fd7ff !important;<br>}<br><br>.qrCode > canvas {<br>  border: 10px white solid;<br>}<br></style></html>
