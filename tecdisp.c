@@ -231,7 +231,7 @@ register short *sp;
 
     message_line.fmt_permanent = 1;
     message_line.fmt_saved_line = lp;
-    MAGIC_UPDATE(&magic_line, MAGIC_FORMAT_LOOKASIDE);
+    MAGIC_UPDATE(&message_line, MAGIC_FORMAT_LOOKASIDE);
     lp->companion = &message_line;
 
     lp += 1;

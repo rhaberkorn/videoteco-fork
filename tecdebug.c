@@ -105,7 +105,7 @@ register struct screen_line *sbp;
  * the correct magic number.
  */
 void
-__magic()
+tecdebug_check_buffer_magic()
 {
 register struct buff_header *bp;
 register char saw_curbuf;
@@ -165,7 +165,7 @@ register int count;
  * the correct magic number.
  */
 void
-__magic()
+tecdebug_check_line_magic()
 {
 register struct buff_header *bp;
 register struct buff_line *lbp;
@@ -226,7 +226,7 @@ register int count;
  * the correct magic number.
  */
 void
-__magic()
+tecdebug_check_format_magic()
 {
 register struct format_line *fp;
 register int count;
