@@ -2205,7 +2205,7 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
     multi_byte_echo = NULL;
     multi_byte_echo_reverse = 0;
 
-    while(byte_count > 0){
+    while(byte_count > 0 || multi_byte_echo){
 
 	if(current_column >= term_columns){
 	    sbp->fmt_next_line = allocate_format_buffer(wptr,lbp);
@@ -2235,7 +2235,7 @@ char expand_buffer[MAXOF(32,MAX_TAB_WIDTH+1)];
 	}/* End Else */
 
 	/* without possible SCREEN_M_REVERSE flags */
-	c_data = c & 0xFF;
+	c_data = c & SCREEN_M_DATA;
 
 	switch(c_data){
 	    case '\t':
