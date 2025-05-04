@@ -2,6 +2,8 @@
 
 This is a fork of Paul Cantrell's and Joyce Nishinaga's
 Video TECO, as first [published on Sourceforge](https://sourceforge.net/projects/videoteco/).
+It contains the history of the original CVS repository.
+
 Video TECO is a graphical interactive dialect of the
 Text Editor and Corrector (TECO) for UNIX and VMS.
 
@@ -9,7 +11,7 @@ This fork has the following extensions compared to the last
 version published by Paul Cantrell in 2007
 ([v6.4](https://github.com/rhaberkorn/videoteco-fork/releases/tag/v6.4)):
 
-* Ported to [real-mode MS-DOS](#MS-DOS%20port)!
+* Ported to [real-mode MS-DOS](README.md#MS-DOS%20port)!
 * Fixed file backups.
 * Avoid warnings and compatibility tweaks for newer C compilers (GCC/Clang) and current
   versions of Linux and FreeBSD.
@@ -22,12 +24,12 @@ version published by Paul Cantrell in 2007
   (but it was first implemented in this fork).
   There is also a dumb non-UNIX implementation that works with temporary
   files, that's currently only used for the MS-DOS port.
-* Control characters are echoed in reverse video just like in SciTECO.
+* Control characters are echoed in reverse video just like by default in SciTECO.
 * Fixed echoing control characters on the end of lines.
   Or was it broken only at the end of the document?
   Anyway, it's fixed now.
 * Code documentation using [Doxygen](https://doxygen.nl/)
-* Added the [original manual](doc/TECO Manual V4/TECO Manual V4.html) to the repository.
+* Added the [original manual](doc/TECO%20Manual%20V4/TECO%20Manual%20V4.html) to the repository.
 
 Video TECO is the main inspiration of [SciTECO](https://rhaberkorn.github.io/sciteco) and most
 development and innovation nowadays takes place there.
