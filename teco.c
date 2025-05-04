@@ -1519,7 +1519,8 @@ char *cp;
 	return;
     }/* End IF */
 #else
-   if (stat(path,&statbuf) < 0 || !S_ISDIR(statbuf.st_mode)) {
+   if (strcmp(path,".") != 0 &&
+       (stat(path,&statbuf) < 0 || !S_ISDIR(statbuf.st_mode))) {
         return;
     }
 #endif
