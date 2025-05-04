@@ -50,6 +50,10 @@ teco.exe : tecbuf.obj teccmd.obj tecdebug.obj tecdisp.obj tecexec.obj &
 .c.obj:
 	$(CC) $(CFLAGS) -fo=$@ $<
 
+release:  vteco.zip .SYMBOLIC
+vteco.zip : teco.exe
+	zip --DOS-names $@ $<
+	zip --DOS-names --to-crlf $@ README.md README.OLD COPYING
+
 clean: .SYMBOLIC
-	rm -f teco.exe
-	rm *.obj
+	rm -f teco.exe *.obj vteco.zip
