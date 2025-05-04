@@ -11,7 +11,7 @@ This fork has the following extensions compared to the last
 version published by Paul Cantrell in 2007
 ([v6.4](https://github.com/rhaberkorn/videoteco-fork/releases/tag/v6.4)):
 
-* Ported to [real-mode MS-DOS](README.md#MS-DOS%20port)!
+* Ported to [real-mode MS-DOS](#ms-dos-port)!
 * Fixed file backups.
 * Avoid warnings and compatibility tweaks for newer C compilers (GCC/Clang) and current
   versions of Linux and FreeBSD.
@@ -29,7 +29,8 @@ version published by Paul Cantrell in 2007
   Or was it broken only at the end of the document?
   Anyway, it's fixed now.
 * Code documentation using [Doxygen](https://doxygen.nl/)
-* Added the [original manual](doc/TECO%20Manual%20V4/TECO%20Manual%20V4.html) to the repository.
+* Added the [original manual](https://www.copters.com/teco.html) to the repository
+  (`doc/TECO Manual V4.html`).
 
 Video TECO is the main inspiration of [SciTECO](https://rhaberkorn.github.io/sciteco) and most
 development and innovation nowadays takes place there.
