@@ -60,12 +60,7 @@ char *tgetstr(char *, char **);
     int scr_outbuf_left;
     char insert_delete_line_capability;
 
-    void term_insert_line();
-    void term_delete_line();
-	void term_puts( char *termcap_string, int lines_affected );
-
-    int term_putc(int);
-    void term_flush();
+    void term_puts( char *termcap_string, int lines_affected );
 
 #ifdef TERMCAP
     char *tgetstr();
@@ -1004,9 +999,7 @@ setwhich:
  * line.
  */
 int
-term_scroll_region(top,bottom)
-int top;
-int bottom;
+term_scroll_region( int top, int bottom )
 {
     if(change_scroll_region == NULL) return(FAIL);
 
