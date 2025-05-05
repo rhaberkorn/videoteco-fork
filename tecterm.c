@@ -63,10 +63,6 @@ char *tgetstr(char *, char **);
     void term_puts( char *termcap_string, int lines_affected );
 
 #ifdef TERMCAP
-    char *tgetstr();
-#endif
-
-#ifdef TERMCAP
     int		termcap_co;
     int		termcap_li;
     int		termcap_sg;
