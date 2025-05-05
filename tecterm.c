@@ -173,6 +173,8 @@ term_init()
     terminfo_magic_cookie_glitch = magic_cookie_glitch > 0 ? 
 	magic_cookie_glitch : 0;
 
+    tputs(enter_ca_mode,1,term_putc);
+
 #endif
 
 }/* End Routine */
@@ -202,6 +204,12 @@ term_finish()
  * Output any termination escape sequences
  */
     term_puts(termcap_te,1);
+
+#endif
+
+#ifdef TERMINFO
+
+    tputs(exit_ca_mode,1,term_putc);
 
 #endif
 
