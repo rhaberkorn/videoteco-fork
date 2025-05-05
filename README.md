@@ -28,8 +28,11 @@ version published by Paul Cantrell in 2007
 * Fixed echoing control characters on the end of lines.
   Or was it broken only at the end of the document?
   Anyway, it's fixed now.
+* Restore screen on exit when building for terminfo,
+  which is the new default.
 * Code documentation using [Doxygen](https://doxygen.nl/).
   Build with `make devdoc`.
+* Rewrote the Autotools build system.
 * Added the [original manual](https://www.copters.com/teco.html) to the repository
   (`doc/TECO Manual V4.html`).
 
