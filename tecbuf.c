@@ -34,7 +34,7 @@ struct buff_header *buff_create( char *name, char internal_flag );
 #include "teco.h"
 #include "tecparse.h"
 
-char rcs_date[] = AUTO_DATE;
+static const char rcs_date[] = AUTO_DATE;
 
 /*
  * Global Storage is defined here for lack of a better place.
@@ -1075,7 +1075,7 @@ register struct buff_header *hbp;
 char tmp_buffer[LINE_BUFFER_SIZE],padd_buffer[LINE_BUFFER_SIZE];
 register int i;
 int count;
-register char *cp;
+register const char *cp;
 int max_length;
 
     PREAMBLE();

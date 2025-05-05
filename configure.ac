@@ -77,5 +77,7 @@ AC_CHECK_MEMBERS([struct termios.c_cflag, struct termios.c_ospeed, struct termio
 	#endif
 ])
 
+AC_DEFINE_UNQUOTED([AUTO_DATE], ["`date '+$Date: %Y/%m/%d %T $'`"], [Configuration time])
+
 AC_CONFIG_FILES([Makefile doc/Doxyfile])
 AC_OUTPUT

@@ -41,38 +41,22 @@
 #define BLOCKED 2
 #define INVALIDATE 3
 
+/*
+ * There is redundancy with PACKAGE_VERSION, but this
+ * is preferred, as it will work with the OpenWatcom build system as well.
+ */
 #define VMAJOR 7
 #define VMINOR 0
-#define AUTO_DATE "$Date: 2007/12/10 22:13:07 $"
-
-/*
- * Immediately start insertion after the first escape in FS.
- */
-#define INTERACTIVE_FS
-
-/**
- * We define unix except for the really different operating systems, like
- * vms. It lets us write our own version of functions which simply do not
- * exist outside of unix.
- */
-#if !defined(VMS) && !defined(MSDOS)
-#define UNIX
-#define JOB_CONTROL
-#endif
 
 /*
  * Include Files From GNU Autoconf/Autoheader
- *
- * FIXME: The Autoconf build system does not pass down -DHAVE_CONFIG_H.
- * This should be fixed by rewriting it as the original sources
- * are missing.
  */
-//#ifdef HAVE_CONFIG_H
-#ifndef __WATCOMC__
-#include "config.h"
-#endif
+#ifdef HAVE_CONFIG_H
 
-#ifdef MSDOS
+#include "config.h"
+
+#elif defined(MSDOS)
+
 #define __WATCOM_LFN__
 #define STDC_HEADERS 1
 #define HAVE_STDIO_H 1
@@ -95,7 +79,28 @@
 #define HAVE_SBRK 1
 #define HAVE_STRCHR 1
 #define TERMCAP 1
+
 #endif /* MSDOS */
+
+#ifndef AUTO_DATE
+/* should be passed in from the build system */
+#define AUTO_DATE "$Date: 2007/12/10 22:13:07 $"
+#endif
+
+/*
+ * Immediately start insertion after the first escape in FS.
+ */
+#define INTERACTIVE_FS
+
+/**
+ * We define unix except for the really different operating systems, like
+ * vms. It lets us write our own version of functions which simply do not
+ * exist outside of unix.
+ */
+#if !defined(VMS) && !defined(MSDOS)
+#define UNIX
+#define JOB_CONTROL
+#endif
 
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
