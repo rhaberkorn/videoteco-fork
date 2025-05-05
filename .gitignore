@@ -1,7 +1,7 @@
 # Autotools
-#/configure
+/configure
 /config.h
-#/config.h.in
+/config.h.in
 /config.log
 /config.status
 /config
@@ -14,8 +14,9 @@
 *.lo
 *.a
 *.o
-makefile
-#makefile.in
+Makefile
+Makefile.in
+doc/Doxyfile
 /teco
 
 # OpenWatcom build system
