@@ -68,14 +68,13 @@ set up correctly (`. owsetenv.sh`):
 
 ### Features and limitations
 
-* Being ported from UNIX, it outputs escape sequences and requires
+* Being ported from UNIX, it outputs escape sequences and requires an ANSI driver like
   [ANSI.SYS](https://en.wikipedia.org/wiki/ANSI.SYS),
   [NANSI.SYS](http://www.kegel.com/nansi/) or
   [ANSIPLUS](http://www.sweger.com/ansiplus/).
-  There is special NANSI.SYS support, so that driver is preferred.
-  Video TECO has a builtin termcap "database", but you can
-  set the `TERMCAP` environment variable to a custom termcap definition file
-  to tweak definitions.
+  ANSIPLUS is detected automatically, which enables some optimizations.
+  To enable NANSI.SYS-specific optimizations, try `set TECO_TERM=nansi.sys`.
+  You can also set the TERMCAP environment variable to a custom termcap definition file.
 * The console size/resolution is automatically detected.
 * It supports the same Csh-like wildcard expansions as on UNIX for
   command-line parameters.
@@ -99,6 +98,7 @@ set up correctly (`. owsetenv.sh`):
 
 ### TODO
 
+- [ ] Make use of ANSIPLUS scroll regions.
 - [ ] Re-evaluate Video TECO's lookaside buffers.
       But they probably don't make sense considering the memory constraints.
 - [ ] Dosbox has problems with drawing the command line cursor.
@@ -106,6 +106,7 @@ set up correctly (`. owsetenv.sh`):
       so a moving reverse `' '` leaks the attribute to the preceding or following
       cell.
       It also cannot deal with more than 25 rows.
+      Interestingly, this persists even after loading ANSIPLUS.
       But perhaps it's not so important to support Dosbox.
-- [ ] Command line help (`-h`)
+- [ ] ommand line help (`-h`)
 - [ ] SvarDOS package

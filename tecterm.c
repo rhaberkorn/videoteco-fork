@@ -1073,7 +1073,7 @@ term_flush()
 static int
 term_isvga(void)
 {
-    union REGS regs;
+    union REGS regs = {0};
     regs.x.ax = 0x1a00;
     int86(VIDEO, &regs, &regs);
     return regs.h.al == 0x1a && regs.h.bl > 6;
@@ -1082,7 +1082,7 @@ term_isvga(void)
 static int
 term_isega(void)
 {
-    union REGS regs;
+    union REGS regs = {0};
     if(term_isvga()) return 0;
     regs.h.ah = 0x12;
     regs.h.bl = 0x10;
@@ -1090,16 +1090,38 @@ term_isega(void)
     return regs.h.bl != 0x10;
 }
 
+#if 0
 /**
- * Detect NANSI.SYS (4.0c or later).
+ * Returns true if any of ANSI.SYS, NANSI.SYS (4.0c or later)
+ * or ANSIPLUS (2.0 or later) are detected.
  */
 static inline int
-term_have_nansi(void)
+term_have_ansi_driver(void)
 {
-    union REGS regs;
+    union REGS regs = {0};
     regs.x.ax = 0x1a00;
     int86(0x2f, &regs, &regs);
-    return regs.h.al == 0xFF;
+    return regs.h.al == 0xff;
+}
+#endif
+
+/**
+ * Returns true if ANSIPLUS driver is installed.
+ */
+static inline int
+term_have_ansiplus(void)
+{
+    union REGS regs = {0};
+    regs.x.ax = 0x1a00;
+    regs.x.bx = ('A' << 8) | 'N';
+    regs.x.cx = ('S' << 8) | 'I';
+    regs.x.dx = ('+' << 8) | '+';
+    int86(0x2f, &regs, &regs);
+    /*
+     * NOTE: The ANSIPLUS documentation is wrong.
+     * AL won't be 0.
+     */
+    return regs.h.al == 0xff && regs.x.cx != (('S' << 8) | 'I');
 }
 
 #endif /* MSDOS */
@@ -1410,8 +1432,8 @@ char *termcap =
  */
 ":cd=\\E[2J:te=\\E[2J:"
 /*
- * Some NANSI.SYS extensions, i.e. not supported by MS-DOS ANSI.SYS.
- * They are enabled dynamically by overwriting the leading null byte.
+ * Some NANSI.SYS/ANSIPLUS extensions, i.e. not supported by MS-DOS ANSI.SYS.
+ * They may be enabled dynamically by overwriting the leading null byte.
  */
 "\0al=\\E[1L:AL=\\E[%dL:dl=\\E[1M:DL=\\E[%dM:ic=\\E[1@:dc=\\E[1P:";
 #endif /* MSDOS */
@@ -1459,8 +1481,8 @@ FILE *fd;
     if(cp == NULL){
 	cp = termcap;
 #ifdef MSDOS
-	/* enable extended NANSI.SYS definitions */
-	if(term_have_nansi()) *strchr(cp, '\0') = ':';
+	/* enable extended ANSIPLUS definitions */
+	if(!strcmp(term_name,"nansi.sys") || term_have_ansiplus()) *strchr(cp, '\0') = ':';
 #endif
     }
     dp = current_termcap_description = buffer;
